@@ -1,0 +1,27 @@
+dist: bionic
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+branches:
+  only:
+    - master
+
+install:
+  - pip install -r requirements-test.txt
+before_script:
+  - pyflakes *.py libcobblersignatures/*.py
+  - pycodestyle -r --ignore E501,E402,E722,W504 *.py libcobblersignatures/*.py
+script:
+  - pytest
+
+notifications:
+  webhooks:
+    urls:
+      # - https://webhooks.gitter.im/e/988ae7d365d12a2bf093
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always
