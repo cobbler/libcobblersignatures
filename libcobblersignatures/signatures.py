@@ -1,10 +1,13 @@
 from enum import Enum
 
+from libcobblersignatures.models.osbreed import OsBreed
+
 
 class ImportTypes(Enum):
     FILE = 0
     URL = 1
     STRING = 2
+    JSON = 3
 
 
 class ExportTypes(Enum):
@@ -16,14 +19,29 @@ class Signatures:
 
     def __init__(self):
         print("Test")
+        self._rootkey = "breeds"
+        self._signaturesjson = None
 
     def createemptysignatures(self):
         print("Start from scratch.")
+        self._signaturesjson = OsBreed()
 
-    def importsignatures(self, import_type):
+    def importsignatures(self, import_type, source):
         print("Import")
 
-    def exportsignatures(self, export_type):
+    def _importsignaturesfile(self, filepath):
+        print("Import the signatures from a file")
+
+    def _importsignaturesurl(self, url):
+        print("Download and then import it.")
+
+    def _importsignaturestring(self, jsonstring):
+        print("Import from string")
+
+    def _importsignaturesjson(self, jsonobject):
+        print("Import them from a json object")
+
+    def exportsignatures(self, export_type, target):
         print("Export")
 
     def validatejsonsyntax(self):
