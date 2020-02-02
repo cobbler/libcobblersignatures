@@ -1,7 +1,6 @@
 dist: bionic
 language: python
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.7"
@@ -11,7 +10,7 @@ branches:
     - master
 
 install:
-  - pip install -r requirements-test.txt
+  - pip install -r requirements-tests.txt
 before_script:
   - pyflakes *.py libcobblersignatures/*.py
   - pycodestyle -r --ignore E501,E402,E722,W504 *.py libcobblersignatures/*.py
