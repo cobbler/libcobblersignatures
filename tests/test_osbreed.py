@@ -9,35 +9,32 @@ def test_osversion_no_name():
         OsBreed()
 
 
-def test_osversions():
+def test_name():
     # Arrange
     osbreed = OsBreed("test")
 
     # Act
-    osbreed.supported_repo_breeds = []
-
-    # Assert
-    assert False
+    with pytest.raises(TypeError) as e_info:
+        osbreed.name = ""
 
 
 def test_osversion_add():
     # Arrange
-    osbreed = OsBreed("test")
+    itemname = "test"
+    osbreed = OsBreed(itemname)
 
     # Act
-    osbreed.osversion_add(Osversion(), 0)
+    osbreed.osversion_add(itemname, Osversion())
 
     # Assert
-    assert False
+    assert itemname in osbreed.osversions
 
 
 def test_osversion_remove():
     # Arrange
-    osbreed = OsBreed("test")
-    osbreed.osversion_add(Osversion(), 0)
+    itemname = "test"
+    osbreed = OsBreed(itemname)
+    osbreed.osversion_add(itemname, Osversion())
 
     # Act
-    osbreed.osversion_remove(0)
-
-    # Assert
-    assert False
+    osbreed.osversion_remove(itemname)

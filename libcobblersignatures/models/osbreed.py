@@ -1,7 +1,11 @@
+import collections
+
+
 class OsBreed:
-    def __init__(self):
-        self._name = ""
-        self._osversions = {}
+
+    def __init__(self, name):
+        self._name = name
+        self._osversions = collections.OrderedDict()
 
     @property
     def osversions(self):
@@ -13,7 +17,7 @@ class OsBreed:
 
     @osversions.deleter
     def osversions(self):
-        del self._osversions
+        self._osversions = collections.OrderedDict()
 
     @property
     def name(self):
@@ -21,18 +25,17 @@ class OsBreed:
 
     @name.setter
     def name(self, value):
-        self._name = value
+        if not value:
+            raise TypeError("Name cannot be an empty string.")
+        else:
+            self._name = value
 
     @name.deleter
     def name(self):
-        del self._name
+        raise TypeError("The name of this error cannot be deleted.")
 
-    def osversion_add(self, version, index):
-        if index is None:
-            self.osversions.append(version)
-        else:
-            self.osversions.insert(version, index)
-        self.osversions.sort()
+    def osversion_add(self, name, version):
+        self.osversions[name] = version
 
-    def osversion_remove(self, index):
-        self.osversions.remove(index)
+    def osversion_remove(self, key):
+        self.osversions.pop(key)

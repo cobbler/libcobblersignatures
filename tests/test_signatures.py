@@ -14,17 +14,6 @@ def test_breeds():
     assert False
 
 
-def test_createemptysignatures():
-    # Arrange
-    signatures = Signatures()
-
-    # Act
-    signatures.createemptysignatures()
-
-    # Assert
-    assert False
-
-
 def test_importsignatures_file():
     # Arrange
     # Act

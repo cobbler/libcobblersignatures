@@ -1,6 +1,7 @@
 import json
 from enum import Enum
 import json
+from json import JSONDecodeError
 from typing import List
 import urllib.request
 
@@ -75,7 +76,8 @@ class Signatures:
         :param jsonstring: A str which contains the json.
         :type jsonstring: str
         """
-        jsondict = json.loads(jsonstring)
+        if self.validatejsonsyntax():
+            self._signaturesjson = json.loads(jsonstring)
 
     def _importsignaturesjson(self, jsonobject):
         print("Import them from a json object")
@@ -86,7 +88,7 @@ class Signatures:
 
     def validatejsonsyntax(self):
         try:
-            json.loads(self.imported_data)
+            json.loads(self._signaturesjson)
             return True
         except JSONDecodeError:
             return False
@@ -98,13 +100,13 @@ class Signatures:
         print("Convert a valid model into a json.")
 
     def addosbreed(self, name):
-        self.breeds.append(OsBreed(name))
+        self._osbreeds.append(OsBreed(name))
 
     def addosversion(self):
         print("Add a version of a os to an existing group.")
 
     def removeosbreed(self, index):
-        self.breeds.remove(index)
+        self._osbreeds.remove(index)
 
     def removeosversion(self):
         print("Remove a version from an existing group")

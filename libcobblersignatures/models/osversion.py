@@ -6,12 +6,14 @@ class OsArchitectures(Enum):
     x86_64 = 2
     ppc = 3
     ppc64 = 4
+    amd64 = 5
 
 
 class RepositoryBreeds(Enum):
     rsync = 1
     rhn = 2
     yum = 3
+    apt = 4
 
 
 class Osversion:
