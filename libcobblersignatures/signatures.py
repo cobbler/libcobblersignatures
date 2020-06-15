@@ -1,9 +1,8 @@
 import json
+import urllib.request
 from enum import Enum
-import json
 from json import JSONDecodeError
 from typing import List
-import urllib.request
 
 from libcobblersignatures.models.osbreed import OsBreed
 
@@ -21,7 +20,6 @@ class ExportTypes(Enum):
 
 
 class Signatures:
-
     _rootkey: str
     _signaturesjson: json
     _osbreeds: List[OsBreed]
