@@ -1,14 +1,17 @@
+import os
+
 import pytest
 
-from libcobblersignatures.signatures import Signatures, ImportTypes
+from libcobblersignatures import signatures
+from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
 
 
 def test_breeds():
     # Arrange
-    signatures = Signatures()
+    os_signatures = Signatures()
 
     # Act
-    signatures.breeds = []
+    os_signatures.osbreeds = []
 
     # Assert
     assert False
@@ -16,82 +19,128 @@ def test_breeds():
 
 def test_importsignatures_file():
     # Arrange
+    path = ""
+    expected = ""
+    os_signatures = signatures.Signatures()
+
     # Act
+    os_signatures.importsignatures(ImportTypes.FILE, path)
+
     # Assert
-    assert False
+    assert expected == os_signatures.signaturesjson
 
 
 def test_importsignatures_string():
     # Arrange
+    signatures_text = "{\"breeds\": {}}"
+    os_signatures = signatures.Signatures()
+
     # Act
+    os_signatures.importsignatures(ImportTypes.STRING, signatures_text)
+
     # Assert
-    assert False
+    # Currently we cannot check this any further but we will need additional checks for that.
+    assert True
 
 
 def test_importsignatures_url():
     # Arrange
+    url = "https://cobbler.github.io/signatures/latest.json"
+    os_signatures = signatures.Signatures()
+
     # Act
+    os_signatures.importsignatures(ImportTypes.URL, url)
+
     # Assert
-    assert False
+    # Currently we cannot check this any further but we will need additional checks for that.
+    assert True
 
 
 def test_exportsignatures_file():
     # Arrange
+    os_signatures = Signatures()
+    path = ""
+    expected = "{\"breeds\": {}"
+
     # Act
+    os_signatures.exportsignatures(ExportTypes.FILE, path)
+
+    # Cleanup
+    with open(path) as f:
+        result = f.read()
+    os.remove(path)
+
     # Assert
-    assert False
+    assert expected == result
 
 
 def test_exportsignatures_string():
     # Arrange
+    os_signatures = Signatures()
+    expected = "{\"breeds\": {}"
+
     # Act
+    result = os_signatures.exportsignatures(ExportTypes.STRING)
+
     # Assert
-    assert False
+    assert expected == result
 
 
 @pytest.mark.parametrize("input_data,result", [
-    ("", False),
-    ("", True)
+    ("{\"breeds; {}}", None),
+    ("{\"breeds\": {}}", "{\"breeds\": {}}")
 ])
-def test_validatejsonsyntax(input_data, result):
+def test_signaturesjson(input_data, result):
     # Arrange
-    signatures = Signatures()
-    signatures.importsignatures(ImportTypes.STRING, input_data)
+    os_signatures = Signatures()
+    os_signatures.importsignatures(ImportTypes.STRING, input_data)
 
     # Act
-    signatures.validatejsonsyntax()
+    os_signatures.signaturesjson = input_data
 
     # Assert
-    assert result
+    assert result == os_signatures.signaturesjson
 
 
 def test_jsontomodels():
     # Arrange
+    os_signatures = Signatures()
+
     # Act
+    os_signatures.jsontomodels()
+
     # Assert
     assert False
 
 
 def test_modelstojson():
     # Arrange
+    os_signatures = Signatures()
+
     # Act
+    os_signatures.modelstojson()
+
     # Assert
     assert False
 
 
 def test_addosbreed():
     # Arrange
+    os_signatures = Signatures()
+
     # Act
+    os_signatures.addosbreed("Test")
+
     # Assert
     assert False
 
 
 def test_addosversion():
     # Arrange
-    signatures = Signatures()
+    os_signatures = Signatures()
 
     # Act
-    signatures.addosbreed("Test")
+    os_signatures.addosversion()
 
     # Assert
     assert False
@@ -99,13 +148,21 @@ def test_addosversion():
 
 def test_removeosbreed():
     # Arrange
+    os_signatures = Signatures()
+
     # Act
+    os_signatures.removeosbreed("Test")
+
     # Assert
     assert False
 
 
 def test_removeosversion():
     # Arrange
+    os_signatures = Signatures()
+
     # Act
+    os_signatures.removeosversion()
+
     # Assert
     assert False

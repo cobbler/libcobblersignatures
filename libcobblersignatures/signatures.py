@@ -33,6 +33,26 @@ class Signatures:
         self._signaturesjson = None
         self._osbreeds = []
 
+    @property
+    def signaturesjson(self):
+        return self._signaturesjson
+
+    @signaturesjson.setter
+    def signaturesjson(self, value):
+        try:
+            json.loads(value)
+            self._signaturesjson = value
+        except JSONDecodeError:
+            pass
+
+    @property
+    def osbreeds(self):
+        return self._osbreeds
+
+    @osbreeds.setter
+    def osbreeds(self, value):
+        self._osbreeds = value
+
     def importsignatures(self, import_type, source):
         """
         This is the main import function.
@@ -47,7 +67,7 @@ class Signatures:
         elif import_type == ImportTypes.URL:
             self._importsignaturesurl(source)
         elif import_type == ImportTypes.STRING:
-            self._importsignaturestring(source)
+            self.signaturesjson = source
         elif import_type == ImportTypes.JSON:
             self._importsignaturesjson(source)
         else:
@@ -59,37 +79,19 @@ class Signatures:
             filecontent = f.read()
         if filecontent is None:
             raise FileNotFoundError("Filecontent was not correctly read!")
-        self._importsignaturestring(filecontent)
+        self.signaturesjson = filecontent
 
     def _importsignaturesurl(self, url):
         response = urllib.request.urlopen(url)
         data = response.read()
-        self._importsignaturestring(data.decode('utf-8'))
-
-    def _importsignaturestring(self, jsonstring):
-        """
-        This decodes a string to a json object. This is done like in the Python Docs described:
-        https://docs.python.org/3/library/json.html#json.JSONDecoder
-
-        :param jsonstring: A str which contains the json.
-        :type jsonstring: str
-        """
-        if self.validatejsonsyntax():
-            self._signaturesjson = json.loads(jsonstring)
+        self.signaturesjson = data.decode('utf-8')
 
     def _importsignaturesjson(self, jsonobject):
         print("Import them from a json object")
         self._signaturesjson = jsonobject
 
-    def exportsignatures(self, export_type, target):
+    def exportsignatures(self, export_type, target=""):
         print("Export")
-
-    def validatejsonsyntax(self):
-        try:
-            json.loads(self._signaturesjson)
-            return True
-        except JSONDecodeError:
-            return False
 
     def jsontomodels(self):
         print("Convert a valid json into our models.")
