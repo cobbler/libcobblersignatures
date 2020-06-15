@@ -26,3 +26,13 @@ class OsBreed:
     @name.deleter
     def name(self):
         del self._name
+
+    def osversion_add(self, version, index):
+        if index is None:
+            self.osversions.append(version)
+        else:
+            self.osversions.insert(version, index)
+        self.osversions.sort()
+
+    def osversion_remove(self, index):
+        self.osversions.remove(index)

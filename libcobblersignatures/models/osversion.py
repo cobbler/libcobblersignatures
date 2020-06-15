@@ -1,3 +1,19 @@
+from enum import Enum
+
+
+class OsArchitectures(Enum):
+    i386 = 1
+    x86_64 = 2
+    ppc = 3
+    ppc64 = 4
+
+
+class RepositoryBreeds(Enum):
+    rsync = 1
+    rhn = 2
+    yum = 3
+
+
 class Osversion:
     def __init__(self):
         self._signatures = []

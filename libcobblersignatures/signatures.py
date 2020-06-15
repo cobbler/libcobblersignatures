@@ -1,3 +1,4 @@
+import json
 from enum import Enum
 import json
 from typing import List
@@ -84,7 +85,11 @@ class Signatures:
         print("Export")
 
     def validatejsonsyntax(self):
-        print("Check syntax of json read from string or file.")
+        try:
+            json.loads(self.imported_data)
+            return True
+        except JSONDecodeError:
+            return False
 
     def jsontomodels(self):
         print("Convert a valid json into our models.")
@@ -92,14 +97,14 @@ class Signatures:
     def modelstojson(self):
         print("Convert a valid model into a json.")
 
-    def addosbreed(self):
-        print("Add a operating system group.")
+    def addosbreed(self, name):
+        self.breeds.append(OsBreed(name))
 
     def addosversion(self):
         print("Add a version of a os to an existing group.")
 
-    def removeosbreed(self):
-        print("Remove a os group")
+    def removeosbreed(self, index):
+        self.breeds.remove(index)
 
     def removeosversion(self):
         print("Remove a version from an existing group")
