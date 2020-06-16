@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from libcobblersignatures import signatures
@@ -14,17 +12,18 @@ def test_breeds():
     os_signatures.osbreeds = []
 
     # Assert
-    assert False
+    assert [] == os_signatures.osbreeds
 
 
-def test_importsignatures_file():
+@pytest.mark.usefixtures("delete_signatures_json")
+def test_importsignatures_file(create_signatures_json, testpath):
     # Arrange
-    path = ""
     expected = ""
+    create_signatures_json(expected)
     os_signatures = signatures.Signatures()
 
     # Act
-    os_signatures.importsignatures(ImportTypes.FILE, path)
+    os_signatures.importsignatures(ImportTypes.FILE, testpath)
 
     # Assert
     assert expected == os_signatures.signaturesjson
@@ -56,19 +55,16 @@ def test_importsignatures_url():
     assert True
 
 
-def test_exportsignatures_file():
+@pytest.mark.usefixtures("delete_signatures_json")
+def test_exportsignatures_file(testpath):
     # Arrange
     os_signatures = Signatures()
-    path = ""
     expected = "{\"breeds\": {}"
 
     # Act
-    os_signatures.exportsignatures(ExportTypes.FILE, path)
-
-    # Cleanup
-    with open(path) as f:
+    os_signatures.exportsignatures(ExportTypes.FILE, testpath)
+    with open(testpath, "r") as f:
         result = f.read()
-    os.remove(path)
 
     # Assert
     assert expected == result
