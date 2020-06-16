@@ -74,7 +74,6 @@ class Signatures:
             raise ValueError("Please use on of the four given options for the source!")
 
     def _importsignaturesfile(self, filepath):
-        filecontent = None
         with open(filepath) as f:
             filecontent = f.read()
         if filecontent is None:
@@ -91,7 +90,15 @@ class Signatures:
         self._signaturesjson = jsonobject
 
     def exportsignatures(self, export_type, target=""):
-        print("Export")
+        if export_type == ExportTypes.FILE:
+            if not target:
+                raise ValueError("Please provide a path if your want to export to a file!")
+            with open(target, "w") as f:
+                f.write(self.signaturesjson)
+        elif export_type == ExportTypes.STRING:
+            return self.signaturesjson
+        else:
+            raise ValueError("Please use on of the four given options for the export type!")
 
     def jsontomodels(self):
         print("Convert a valid json into our models.")
