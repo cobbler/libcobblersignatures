@@ -20,7 +20,7 @@ possible then we shall focus on Linux and it's Distributions.
 ### File structure
 
 The file should be a single JSON Object which has a single key with the name `breeds`. This key should contain a single
-subobject with key-value pairs for each operating system group.
+sub-object with key-value pairs for each operating system group.
 
 Currently the following operating system groups are existing:
 
@@ -39,9 +39,9 @@ Currently the following operating system groups are existing:
 This list should be modified when new groups are added, removed or changed when changed in the JSON.
 
 Each of these operating system groups has a key for each version of it. The key should be in lowercase and should have
-a versionsuffix. The name of the key should be unique across the distro section.
+a version suffix. The name of the key should be unique across the distribution section.
 
-The Key contains an object which has the following keys (type inclueded):
+The Key contains an object which has the following keys (type included):
 
 - signatures - Array
 - version_file - String 
@@ -58,6 +58,13 @@ The Key contains an object which has the following keys (type inclueded):
 - kernel_options_post - String
 - boot_files - Array
 
-### Example file
+### Example files
 
-Please have a look at https://github.com/cobbler/cobbler/blob/master/config/cobbler/distro_signatures.json  
+Please have a look at https://github.com/cobbler/cobbler/blob/master/config/cobbler/distro_signatures.json
+
+The most simple valid (but useless) `signatures.json` file will be:
+```json
+{
+  "breeds": {}
+}
+```
