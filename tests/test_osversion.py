@@ -7,6 +7,10 @@ def test_new_osversion():
     Osversion()
 
 
+def test_osversion_equality():
+    assert Osversion() == Osversion()
+
+
 @pytest.mark.parametrize("param,result", [
     (["amd64", "i386"], ["amd64", "i386"])
 ])

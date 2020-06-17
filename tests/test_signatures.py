@@ -1,6 +1,7 @@
 import pytest
 
 from libcobblersignatures import signatures
+from libcobblersignatures.models.osversion import Osversion
 from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
 
 
@@ -18,8 +19,9 @@ def test_breeds():
 @pytest.mark.usefixtures("delete_signatures_json")
 def test_importsignatures_file(create_signatures_json, testpath):
     # Arrange
-    expected = ""
-    create_signatures_json(expected)
+    testdata = "{\"breeds\": {}}"
+    expected = {"breeds": {}}
+    create_signatures_json(testdata)
     os_signatures = signatures.Signatures()
 
     # Act
@@ -59,7 +61,8 @@ def test_importsignatures_url():
 def test_exportsignatures_file(testpath):
     # Arrange
     os_signatures = Signatures()
-    expected = "{\"breeds\": {}"
+    os_signatures.addosbreed("suse")
+    expected = "{\"breeds\": {\"suse\": {}}"
 
     # Act
     os_signatures.exportsignatures(ExportTypes.FILE, testpath)
@@ -73,7 +76,8 @@ def test_exportsignatures_file(testpath):
 def test_exportsignatures_string():
     # Arrange
     os_signatures = Signatures()
-    expected = "{\"breeds\": {}"
+    os_signatures.addosbreed("suse")
+    expected = "{\"breeds\": {\"suse\": {}}"
 
     # Act
     result = os_signatures.exportsignatures(ExportTypes.STRING)
@@ -84,7 +88,7 @@ def test_exportsignatures_string():
 
 @pytest.mark.parametrize("input_data,result", [
     ("{\"breeds; {}}", None),
-    ("{\"breeds\": {}}", "{\"breeds\": {}}")
+    ("{\"breeds\": {}}", {"breeds": {}})
 ])
 def test_signaturesjson(input_data, result):
     # Arrange
@@ -128,37 +132,44 @@ def test_addosbreed():
     os_signatures.addosbreed("Test")
 
     # Assert
-    assert False
+    assert len(os_signatures.osbreeds) == 1
 
 
 def test_addosversion():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.addosbreed("suse")
 
     # Act
-    os_signatures.addosversion()
+    os_signatures.addosversion(0, "sles", Osversion())
 
     # Assert
-    assert False
+    assert os_signatures.osbreeds[0].osversions["sles"] == Osversion()
 
 
 def test_removeosbreed():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.addosbreed("Test")
+    len_before = len(os_signatures.osbreeds)
 
     # Act
-    os_signatures.removeosbreed("Test")
+    os_signatures.removeosbreed(0)
+    len_after = len(os_signatures.osbreeds)
 
     # Assert
-    assert False
+    assert len_before == 1
+    assert len_after == 0
 
 
 def test_removeosversion():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.addosbreed("suse")
+    os_signatures.addosversion(0, "sles", Osversion())
 
     # Act
-    os_signatures.removeosversion()
+    os_signatures.removeosversion(0, "sles")
 
     # Assert
-    assert False
+    assert os_signatures.osbreeds[0].osversions == {}

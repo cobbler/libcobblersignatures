@@ -4,7 +4,11 @@ from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 
 
-def test_osversion_no_name():
+def test_osbreed_equality():
+    assert OsBreed("test") == OsBreed("test")
+
+
+def test_breed_no_name():
     with pytest.raises(TypeError) as e_info:
         OsBreed()
 
@@ -18,7 +22,7 @@ def test_name():
         osbreed.name = ""
 
 
-def test_osversion_add():
+def test_breed_add():
     # Arrange
     itemname = "test"
     osbreed = OsBreed(itemname)
@@ -30,7 +34,7 @@ def test_osversion_add():
     assert itemname in osbreed.osversions
 
 
-def test_osversion_remove():
+def test_breed_remove():
     # Arrange
     itemname = "test"
     osbreed = OsBreed(itemname)
