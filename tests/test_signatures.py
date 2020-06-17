@@ -1,6 +1,7 @@
 import pytest
 
 from libcobblersignatures import signatures
+from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
 
@@ -62,7 +63,8 @@ def test_exportsignatures_file(testpath):
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    expected = "{\"breeds\": {\"suse\": {}}"
+    os_signatures.modelstojson()
+    expected = "{\"breeds\": {\"suse\": {}}}"
 
     # Act
     os_signatures.exportsignatures(ExportTypes.FILE, testpath)
@@ -77,7 +79,8 @@ def test_exportsignatures_string():
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    expected = "{\"breeds\": {\"suse\": {}}"
+    os_signatures.modelstojson()
+    expected = "{\"breeds\": {\"suse\": {}}}"
 
     # Act
     result = os_signatures.exportsignatures(ExportTypes.STRING)
@@ -102,26 +105,34 @@ def test_signaturesjson(input_data, result):
     assert result == os_signatures.signaturesjson
 
 
-def test_jsontomodels():
+@pytest.mark.parametrize("input_data,expected_data", [
+    ("{\"breeds\": {}}", []),
+    ("{\"breeds\": {\"suse\": {}}}", [OsBreed("suse")])
+])
+def test_jsontomodels(input_data, expected_data):
     # Arrange
     os_signatures = Signatures()
+    os_signatures.importsignatures(ImportTypes.STRING, input_data)
 
     # Act
     os_signatures.jsontomodels()
 
     # Assert
-    assert False
+    assert expected_data == os_signatures.osbreeds
 
 
 def test_modelstojson():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.addosbreed("suse")
+    os_signatures.addosbreed("debian")
+    expected = {"breeds": {"suse": {}, "debian": {}}}
 
     # Act
     os_signatures.modelstojson()
 
     # Assert
-    assert False
+    assert expected == os_signatures.signaturesjson
 
 
 def test_addosbreed():
