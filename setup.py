@@ -34,7 +34,7 @@ setup(
     keywords='cobbler',
     packages=find_packages(),
     python_requires='>=3',
-    install_requires=['click'],
+    install_requires=['PyInquirer'],
     extras_require={
         'lint': ['pyflakes', 'pycodestyle'],
         'test': ['coverage', 'pytest'],

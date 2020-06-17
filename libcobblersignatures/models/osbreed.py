@@ -1,5 +1,4 @@
 import collections
-import json
 
 from libcobblersignatures.models.osversion import Osversion
 
@@ -44,10 +43,12 @@ class OsBreed:
 
     def encode(self):
         versionsdict = {}
+        # TODO: Encode the osversions.
         return versionsdict
 
     def decode(self, data):
         for k, v in data:
+            # TODO: Test that this actually return prompt(main_menu_questions).
             version = Osversion()
             version.decode(v)
             self.osversion_add(k, version)
