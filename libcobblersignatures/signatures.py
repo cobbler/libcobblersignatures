@@ -95,22 +95,25 @@ class Signatures:
             if not target:
                 raise ValueError("Please provide a path if your want to export to a file!")
             with open(target, "w") as f:
-                f.write(self.signaturesjson)
+                f.write(json.dumps(self.signaturesjson))
         elif export_type == ExportTypes.STRING:
-            return self.signaturesjson
+            return json.dumps(self.signaturesjson)
         else:
             raise ValueError("Please use on of the four given options for the export type!")
 
     def jsontomodels(self):
-        for k, v in self.signaturesjson.get("breeds"):
-            breed = OsBreed(k)
-            breed.decode(v)
+        breeds = self.signaturesjson.get(self._rootkey, -1)
+        if breeds == -1:
+            raise AttributeError("Missing Rootkey \"" + self._rootkey + "\".")
+        for key in breeds:
+            breed = OsBreed(key)
+            breed.decode(breeds[key])
             self.osbreeds.append(breed)
 
     def modelstojson(self):
         value = {}
         for breed in self.osbreeds:
-            value.update({breed.name, breed.encode()})
+            value[breed.name] = breed.encode()
         self.signaturesjson = json.dumps({self._rootkey: value})
 
     def addosbreed(self, name):

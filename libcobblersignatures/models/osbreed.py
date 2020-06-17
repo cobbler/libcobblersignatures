@@ -44,7 +44,7 @@ class OsBreed:
 
     def encode(self):
         versionsdict = {}
-        return {self.name: versionsdict}
+        return versionsdict
 
     def decode(self, data):
         for k, v in data:
