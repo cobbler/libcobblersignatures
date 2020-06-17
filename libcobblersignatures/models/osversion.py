@@ -1,3 +1,4 @@
+import json
 from enum import Enum
 
 
@@ -32,6 +33,24 @@ class Osversion:
         self._kernel_options = ""
         self._kernel_options_post = ""
         self._boot_files = []
+
+    def __eq__(self, other):
+        if not isinstance(other, Osversion):
+            return NotImplemented
+        return self.signatures == other.signatures \
+            and self.version_file == other.version_file \
+            and self.version_file_regex == other.version_file_regex \
+            and self.kernel_arch == other.kernel_arch \
+            and self.kernel_arch_regex == other.kernel_arch_regex \
+            and self.supported_arches == other.supported_arches \
+            and self.supported_repo_breeds == other.supported_repo_breeds \
+            and self.kernel_file == other.kernel_file \
+            and self.initrd_file == other.initrd_file \
+            and self.isolinux_ok == other.isolinux_ok \
+            and self.default_autoinstall == other.default_autoinstall \
+            and self.kernel_options == other.kernel_options \
+            and self.kernel_options_post == other.kernel_options_post \
+            and self.boot_files == other.boot_files
 
     @property
     def signatures(self):
@@ -200,3 +219,9 @@ class Osversion:
     @boot_files.deleter
     def boot_files(self):
         del self._boot_files
+
+    def encode(self):
+        pass
+
+    def decode(self, data):
+        pass

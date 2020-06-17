@@ -40,8 +40,7 @@ class Signatures:
     @signaturesjson.setter
     def signaturesjson(self, value):
         try:
-            json.loads(value)
-            self._signaturesjson = value
+            self._signaturesjson = json.loads(value)
         except JSONDecodeError:
             pass
 
@@ -87,9 +86,11 @@ class Signatures:
 
     def _importsignaturesjson(self, jsonobject):
         print("Import them from a json object")
-        self._signaturesjson = jsonobject
+        self.signaturesjson = jsonobject
 
     def exportsignatures(self, export_type, target=""):
+        if self.signaturesjson is None:
+            raise ValueError("No Signatures to export.")
         if export_type == ExportTypes.FILE:
             if not target:
                 raise ValueError("Please provide a path if your want to export to a file!")
@@ -101,19 +102,27 @@ class Signatures:
             raise ValueError("Please use on of the four given options for the export type!")
 
     def jsontomodels(self):
-        print("Convert a valid json into our models.")
+        for k, v in self.signaturesjson.get("breeds"):
+            breed = OsBreed(k)
+            breed.decode(v)
+            self.osbreeds.append(breed)
 
     def modelstojson(self):
-        print("Convert a valid model into a json.")
+        value = {}
+        for breed in self.osbreeds:
+            value.update({breed.name, breed.encode()})
+        self.signaturesjson = json.dumps({self._rootkey: value})
 
     def addosbreed(self, name):
-        self._osbreeds.append(OsBreed(name))
+        self.osbreeds.append(OsBreed(name))
 
-    def addosversion(self):
-        print("Add a version of a os to an existing group.")
+    def addosversion(self, breedindex, versionname, versiondata):
+        self.osbreeds[breedindex].osversion_add(versionname, versiondata)
 
-    def removeosbreed(self, index):
-        self._osbreeds.remove(index)
+    def removeosbreed(self, index: int):
+        if index >= len(self.osbreeds):
+            raise ValueError("Index out of Range")
+        del self.osbreeds[index]
 
-    def removeosversion(self):
-        print("Remove a version from an existing group")
+    def removeosversion(self, breedindex, versionname):
+        self.osbreeds[breedindex].osversion_remove(versionname)
