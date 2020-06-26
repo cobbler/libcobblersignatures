@@ -55,7 +55,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'cobbler-manage-signatures=cli:main',
+            'cobbler-manage-signatures=libcobblersignatures.cli:main',
         ],
     },
     project_urls={
