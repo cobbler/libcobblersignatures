@@ -1,6 +1,6 @@
 from PyInquirer import prompt
 
-from libcobblersignatures.signatures import Signatures
+from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
 
 os_signatures = Signatures()
 
@@ -102,19 +102,37 @@ def main():
         result_main_menu = main_menu()
         if result_main_menu["main_menu"] == "Import":
             main_menu_option_selected = 0
-            print("Import")
             result_import_menu = import_menu()
+            if result_import_menu["import_menu_source"] in ["URL", "File", "String"]:
+                result_import_menu_2 = prompt(import_menu_questions2)
+                if result_import_menu["import_menu_source"] == "URL":
+                    import_type = ImportTypes.URL
+                elif result_import_menu["import_menu_source"] == "File":
+                    import_type = ImportTypes.FILE
+                elif result_import_menu["import_menu_source"] == "String":
+                    import_type = ImportTypes.STRING
+                else:
+                    return
+                os_signatures.importsignatures(import_type, result_import_menu_2["import_menu_signatures"])
         elif result_main_menu["main_menu"] == "Export":
             main_menu_option_selected = 1
-            print("Export")
             result_export_menu = export_menu()
+            if result_export_menu["export_menu_sources"] in ["String", "File"]:
+                result_export_menu_2 = prompt(export_menu_questions2)
+                if result_export_menu["export_menu_sources"] == "String":
+                    os_signatures.exportsignatures(ExportTypes.STRING)
+                elif result_export_menu["export_menu_sources"] == "File":
+                    os_signatures.exportsignatures(ExportTypes.FILE, result_export_menu_2["export_menu_signatures"])
+                else:
+                    return
         elif result_main_menu["main_menu"] == "Edit":
             main_menu_option_selected = 2
             print("Edit")
             result_edit_menu = edit_menu()
+            print("Not implemented")
         elif result_main_menu["main_menu"] == "Exit":
             main_menu_option_selected = 3
-            print("Exit")
+            print("Any progress which is not exported will be lost. Bye.")
     exit(0)
 
 
