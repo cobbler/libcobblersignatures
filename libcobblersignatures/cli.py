@@ -148,6 +148,15 @@ edit_remove_os_version_2 = [
     }
 ]
 
+edit_information_os_version_which = [
+    {
+        "type": "list",
+        "name": "edit_information_os_version_which",
+        "message": "Which operating system version details do you want to edit?",
+        "choices": []
+    }
+]
+
 edit_information_os_version = [
     {
         "type": "list",
@@ -168,6 +177,219 @@ edit_information_os_version = [
             "kernel_options",
             "kernel_options_post",
             "boot_files",
+            "Go Back"
+        ]
+    }
+]
+
+edit_menu_breed_version_signatures_add = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_signatures_add",
+        "message": "What should the name of the new entry be?"
+    }
+]
+
+edit_menu_breed_version_signatures_edit = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_signatures",
+        "message": "What signature should be edited?",
+        "choices": []
+    }, {
+        "type": "input",
+        "name": "edit_menu_breed_version_signatures_new",
+        "message": "What shall be the new name of the selected entry?"
+    }
+]
+
+edit_menu_breed_version_signatures_delete = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_signatures",
+        "message": "What signature should be deleted?",
+        "choices": []
+    }
+]
+
+edit_menu_breed_version_version_file = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_version_file",
+        "message": "What shall be the new value for the \"version_file\"?"
+    }
+]
+
+edit_menu_breed_version_version_file_regex = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_version_file_regex",
+        "message": "What shall be the new value for the \"version_file_regex\"?"
+    }
+]
+
+edit_menu_breed_version_kernel_arch = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_kernel_arch",
+        "message": "What shall be the new value for the \"kernel_arch\"?"
+    }
+]
+
+edit_menu_breed_version_kernel_arch_regex = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_kernel_arch_regex",
+        "message": "What shall be the new value for the \"kernel_arch_regex\"?"
+    }
+]
+
+edit_menu_breed_version_supported_arches_add = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_supported_arches_add",
+        "message": "What should the name of the new architecture be?"
+    }
+]
+
+edit_menu_breed_version_supported_arches_edit = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_supported_arches_edit",
+        "message": "What supported architecture shall be edited?",
+        "choices": []
+    }, {
+        "type": "input",
+        "name": "edit_menu_breed_version_supported_arches_edit_new",
+        "message": "What shall be the new name of the selected architecture?"
+    }
+]
+
+edit_menu_breed_version_supported_arches_delete = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_supported_arches_delete",
+        "message": "What architecture shall be deleted from the operating system version?",
+        "choices": []
+    }
+]
+
+edit_menu_breed_version_supported_repo_breeds_add = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_supported_repo_breeds_add",
+        "message": "What should the name of the new repository breed be?"
+    }
+]
+edit_menu_breed_version_supported_repo_breeds_edit = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_supported_repo_breeds_edit",
+        "message": "What repository breed shall be edited?",
+        "choices": []
+    }, {
+        "type": "input",
+        "name": "edit_menu_breed_version_supported_repo_breeds_edit_new",
+        "message": "What shall be the new name of the selected repository breed?"
+    }
+]
+
+edit_menu_breed_version_supported_repo_breeds_delete = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_supported_repo_breeds_delete",
+        "message": "What repository breed shall be deleted from the operating system version?",
+        "choices": []
+    }
+]
+
+edit_menu_breed_version_kernel_file = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_kernel_file",
+        "message": "What should the new value of the \"kernel_file\" be?"
+    }
+]
+
+edit_menu_breed_version_initrd_file = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_initrd_file",
+        "message": "What should the new value of the \"initrd_file\" be?"
+    }
+]
+
+edit_menu_breed_version_isolinux_ok = [
+    {
+        "type": "confirm",
+        "name": "edit_menu_breed_version_isolinux_ok",
+        "message": "Whether to set this to true (y) or not (N)?"
+    }
+]
+
+edit_menu_breed_version_default_autoinstall = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_default_autoinstall",
+        "message": "What should the new value of the \"default_autoinstall\" be?"
+    }
+]
+
+edit_menu_breed_version_kernel_options = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_kernel_options",
+        "message": "What should the new value of the \"kernel_options\" be?"
+    }
+]
+
+edit_menu_breed_version_kernel_options_post = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_kernel_options_post",
+        "message": "What should the new value of the \"kernel_options_post\" be?"
+    }
+]
+
+edit_menu_breed_version_boot_files_add = [
+    {
+        "type": "input",
+        "name": "edit_menu_breed_version_boot_files_add",
+        "message": "What should the name of the new boot files entry be?"
+    }
+]
+
+edit_menu_breed_version_boot_files_edit = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_boot_files_edit",
+        "message": "What boot files entry shall be edited?",
+        "choices": []
+    }, {
+        "type": "input",
+        "name": "edit_menu_breed_version_boot_files_edit_new",
+        "message": "What shall be the new name of the selected file entry?"
+    }
+]
+
+edit_menu_breed_version_boot_files_delete = [
+    {
+        "type": "list",
+        "name": "edit_menu_breed_version_boot_files_delete",
+        "message": "What boot files entry shall be deleted from the operating system version?",
+        "choices": []
+    }
+]
+
+edit_menu_version_add_remove_edit = [
+    {
+        "type": "list",
+        "name": "edit_menu_version_add_remove_edit",
+        "message": "What do you want to do?",
+        "choices": [
+            "Add",
+            "Edit",
+            "Remove"
         ]
     }
 ]
@@ -268,35 +490,85 @@ def edit_menu():
 
 
 def edit_menu_breed_version_info():
+    edit_information_os_version_which_result = prompt(edit_information_os_version_which)
+    # TODO: Update next prompot to preview values
     result_edit_information_os_version = prompt(edit_information_os_version)
     if result_edit_information_os_version["edit_information_os_version"] == "signatures":
-        pass
+        # TODO: Add/Remove/Edit for Array
+        result_signatures_choice = prompt(edit_menu_version_add_remove_edit)
+        if result_signatures_choice["edit_menu_version_add_remove_edit"] == "Add":
+            prompt(edit_menu_breed_version_signatures_add)
+        elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Edit":
+            prompt(edit_menu_breed_version_signatures_edit)
+        elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Remove":
+            prompt(edit_menu_breed_version_signatures_delete)
+        else:
+            print("Unknown option selected.")
     elif result_edit_information_os_version["edit_information_os_version"] == "version_file":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_version_file)
     elif result_edit_information_os_version["edit_information_os_version"] == "version_file_regex":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_version_file_regex)
     elif result_edit_information_os_version["edit_information_os_version"] == "kernel_arch":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_kernel_arch)
     elif result_edit_information_os_version["edit_information_os_version"] == "kernel_arch_regex":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_kernel_arch_regex)
     elif result_edit_information_os_version["edit_information_os_version"] == "supported_arches":
-        pass
+        # TODO: Add/Remove/Edit for Array
+        result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
+        if result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Add":
+            prompt(edit_menu_breed_version_supported_arches_add)
+        elif result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Edit":
+            prompt(edit_menu_breed_version_supported_arches_edit)
+        elif result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Remove":
+            prompt(edit_menu_breed_version_supported_arches_delete)
+        else:
+            print("Unknown option selected.")
+        # TODO: Validation of arches (only with warning)
     elif result_edit_information_os_version["edit_information_os_version"] == "supported_repo_breeds":
-        pass
+        # TODO: Add/Remove/edit for Array
+        result_repo_breeds_choice = prompt(edit_menu_version_add_remove_edit)
+        if result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Add":
+            prompt(edit_menu_breed_version_supported_repo_breeds_add)
+        elif result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Edit":
+            prompt(edit_menu_breed_version_supported_repo_breeds_edit)
+        elif result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Remove":
+            prompt(edit_menu_breed_version_supported_repo_breeds_delete)
+        else:
+            print("Unknown option selected.")
+        # TODO: Validation for choices (only with warning)
     elif result_edit_information_os_version["edit_information_os_version"] == "kernel_file":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_kernel_file)
     elif result_edit_information_os_version["edit_information_os_version"] == "initrd_file":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_initrd_file)
     elif result_edit_information_os_version["edit_information_os_version"] == "isolinux_ok":
-        pass
+        # TODO: Boolean Question
+        prompt(edit_menu_breed_version_isolinux_ok)
     elif result_edit_information_os_version["edit_information_os_version"] == "default_autoinstall":
-        pass
+        # TODO: String Input with filename validation
+        prompt(edit_menu_breed_version_default_autoinstall)
     elif result_edit_information_os_version["edit_information_os_version"] == "kernel_options":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_kernel_options)
     elif result_edit_information_os_version["edit_information_os_version"] == "kernel_options_post":
-        pass
+        # TODO: String Input
+        prompt(edit_menu_breed_version_kernel_options_post)
     elif result_edit_information_os_version["edit_information_os_version"] == "boot_files":
-        pass
+        # TODO: Add/Remove/Edit for Array
+        result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
+        if result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Add":
+            prompt(edit_menu_breed_version_boot_files_add)
+        elif result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Edit":
+            prompt(edit_menu_breed_version_boot_files_edit)
+        elif result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Remove":
+            prompt(edit_menu_breed_version_boot_files_delete)
+        else:
+            print("Unknown option selected.")
     else:
         pass
 
