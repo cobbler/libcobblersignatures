@@ -570,25 +570,29 @@ def edit_menu_breed_version_info():
         else:
             print("Unknown option selected.")
     else:
-        pass
+        return
 
 
 def main():
     main_menu_option_selected = 0
     while main_menu_option_selected != 3:
         result_main_menu = prompt(main_menu_questions)
-        if result_main_menu["main_menu"] == "Import":
+        chosen_option = result_main_menu.get("main_menu", "")
+        if chosen_option == "Import":
             main_menu_option_selected = 0
             import_menu()
-        elif result_main_menu["main_menu"] == "Export":
+        elif chosen_option == "Export":
             main_menu_option_selected = 1
             export_menu()
-        elif result_main_menu["main_menu"] == "Edit":
+        elif chosen_option == "Edit":
             main_menu_option_selected = 2
             edit_menu()
-        elif result_main_menu["main_menu"] == "Exit":
+        elif chosen_option == "Exit":
             main_menu_option_selected = 3
             print("Any progress which is not exported will be lost. Bye.")
+        else:
+            main_menu_option_selected = -1
+            print("Unknown option chosen. Redisplaying menu.")
     exit(0)
 
 
