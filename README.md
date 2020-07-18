@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/cobbler/libcobblersignatures.svg)](https://gitter.im/cobbler/libcobblersignatures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 # libcobblersignatures
 
 This library should be the interface for all applications using cobbler signatures.
