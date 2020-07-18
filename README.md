@@ -1,4 +1,5 @@
 [![Gitter](https://badges.gitter.im/cobbler/libcobblersignatures.svg)](https://gitter.im/cobbler/libcobblersignatures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/cobbler/libcobblersignatures.svg?branch=master)](https://travis-ci.org/cobbler/libcobblersignatures)
 
 # libcobblersignatures
 
