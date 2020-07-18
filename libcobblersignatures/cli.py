@@ -431,42 +431,55 @@ def update_choices(question: list, values: list):
 
 def import_menu():
     result_import_menu = prompt(import_menu_questions)
-    if result_import_menu["import_menu_source"] in ["URL", "File", "String"]:
+    choice_import_menu = result_import_menu.get("import_menu_source", "")
+    if choice_import_menu in ["URL", "File", "String"]:
         result_import_menu_2 = prompt(import_menu_questions2)
-        if result_import_menu["import_menu_source"] == "URL":
+        if choice_import_menu == "URL":
             import_type = ImportTypes.URL
-        elif result_import_menu["import_menu_source"] == "File":
+        elif choice_import_menu == "File":
             import_type = ImportTypes.FILE
-        elif result_import_menu["import_menu_source"] == "String":
+        elif choice_import_menu == "String":
             import_type = ImportTypes.STRING
         else:
             return
-        os_signatures.importsignatures(import_type, result_import_menu_2["import_menu_signatures"])
+        input_import_source = result_import_menu_2.get("import_menu_signatures", "")
+        if input_import_source == "":
+            print("Source was not entered correctly.")
+            return
+        os_signatures.importsignatures(import_type, input_import_source)
         os_signatures.jsontomodels()
+    else:
+        print("Unknown import option selected. Returning to main menu.")
 
 
 def export_menu():
     result_export_menu = prompt(export_menu_questions)
-    if result_export_menu["export_menu_sources"] in ["String", "File"]:
-        if result_export_menu["export_menu_sources"] == "String":
-            os_signatures.modelstojson()
-            print(os_signatures.exportsignatures(ExportTypes.STRING))
-        elif result_export_menu["export_menu_sources"] == "File":
-            result_export_menu_2 = prompt(export_menu_questions2)
-            os_signatures.modelstojson()
-            os_signatures.exportsignatures(ExportTypes.FILE, result_export_menu_2["export_menu_signatures"])
-        else:
+    choice_export_menu = result_export_menu.get("export_menu_sources", "")
+    if choice_export_menu == "String":
+        os_signatures.modelstojson()
+        print(os_signatures.exportsignatures(ExportTypes.STRING))
+    elif choice_export_menu == "File":
+        result_export_menu_2 = prompt(export_menu_questions2)
+        input_export_menu_2 = result_export_menu_2.get("export_menu_signatures", "")
+        if input_export_menu_2 == "":
+            print("Targetpath for the file was not correctly entered. Returning to main menu.")
             return
+        os_signatures.modelstojson()
+        os_signatures.exportsignatures(ExportTypes.FILE, input_export_menu_2)
+    else:
+        print("Unknown option selected. Returning to the main menu.")
+        return
 
 
 def edit_menu():
     global os_signatures
     result_edit_menu = prompt(edit_menu_questions)
-    if result_edit_menu["edit_main_menu"] == "Add Operating System Breed":
+    choice_edit_menu = result_edit_menu.get("edit_main_menu", "") 
+    if choice_edit_menu == "Add Operating System Breed":
         result_edit_add_os_breed = prompt(edit_add_os_breed)
         os_signatures.addosbreed(result_edit_add_os_breed["edit_add_os_breed"])
         print("We now have %s Operating System Breeds in this file." % len(os_signatures.osbreeds))
-    elif result_edit_menu["edit_main_menu"] == "Remove Operating System Breed":
+    elif choice_edit_menu == "Remove Operating System Breed":
         update_choices(edit_remove_os_breed, get_os_breed_names())
         result_edit_remove_os_breed = prompt(edit_remove_os_breed)
         for index in [0, len(os_signatures.osbreeds)]:
@@ -475,7 +488,7 @@ def edit_menu():
                 break
             else:
                 print("Operating System Breed not found. Doing nothing.")
-    elif result_edit_menu["edit_main_menu"] == "Edit the name of an Operating System Breed":
+    elif choice_edit_menu == "Edit the name of an Operating System Breed":
         update_choices(edit_name_os_breed_1, get_os_breed_names())
         result_edit_name_os_breed_1 = prompt(edit_name_os_breed_1)
         for index in [0, len(os_signatures.osbreeds) - 1]:
@@ -485,7 +498,7 @@ def edit_menu():
                 break
             else:
                 print("Operating System Breed not found. Doing nothing.")
-    elif result_edit_menu["edit_main_menu"] == "Add Operating System Version":
+    elif choice_edit_menu == "Add Operating System Version":
         update_choices(edit_add_os_version_1, get_os_breed_names())
         result_edit_add_os_version_1 = prompt(edit_add_os_version_1)
         for index in [0, len(os_signatures.osbreeds) - 1]:
@@ -495,7 +508,7 @@ def edit_menu():
                 break
             else:
                 print("Operating System Breed not found. Doing nothing.")
-    elif result_edit_menu["edit_main_menu"] == "Remove Operating System Version":
+    elif choice_edit_menu == "Remove Operating System Version":
         update_choices(edit_remove_os_version_1, get_os_breed_names())
         result_edit_remove_os_version_1 = prompt(edit_remove_os_version_1)
         for index in [0, len(os_signatures.osbreeds) - 1]:
@@ -505,28 +518,40 @@ def edit_menu():
                 break
             else:
                 print("Operating System Breed not found. Doing nothing.")
-    elif result_edit_menu["edit_main_menu"] == "Edit the information of an Operating System Version":
+    elif choice_edit_menu == "Edit the information of an Operating System Version":
         edit_menu_breed_version_info()
-    elif result_edit_menu["edit_main_menu"] == "Start from scratch":
+    elif choice_edit_menu == "Start from scratch":
         os_signatures = Signatures()
-    elif result_edit_menu["edit_main_menu"] == "Go Back":
+    elif choice_edit_menu == "Go Back":
         return
+    else:
+        print("Unknown option selected. Returning to the main menu.")
 
 
 def edit_menu_breed_version_info():
     update_choices(edit_information_os_version_which, get_os_breed_names())
     edit_information_os_version_which_result = prompt(edit_information_os_version_which)
-    if edit_information_os_version_which_result["edit_information_os_version_which"] == "Go Back":
+    choice_edit_information_os_version_which = edit_information_os_version_which_result\
+        .get("edit_information_os_version_which", "")
+    if choice_edit_information_os_version_which == "Go Back":
+        return
+    elif choice_edit_information_os_version_which == "":
+        print("Unknown option selected. Returning to main menu.")
         return
     update_choices(edit_information_os_version_which_2,
-                   get_os_version_names(
-                       edit_information_os_version_which_result["edit_information_os_version_which"]))
+                   get_os_version_names(choice_edit_information_os_version_which))
     edit_information_os_version_which_result_2 = prompt(edit_information_os_version_which_2)
-    if edit_information_os_version_which_result_2["edit_information_os_version_which_2"] == "Go Back":
+    choice_edit_information_os_version_which_2 = \
+        edit_information_os_version_which_result_2.get("edit_information_os_version_which_2", "")
+    if choice_edit_information_os_version_which_2 == "Go Back":
+        return
+    elif choice_edit_information_os_version_which_2 == "":
+        print("Unknown option selected. Returning to main menu.")
         return
     # TODO: Update next prompot to preview values
     result_edit_information_os_version = prompt(edit_information_os_version)
-    if result_edit_information_os_version["edit_information_os_version"] == "signatures":
+    choice_edit_information_os_version = result_edit_information_os_version.get("edit_information_os_version", "")
+    if choice_edit_information_os_version == "signatures":
         # TODO: Add/Remove/Edit for Array
         result_signatures_choice = prompt(edit_menu_version_add_remove_edit)
         if result_signatures_choice["edit_menu_version_add_remove_edit"] == "Add":
@@ -537,68 +562,72 @@ def edit_menu_breed_version_info():
             prompt(edit_menu_breed_version_signatures_delete)
         else:
             print("Unknown option selected.")
-    elif result_edit_information_os_version["edit_information_os_version"] == "version_file":
+    elif choice_edit_information_os_version == "version_file":
         # TODO: String Input
         prompt(edit_menu_breed_version_version_file)
-    elif result_edit_information_os_version["edit_information_os_version"] == "version_file_regex":
+    elif choice_edit_information_os_version == "version_file_regex":
         # TODO: String Input
         prompt(edit_menu_breed_version_version_file_regex)
-    elif result_edit_information_os_version["edit_information_os_version"] == "kernel_arch":
+    elif choice_edit_information_os_version == "kernel_arch":
         # TODO: String Input
         prompt(edit_menu_breed_version_kernel_arch)
-    elif result_edit_information_os_version["edit_information_os_version"] == "kernel_arch_regex":
+    elif choice_edit_information_os_version == "kernel_arch_regex":
         # TODO: String Input
         prompt(edit_menu_breed_version_kernel_arch_regex)
-    elif result_edit_information_os_version["edit_information_os_version"] == "supported_arches":
+    elif choice_edit_information_os_version == "supported_arches":
         # TODO: Add/Remove/Edit for Array
         result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
-        if result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Add":
+        choice_result_supported_arches_choice = result_supported_arches_choice\
+            .get("edit_menu_version_add_remove_edit", "")
+        if choice_result_supported_arches_choice == "Add":
             prompt(edit_menu_breed_version_supported_arches_add)
-        elif result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Edit":
+        elif choice_result_supported_arches_choice == "Edit":
             prompt(edit_menu_breed_version_supported_arches_edit)
-        elif result_supported_arches_choice["edit_menu_version_add_remove_edit"] == "Remove":
+        elif choice_result_supported_arches_choice == "Remove":
             prompt(edit_menu_breed_version_supported_arches_delete)
         else:
             print("Unknown option selected.")
         # TODO: Validation of arches (only with warning)
-    elif result_edit_information_os_version["edit_information_os_version"] == "supported_repo_breeds":
+    elif choice_edit_information_os_version == "supported_repo_breeds":
         # TODO: Add/Remove/edit for Array
         result_repo_breeds_choice = prompt(edit_menu_version_add_remove_edit)
-        if result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Add":
+        choice_result_repo_breeds_choice = result_repo_breeds_choice.get("edit_menu_version_add_remove_edit", "")
+        if choice_result_repo_breeds_choice == "Add":
             prompt(edit_menu_breed_version_supported_repo_breeds_add)
-        elif result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Edit":
+        elif choice_result_repo_breeds_choice == "Edit":
             prompt(edit_menu_breed_version_supported_repo_breeds_edit)
-        elif result_repo_breeds_choice["edit_menu_version_add_remove_edit"] == "Remove":
+        elif choice_result_repo_breeds_choice == "Remove":
             prompt(edit_menu_breed_version_supported_repo_breeds_delete)
         else:
             print("Unknown option selected.")
         # TODO: Validation for choices (only with warning)
-    elif result_edit_information_os_version["edit_information_os_version"] == "kernel_file":
+    elif choice_edit_information_os_version == "kernel_file":
         # TODO: String Input
         prompt(edit_menu_breed_version_kernel_file)
-    elif result_edit_information_os_version["edit_information_os_version"] == "initrd_file":
+    elif choice_edit_information_os_version == "initrd_file":
         # TODO: String Input
         prompt(edit_menu_breed_version_initrd_file)
-    elif result_edit_information_os_version["edit_information_os_version"] == "isolinux_ok":
+    elif choice_edit_information_os_version == "isolinux_ok":
         # TODO: Boolean Question
         prompt(edit_menu_breed_version_isolinux_ok)
-    elif result_edit_information_os_version["edit_information_os_version"] == "default_autoinstall":
+    elif choice_edit_information_os_version == "default_autoinstall":
         # TODO: String Input with filename validation
         prompt(edit_menu_breed_version_default_autoinstall)
-    elif result_edit_information_os_version["edit_information_os_version"] == "kernel_options":
+    elif choice_edit_information_os_version == "kernel_options":
         # TODO: String Input
         prompt(edit_menu_breed_version_kernel_options)
-    elif result_edit_information_os_version["edit_information_os_version"] == "kernel_options_post":
+    elif choice_edit_information_os_version == "kernel_options_post":
         # TODO: String Input
         prompt(edit_menu_breed_version_kernel_options_post)
-    elif result_edit_information_os_version["edit_information_os_version"] == "boot_files":
+    elif choice_edit_information_os_version == "boot_files":
         # TODO: Add/Remove/Edit for Array
         result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
-        if result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Add":
+        choice_result_boot_files_choice = result_boot_files_choice.get("edit_menu_version_add_remove_edit", "") 
+        if choice_result_boot_files_choice == "Add":
             prompt(edit_menu_breed_version_boot_files_add)
-        elif result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Edit":
+        elif choice_result_boot_files_choice == "Edit":
             prompt(edit_menu_breed_version_boot_files_edit)
-        elif result_boot_files_choice["edit_menu_version_add_remove_edit"] == "Remove":
+        elif choice_result_boot_files_choice == "Remove":
             prompt(edit_menu_breed_version_boot_files_delete)
         else:
             print("Unknown option selected.")
