@@ -19,7 +19,7 @@ script:
 notifications:
   webhooks:
     urls:
-      # - https://webhooks.gitter.im/e/988ae7d365d12a2bf093
+      - https://webhooks.gitter.im/e/fbdddd662da73c9446f2
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
