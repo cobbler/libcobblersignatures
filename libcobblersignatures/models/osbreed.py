@@ -47,11 +47,11 @@ class OsBreed:
         return versionsdict
 
     def decode(self, data):
-        for k, v in data:
+        for key in data.keys():
             # TODO: Test that this actually return prompt(main_menu_questions).
             version = Osversion()
-            version.decode(v)
-            self.osversion_add(k, version)
+            version.decode(data.get(key))
+            self.osversion_add(key, version)
 
     def osversion_add(self, name, version):
         if isinstance(name, str) and isinstance(version, Osversion):
