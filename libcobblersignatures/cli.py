@@ -152,6 +152,15 @@ edit_information_os_version_which = [
     {
         "type": "list",
         "name": "edit_information_os_version_which",
+        "message": "In which operating system breed should the version be?",
+        "choices": []
+    }
+]
+
+edit_information_os_version_which_2 = [
+    {
+        "type": "list",
+        "name": "edit_information_os_version_which_2",
         "message": "Which operating system version details do you want to edit?",
         "choices": []
     }
@@ -402,8 +411,22 @@ def get_os_breed_names():
     return names
 
 
-def update_os_breed_choices(question):
-    question[0].update({"choices": get_os_breed_names().append("Go Back")})
+def get_os_version_names(breed):
+    names = []
+    for index in [0, len(os_signatures.osbreeds) - 1]:
+        if breed == os_signatures.osbreeds[index]:
+            names = os_signatures.osbreeds[index].osversions.keys()
+            break
+        else:
+            print("Operating System Breed not found. Doing nothing.")
+    return names
+
+
+def update_choices(question: list, values: list):
+    if len(values) == 0:
+        values = []
+    values.append("Go Back")
+    question[0].update({"choices": values})
 
 
 def import_menu():
@@ -419,6 +442,7 @@ def import_menu():
         else:
             return
         os_signatures.importsignatures(import_type, result_import_menu_2["import_menu_signatures"])
+        os_signatures.jsontomodels()
 
 
 def export_menu():
@@ -443,7 +467,7 @@ def edit_menu():
         os_signatures.addosbreed(result_edit_add_os_breed["edit_add_os_breed"])
         print("We now have %s Operating System Breeds in this file." % len(os_signatures.osbreeds))
     elif result_edit_menu["edit_main_menu"] == "Remove Operating System Breed":
-        update_os_breed_choices(edit_remove_os_breed)
+        update_choices(edit_remove_os_breed, get_os_breed_names())
         result_edit_remove_os_breed = prompt(edit_remove_os_breed)
         for index in [0, len(os_signatures.osbreeds)]:
             if result_edit_remove_os_breed["edit_remove_os_breed"] == os_signatures.osbreeds[index]:
@@ -452,9 +476,9 @@ def edit_menu():
             else:
                 print("Operating System Breed not found. Doing nothing.")
     elif result_edit_menu["edit_main_menu"] == "Edit the name of an Operating System Breed":
-        update_os_breed_choices(edit_name_os_breed_1)
+        update_choices(edit_name_os_breed_1, get_os_breed_names())
         result_edit_name_os_breed_1 = prompt(edit_name_os_breed_1)
-        for index in [0, len(os_signatures.osbreeds)]:
+        for index in [0, len(os_signatures.osbreeds) - 1]:
             if result_edit_name_os_breed_1["edit_name_os_breed_1"] == os_signatures.osbreeds[index]:
                 result_edit_name_os_breed_2 = prompt(edit_name_os_breed_2)
                 os_signatures.osbreeds[index].name = result_edit_name_os_breed_2["edit_name_os_breed_2"]
@@ -462,9 +486,9 @@ def edit_menu():
             else:
                 print("Operating System Breed not found. Doing nothing.")
     elif result_edit_menu["edit_main_menu"] == "Add Operating System Version":
-        update_os_breed_choices(edit_add_os_version_1)
+        update_choices(edit_add_os_version_1, get_os_breed_names())
         result_edit_add_os_version_1 = prompt(edit_add_os_version_1)
-        for index in [0, len(os_signatures.osbreeds)]:
+        for index in [0, len(os_signatures.osbreeds) - 1]:
             if result_edit_add_os_version_1["edit_add_os_version_1"] == os_signatures.osbreeds[index]:
                 result_edit_add_os_version_2 = prompt(edit_add_os_version_2)
                 os_signatures.addosversion(index, result_edit_add_os_version_2["edit_add_os_version_2"], None)
@@ -472,9 +496,9 @@ def edit_menu():
             else:
                 print("Operating System Breed not found. Doing nothing.")
     elif result_edit_menu["edit_main_menu"] == "Remove Operating System Version":
-        update_os_breed_choices(edit_remove_os_version_1)
+        update_choices(edit_remove_os_version_1, get_os_breed_names())
         result_edit_remove_os_version_1 = prompt(edit_remove_os_version_1)
-        for index in [0, len(os_signatures.osbreeds)]:
+        for index in [0, len(os_signatures.osbreeds) - 1]:
             if result_edit_remove_os_version_1["edit_remove_os_version_1"] == os_signatures.osbreeds[index]:
                 result_edit_remove_os_version_2 = prompt(edit_remove_os_version_2)
                 os_signatures.removeosversion(index, result_edit_remove_os_version_2["edit_remove_os_version_2"])
@@ -490,7 +514,16 @@ def edit_menu():
 
 
 def edit_menu_breed_version_info():
+    update_choices(edit_information_os_version_which, get_os_breed_names())
     edit_information_os_version_which_result = prompt(edit_information_os_version_which)
+    if edit_information_os_version_which_result["edit_information_os_version_which"] == "Go Back":
+        return
+    update_choices(edit_information_os_version_which_2,
+                   get_os_version_names(
+                       edit_information_os_version_which_result["edit_information_os_version_which"]))
+    edit_information_os_version_which_result_2 = prompt(edit_information_os_version_which_2)
+    if edit_information_os_version_which_result_2["edit_information_os_version_which_2"] == "Go Back":
+        return
     # TODO: Update next prompot to preview values
     result_edit_information_os_version = prompt(edit_information_os_version)
     if result_edit_information_os_version["edit_information_os_version"] == "signatures":
