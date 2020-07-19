@@ -31,6 +31,7 @@ class Osversion:
         self._default_autoinstall = ""
         self._kernel_options = ""
         self._kernel_options_post = ""
+        self._template_files = ""
         self._boot_files = []
 
     def __eq__(self, other):
@@ -49,6 +50,7 @@ class Osversion:
             and self.default_autoinstall == other.default_autoinstall \
             and self.kernel_options == other.kernel_options \
             and self.kernel_options_post == other.kernel_options_post \
+            and self.template_files == other._template_files \
             and self.boot_files == other.boot_files
 
     @property
@@ -208,6 +210,18 @@ class Osversion:
         del self._kernel_options_post
 
     @property
+    def template_files(self):
+        return self._template_files
+
+    @template_files.setter
+    def template_files(self, value):
+        self._template_files = value
+
+    @template_files.deleter
+    def template_files(self):
+        del self._template_files
+
+    @property
     def boot_files(self):
         return self._boot_files
 
@@ -234,6 +248,7 @@ class Osversion:
             "default_autoinstall": self.default_autoinstall,
             "kernel_options": self.kernel_options,
             "kernel_options_post": self.kernel_options_post,
+            "template_files": self._template_files,
             "boot_files": self.boot_files
         }
 
@@ -251,4 +266,5 @@ class Osversion:
         self.default_autoinstall = data.get("default_autoinstall", "")
         self.kernel_options = data.get("kernel_options", "")
         self.kernel_options_post = data.get("kernel_options_post", "")
+        self.template_files = data.get("template_files", "")
         self.boot_files = data.get("boot_files", [])
