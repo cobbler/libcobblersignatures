@@ -527,6 +527,7 @@ def edit_menu():
 
 
 def edit_menu_breed_version_info():
+    # Prechoose which OsBreed and OsVersion should be manipulated
     update_choices(edit_information_os_version_which, get_os_breed_names())
     edit_information_os_version_which_result = prompt(edit_information_os_version_which)
     choice_edit_information_os_version_which = edit_information_os_version_which_result \
@@ -546,6 +547,11 @@ def edit_menu_breed_version_info():
     elif choice_edit_information_os_version_which_2 == "":
         print("Unknown option selected. Returning to main menu.")
         return
+
+    # Presave index for OsBreed
+    breed_index = os_signatures.get_breed_index_by_name(choice_edit_information_os_version_which)
+
+    # Do the actual editing
     # TODO: Update next prompot to preview values
     result_edit_information_os_version = prompt(edit_information_os_version)
     choice_edit_information_os_version = result_edit_information_os_version.get("edit_information_os_version", "")
@@ -561,17 +567,21 @@ def edit_menu_breed_version_info():
         else:
             print("Unknown option selected.")
     elif choice_edit_information_os_version == "version_file":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_version_file)
+        new_value_version_file = prompt(edit_menu_breed_version_version_file)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).version_file \
+            = new_value_version_file["edit_menu_breed_version_version_file"]
     elif choice_edit_information_os_version == "version_file_regex":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_version_file_regex)
+        new_value_version_file_regex = prompt(edit_menu_breed_version_version_file_regex)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+            .version_file_regex = new_value_version_file_regex["edit_menu_breed_version_version_file_regex"]
     elif choice_edit_information_os_version == "kernel_arch":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_kernel_arch)
+        new_value_kernel_arch = prompt(edit_menu_breed_version_kernel_arch)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_arch \
+            = new_value_kernel_arch["edit_menu_breed_version_kernel_arch"]
     elif choice_edit_information_os_version == "kernel_arch_regex":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_kernel_arch_regex)
+        new_value_kernel_arch_regex = prompt(edit_menu_breed_version_kernel_arch_regex)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+            .kernel_arch_regex = new_value_kernel_arch_regex["edit_menu_breed_version_kernel_arch_regex"]
     elif choice_edit_information_os_version == "supported_arches":
         # TODO: Add/Remove/Edit for Array
         result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
@@ -600,23 +610,30 @@ def edit_menu_breed_version_info():
             print("Unknown option selected.")
         # TODO: Validation for choices (only with warning)
     elif choice_edit_information_os_version == "kernel_file":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_kernel_file)
+        new_value_kernel_file = prompt(edit_menu_breed_version_kernel_file)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_file \
+            = new_value_kernel_file["edit_menu_breed_version_kernel_file"]
     elif choice_edit_information_os_version == "initrd_file":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_initrd_file)
+        new_value_initrd_file = prompt(edit_menu_breed_version_initrd_file)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_file \
+            = new_value_initrd_file["edit_menu_breed_version_initrd_file"]
     elif choice_edit_information_os_version == "isolinux_ok":
-        # TODO: Boolean Question
-        prompt(edit_menu_breed_version_isolinux_ok)
+        new_value_isolinux_ok = prompt(edit_menu_breed_version_isolinux_ok)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).isolinux_ok \
+            = new_value_isolinux_ok["edit_menu_breed_version_isolinux_ok"]
     elif choice_edit_information_os_version == "default_autoinstall":
-        # TODO: String Input with filename validation
-        prompt(edit_menu_breed_version_default_autoinstall)
+        # TODO: Filename validation
+        new_value_default_autoinstall = prompt(edit_menu_breed_version_default_autoinstall)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+            .default_autoinstall = new_value_default_autoinstall["edit_menu_breed_version_default_autoinstall"]
     elif choice_edit_information_os_version == "kernel_options":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_kernel_options)
+        new_value_kernel_options = prompt(edit_menu_breed_version_kernel_options)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_options \
+            = new_value_kernel_options["edit_menu_breed_version_kernel_options"]
     elif choice_edit_information_os_version == "kernel_options_post":
-        # TODO: String Input
-        prompt(edit_menu_breed_version_kernel_options_post)
+        new_value_kernel_options_post = prompt(edit_menu_breed_version_kernel_options_post)
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2)\
+            .kernel_options_post = new_value_kernel_options_post["edit_menu_breed_version_kernel_options_post"]
     elif choice_edit_information_os_version == "boot_files":
         # TODO: Add/Remove/Edit for Array
         result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
