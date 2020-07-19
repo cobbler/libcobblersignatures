@@ -474,7 +474,7 @@ def export_menu():
 def edit_menu():
     global os_signatures
     result_edit_menu = prompt(edit_menu_questions)
-    choice_edit_menu = result_edit_menu.get("edit_main_menu", "") 
+    choice_edit_menu = result_edit_menu.get("edit_main_menu", "")
     if choice_edit_menu == "Add Operating System Breed":
         result_edit_add_os_breed = prompt(edit_add_os_breed)
         os_signatures.addosbreed(result_edit_add_os_breed["edit_add_os_breed"])
@@ -531,7 +531,7 @@ def edit_menu():
 def edit_menu_breed_version_info():
     update_choices(edit_information_os_version_which, get_os_breed_names())
     edit_information_os_version_which_result = prompt(edit_information_os_version_which)
-    choice_edit_information_os_version_which = edit_information_os_version_which_result\
+    choice_edit_information_os_version_which = edit_information_os_version_which_result \
         .get("edit_information_os_version_which", "")
     if choice_edit_information_os_version_which == "Go Back":
         return
@@ -577,7 +577,7 @@ def edit_menu_breed_version_info():
     elif choice_edit_information_os_version == "supported_arches":
         # TODO: Add/Remove/Edit for Array
         result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
-        choice_result_supported_arches_choice = result_supported_arches_choice\
+        choice_result_supported_arches_choice = result_supported_arches_choice \
             .get("edit_menu_version_add_remove_edit", "")
         if choice_result_supported_arches_choice == "Add":
             prompt(edit_menu_breed_version_supported_arches_add)
@@ -622,7 +622,7 @@ def edit_menu_breed_version_info():
     elif choice_edit_information_os_version == "boot_files":
         # TODO: Add/Remove/Edit for Array
         result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
-        choice_result_boot_files_choice = result_boot_files_choice.get("edit_menu_version_add_remove_edit", "") 
+        choice_result_boot_files_choice = result_boot_files_choice.get("edit_menu_version_add_remove_edit", "")
         if choice_result_boot_files_choice == "Add":
             prompt(edit_menu_breed_version_boot_files_add)
         elif choice_result_boot_files_choice == "Edit":
