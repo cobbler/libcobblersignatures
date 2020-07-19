@@ -61,7 +61,7 @@ The Key contains an object which has the following keys (type included):
 - kernel_options_post - String
 - template_files - String
 - boot_files - Array of Strings
-- boot_loaders - Array of Strings
+- boot_loaders - Dictionary
 
 ### Example files
 
