@@ -414,12 +414,12 @@ def get_os_breed_names():
 def get_os_version_names(breed):
     names = []
     for index in [0, len(os_signatures.osbreeds) - 1]:
-        if breed == os_signatures.osbreeds[index]:
+        if breed == os_signatures.osbreeds[index].name:
             names = os_signatures.osbreeds[index].osversions.keys()
             break
         else:
             print("Operating System Breed not found. Doing nothing.")
-    return names
+    return list(names)
 
 
 def update_choices(question: list, values: list):
