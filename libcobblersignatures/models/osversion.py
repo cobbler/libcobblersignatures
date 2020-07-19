@@ -220,7 +220,35 @@ class Osversion:
         del self._boot_files
 
     def encode(self):
-        pass
+        return {
+            "signatures": self.signatures,
+            "version_file": self.version_file,
+            "version_file_regex": self.version_file_regex,
+            "kernel_arch": self.kernel_arch,
+            "kernel_arch_regex": self.kernel_arch_regex,
+            "supported_arches": self.supported_arches,
+            "supported_repo_breeds": self.supported_repo_breeds,
+            "kernel_file": self.kernel_file,
+            "initrd_file": self.initrd_file,
+            "isolinux_ok": self.isolinux_ok,
+            "default_autoinstall": self.default_autoinstall,
+            "kernel_options": self.kernel_options,
+            "kernel_options_post": self.kernel_options_post,
+            "boot_files": self.boot_files
+        }
 
     def decode(self, data):
-        pass
+        self.signatures = data.get("signatures", [])
+        self.version_file = data.get("version_file", "")
+        self.version_file_regex = data.get("version_file_regex", "")
+        self.kernel_arch = data.get("kernel_arch", "")
+        self.kernel_arch_regex = data.get("kernel_arch_regex", "")
+        self.supported_arches = data.get("supported_arches", [])
+        self.supported_repo_breeds = data.get("supported_repo_breeds", [])
+        self.kernel_file = data.get("kernel_file", [])
+        self.initrd_file = data.get("initrd_file", "")
+        self.isolinux_ok = data.get("isolinux_ok", False)
+        self.default_autoinstall = data.get("default_autoinstall", "")
+        self.kernel_options = data.get("kernel_options", "")
+        self.kernel_options_post = data.get("kernel_options_post", "")
+        self.boot_files = data.get("boot_files", [])
