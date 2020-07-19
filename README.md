@@ -46,7 +46,7 @@ a version suffix. The name of the key should be unique across the distribution s
 
 The Key contains an object which has the following keys (type included):
 
-- signatures - Array
+- signatures - Array of Strings
 - version_file - String 
 - version_file_regex - String
 - kernel_arch - String
@@ -59,7 +59,9 @@ The Key contains an object which has the following keys (type included):
 - default_autoinstall - String
 - kernel_options - String
 - kernel_options_post - String
-- boot_files - Array
+- template_files - String
+- boot_files - Array of Strings
+- boot_loaders - Array of Strings
 
 ### Example files
 
