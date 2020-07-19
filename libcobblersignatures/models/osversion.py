@@ -33,6 +33,7 @@ class Osversion:
         self._kernel_options_post = ""
         self._template_files = ""
         self._boot_files = []
+        self._boot_loaders = {}
 
     def __eq__(self, other):
         if not isinstance(other, Osversion):
@@ -51,7 +52,8 @@ class Osversion:
             and self.kernel_options == other.kernel_options \
             and self.kernel_options_post == other.kernel_options_post \
             and self.template_files == other._template_files \
-            and self.boot_files == other.boot_files
+            and self.boot_files == other.boot_files \
+            and self.boot_loaders == other.boot_loaders
 
     @property
     def signatures(self):
@@ -233,6 +235,18 @@ class Osversion:
     def boot_files(self):
         del self._boot_files
 
+    @property
+    def boot_loaders(self):
+        return self._boot_loaders
+
+    @boot_loaders.setter
+    def boot_loaders(self, value):
+        self._boot_loaders = value
+
+    @boot_loaders.deleter
+    def boot_loaders(self):
+        del self._boot_loaders
+
     def encode(self):
         return {
             "signatures": self.signatures,
@@ -249,7 +263,8 @@ class Osversion:
             "kernel_options": self.kernel_options,
             "kernel_options_post": self.kernel_options_post,
             "template_files": self._template_files,
-            "boot_files": self.boot_files
+            "boot_files": self.boot_files,
+            "boot_loaders": self.boot_loaders
         }
 
     def decode(self, data):
@@ -268,3 +283,4 @@ class Osversion:
         self.kernel_options_post = data.get("kernel_options_post", "")
         self.template_files = data.get("template_files", "")
         self.boot_files = data.get("boot_files", [])
+        self.boot_loaders = data.get("boot_loaders", {})
