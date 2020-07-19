@@ -129,3 +129,11 @@ class Signatures:
 
     def removeosversion(self, breedindex, versionname):
         self.osbreeds[breedindex].osversion_remove(versionname)
+
+    def get_breed_index_by_name(self, name):
+        list_length = len(self.osbreeds)
+        if list_length > 0:
+            for index in range(list_length):
+                if name == self.osbreeds[index].name:
+                    return index
+        return -1
