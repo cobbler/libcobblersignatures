@@ -427,6 +427,46 @@ def update_choices(question: list, values: list):
     question[0].update({"choices": values})
 
 
+def prepare_version_edit_information_os_version(version):
+    values = [
+        "signatures - %s" % str(version.signatures),
+        "version_file - %s" % version.version_file,
+        "version_file_regex - %s" % version.version_file_regex,
+        "kernel_arch - %s" % version.kernel_arch,
+        "kernel_arch_regex - %s" % version.kernel_arch_regex,
+        "supported_arches - %s" % str(version.supported_arches),
+        "supported_repo_breeds - %s" % str(version.supported_repo_breeds),
+        "kernel_file - %s" % version.kernel_file,
+        "initrd_file - %s" % version.initrd_file,
+        "isolinux_ok - %s" % version.isolinux_ok,
+        "default_autoinstall - %s" % version.default_autoinstall,
+        "kernel_options - %s" % version.kernel_options,
+        "kernel_options_post - %s" % version.kernel_options_post,
+        "boot_files - %s" % str(version.boot_files)
+    ]
+    update_choices(edit_information_os_version, values)
+
+
+def reset_edit_information_os_version():
+    values = [
+        "signatures",
+        "version_file",
+        "version_file_regex",
+        "kernel_arch",
+        "kernel_arch_regex",
+        "supported_arches",
+        "supported_repo_breeds",
+        "kernel_file",
+        "initrd_file",
+        "isolinux_ok",
+        "default_autoinstall",
+        "kernel_options",
+        "kernel_options_post",
+        "boot_files"
+    ]
+    update_choices(edit_information_os_version, values)
+
+
 def import_menu():
     result_import_menu = prompt(import_menu_questions)
     choice_import_menu = result_import_menu.get("import_menu_source", "")
@@ -551,8 +591,12 @@ def edit_menu_breed_version_info():
     # Presave index for OsBreed
     breed_index = os_signatures.get_breed_index_by_name(choice_edit_information_os_version_which)
 
+    # Prepare the values for the attribute editing
+    prepare_version_edit_information_os_version(
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2)
+    )
+
     # Do the actual editing
-    # TODO: Update next prompot to preview values
     result_edit_information_os_version = prompt(edit_information_os_version)
     choice_edit_information_os_version = result_edit_information_os_version.get("edit_information_os_version", "")
     if choice_edit_information_os_version == "signatures":
@@ -632,7 +676,7 @@ def edit_menu_breed_version_info():
             = new_value_kernel_options["edit_menu_breed_version_kernel_options"]
     elif choice_edit_information_os_version == "kernel_options_post":
         new_value_kernel_options_post = prompt(edit_menu_breed_version_kernel_options_post)
-        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2)\
+        os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .kernel_options_post = new_value_kernel_options_post["edit_menu_breed_version_kernel_options_post"]
     elif choice_edit_information_os_version == "boot_files":
         # TODO: Add/Remove/Edit for Array
@@ -648,6 +692,7 @@ def edit_menu_breed_version_info():
             print("Unknown option selected.")
     else:
         return
+    reset_edit_information_os_version()
 
 
 def main():
