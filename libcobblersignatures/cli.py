@@ -600,14 +600,22 @@ def edit_menu_breed_version_info():
     result_edit_information_os_version = prompt(edit_information_os_version)
     choice_edit_information_os_version = result_edit_information_os_version.get("edit_information_os_version", "")
     if choice_edit_information_os_version == "signatures":
-        # TODO: Add/Remove/Edit for Array
         result_signatures_choice = prompt(edit_menu_version_add_remove_edit)
         if result_signatures_choice["edit_menu_version_add_remove_edit"] == "Add":
-            prompt(edit_menu_breed_version_signatures_add)
+            new_value_signature = prompt(edit_menu_breed_version_signatures_add)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .signatures.append(new_value_signature["edit_menu_breed_version_signatures_add"])
         elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Edit":
-            prompt(edit_menu_breed_version_signatures_edit)
+            new_value_edit_signatures = prompt(edit_menu_breed_version_signatures_edit)
+            index_to_change = os_signatures.osbreeds[breed_index].osversions \
+                .get(choice_edit_information_os_version_which_2) \
+                .signatures.index(new_value_edit_signatures["edit_menu_breed_version_signatures"])
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .signatures[index_to_change] = new_value_edit_signatures["edit_menu_breed_version_signatures_new"]
         elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Remove":
-            prompt(edit_menu_breed_version_signatures_delete)
+            value_to_be_removed = prompt(edit_menu_breed_version_signatures_delete)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .signatures.remove(value_to_be_removed["edit_menu_breed_version_signatures"])
         else:
             print("Unknown option selected.")
     elif choice_edit_information_os_version == "version_file":
@@ -627,29 +635,50 @@ def edit_menu_breed_version_info():
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .kernel_arch_regex = new_value_kernel_arch_regex["edit_menu_breed_version_kernel_arch_regex"]
     elif choice_edit_information_os_version == "supported_arches":
-        # TODO: Add/Remove/Edit for Array
         result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
         choice_result_supported_arches_choice = result_supported_arches_choice \
             .get("edit_menu_version_add_remove_edit", "")
         if choice_result_supported_arches_choice == "Add":
-            prompt(edit_menu_breed_version_supported_arches_add)
+            new_value_supported_arches = prompt(edit_menu_breed_version_supported_arches_add)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_arches.append(new_value_supported_arches["edit_menu_breed_version_supported_arches_add"])
         elif choice_result_supported_arches_choice == "Edit":
-            prompt(edit_menu_breed_version_supported_arches_edit)
+            new_value_edit_arches = prompt(edit_menu_breed_version_supported_arches_edit)
+            index_to_change = os_signatures.osbreeds[breed_index].osversions \
+                .get(choice_edit_information_os_version_which_2) \
+                .supported_arches.index(new_value_edit_arches["edit_menu_breed_version_supported_arches_edit"])
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_arches[index_to_change] = new_value_edit_arches[
+                "edit_menu_breed_version_supported_arches_edit_new"]
         elif choice_result_supported_arches_choice == "Remove":
-            prompt(edit_menu_breed_version_supported_arches_delete)
+            value_to_be_removed = prompt(edit_menu_breed_version_supported_arches_delete)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_arches.remove(value_to_be_removed["edit_menu_breed_version_supported_arches_delete"])
         else:
             print("Unknown option selected.")
         # TODO: Validation of arches (only with warning)
     elif choice_edit_information_os_version == "supported_repo_breeds":
-        # TODO: Add/Remove/edit for Array
         result_repo_breeds_choice = prompt(edit_menu_version_add_remove_edit)
         choice_result_repo_breeds_choice = result_repo_breeds_choice.get("edit_menu_version_add_remove_edit", "")
         if choice_result_repo_breeds_choice == "Add":
-            prompt(edit_menu_breed_version_supported_repo_breeds_add)
+            new_value_supported_repo_breed = prompt(edit_menu_breed_version_supported_repo_breeds_add)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_repo_breeds.append(
+                new_value_supported_repo_breed["edit_menu_breed_version_supported_repo_breeds_add"])
         elif choice_result_repo_breeds_choice == "Edit":
-            prompt(edit_menu_breed_version_supported_repo_breeds_edit)
+            new_value_edit_supported_repo_breeds = prompt(edit_menu_breed_version_supported_repo_breeds_edit)
+            index_to_change = os_signatures.osbreeds[breed_index].osversions \
+                .get(choice_edit_information_os_version_which_2) \
+                .supported_repo_breeds.index(
+                new_value_edit_supported_repo_breeds["edit_menu_breed_version_supported_repo_breeds_edit"])
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_repo_breeds[index_to_change] = \
+                new_value_edit_supported_repo_breeds["edit_menu_breed_version_supported_repo_breeds_edit_new"]
         elif choice_result_repo_breeds_choice == "Remove":
-            prompt(edit_menu_breed_version_supported_repo_breeds_delete)
+            value_to_be_removed = prompt(edit_menu_breed_version_supported_repo_breeds_delete)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .supported_repo_breeds.remove(
+                value_to_be_removed["edit_menu_breed_version_supported_repo_breeds_delete"])
         else:
             print("Unknown option selected.")
         # TODO: Validation for choices (only with warning)
@@ -679,15 +708,23 @@ def edit_menu_breed_version_info():
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .kernel_options_post = new_value_kernel_options_post["edit_menu_breed_version_kernel_options_post"]
     elif choice_edit_information_os_version == "boot_files":
-        # TODO: Add/Remove/Edit for Array
         result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
         choice_result_boot_files_choice = result_boot_files_choice.get("edit_menu_version_add_remove_edit", "")
         if choice_result_boot_files_choice == "Add":
-            prompt(edit_menu_breed_version_boot_files_add)
+            new_value_boot_files_add = prompt(edit_menu_breed_version_boot_files_add)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .boot_files.append(new_value_boot_files_add["edit_menu_breed_version_boot_files_add"])
         elif choice_result_boot_files_choice == "Edit":
-            prompt(edit_menu_breed_version_boot_files_edit)
+            new_value_edit_boot_files = prompt(edit_menu_breed_version_boot_files_edit)
+            index_to_change = os_signatures.osbreeds[breed_index].osversions \
+                .get(choice_edit_information_os_version_which_2) \
+                .boot_files.index(new_value_edit_boot_files["edit_menu_breed_version_boot_files_edit"])
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .boot_files[index_to_change] = new_value_edit_boot_files["edit_menu_breed_version_boot_files_edit_new"]
         elif choice_result_boot_files_choice == "Remove":
-            prompt(edit_menu_breed_version_boot_files_delete)
+            value_to_be_removed = prompt(edit_menu_breed_version_boot_files_delete)
+            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                .boot_files.remove(value_to_be_removed["edit_menu_breed_version_boot_files_delete"])
         else:
             print("Unknown option selected.")
     else:
