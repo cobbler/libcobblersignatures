@@ -32,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     keywords='cobbler',
-    packages=find_packages(),
+    packages=find_packages(exclude="tests"),
     python_requires='>=3',
     install_requires=['PyInquirer'],
     extras_require={
