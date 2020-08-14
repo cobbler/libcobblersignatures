@@ -5,6 +5,7 @@ from json import JSONDecodeError
 from typing import List
 
 from libcobblersignatures.models.osbreed import OsBreed
+from libcobblersignatures.models.osversion import Osversion
 
 
 class ImportTypes(Enum):
@@ -120,6 +121,8 @@ class Signatures:
         self.osbreeds.append(OsBreed(name))
 
     def addosversion(self, breedindex, versionname, versiondata):
+        if versiondata is None:
+            versiondata = Osversion()
         self.osbreeds[breedindex].osversion_add(versionname, versiondata)
 
     def removeosbreed(self, index: int):
