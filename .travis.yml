@@ -15,6 +15,7 @@ before_script:
   - pycodestyle -r --ignore E501,E402,E722,W504 *.py libcobblersignatures/*.py
 script:
   - pytest
+  - codecov
 
 notifications:
   webhooks:
