@@ -14,7 +14,8 @@ before_script:
   - pyflakes *.py libcobblersignatures/*.py
   - pycodestyle -r --ignore E501,E402,E722,W504 *.py libcobblersignatures/*.py
 script:
-  - pytest --cov-report=xml --cov=./libcobblersigatures
+  - pytest --cov-report=xml --cov=libcobblersignatures
+after_success:
   - codecov
 
 notifications:
