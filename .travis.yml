@@ -16,7 +16,7 @@ before_script:
 script:
   - pytest --cov-report=xml --cov=libcobblersignatures
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 
 notifications:
   webhooks:
