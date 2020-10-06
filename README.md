@@ -16,4 +16,4 @@ This library should be the interface for all applications using cobbler signatur
 
 ## Signatures-JSON Specification
 
-Can be found in our Docs: https://libcobblersignatures.readthedocs.io
+Can be found in our Docs: <https://libcobblersignatures.readthedocs.io>
