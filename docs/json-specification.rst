@@ -12,7 +12,7 @@ that this is not possible, we shall focus on Linux and its distributions.
 File structure
 ##############
 
-The file should be a single JSON Object which has a single key with the name `breeds`. This key should contain a single
+The file should be a single JSON object which has a single key with the name `breeds`. This key should contain a single
 sub-object with key-value pairs for each operating system group.
 
 Currently the following operating system groups are existing:
