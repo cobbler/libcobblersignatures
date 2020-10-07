@@ -6,6 +6,9 @@ This library supplements the data for the ``cobbler import`` workflow. Cobbler i
 to act as a bootserver, thus managing TFTP, DHCP and optionally DNS. More information about Cobbler can be found here:
 `Github <https://github.com/cobbler/cobbler>`_
 
+.. image:: https://asciinema.org/a/363956.svg
+   :target: https://asciinema.org/a/363956
+
 For more Information about what this library is for, see this documentation. I recommend starting with the
 Quickstart document from the TOC below.
 

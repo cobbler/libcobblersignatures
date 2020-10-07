@@ -7,6 +7,8 @@
 
 This library should be the interface for all applications using cobbler signatures.
 
+[![asciicast](https://asciinema.org/a/363956.svg)](https://asciinema.org/a/363956)
+
 ## Features
 
 - Create a cobbler signatures document from scratch
