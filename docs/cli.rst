@@ -8,31 +8,28 @@ session does not save anything except you explicitly tell the CLI to do so.
 The top-level-menu
 ##################
 
-This should be straightforward. The ``Exit`` button currently has no confirmation and will discard everything it has in
-memory.
+- Import: See :ref:`The Import menu`
+- Export: See :ref:`The Export menu`
+- Edit: See :ref:`The Edit menu`
+- Exit: This button has no confirmation and will discard everything it has in memory.
 
-- Import
-- Export
-- Edit
-- Exit
-
-The ``Import`` menu
-###################
+The Import menu
+###############
 
 - URL
 - String
 - File
 - Go Back
 
-The ``Export`` menu
-###################
+The Export menu
+###############
 
 - String
 - File
 - Go Back
 
-The ``Edit`` menu
-#################
+The Edit menu
+#############
 
 - Add Operating System Breed
 - Remove Operating System Breed
