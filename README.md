@@ -1,10 +1,13 @@
 [![Gitter](https://badges.gitter.im/cobbler/libcobblersignatures.svg)](https://gitter.im/cobbler/libcobblersignatures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Build Status](https://travis-ci.org/cobbler/libcobblersignatures.svg?branch=master)](https://travis-ci.org/cobbler/libcobblersignatures)
+[![Build Status](https://travis-ci.com/cobbler/libcobblersignatures.svg?branch=master)](https://travis-ci.com/cobbler/libcobblersignatures)
+[![Documentation Status](https://readthedocs.org/projects/libcobblersignatures/badge/?version=latest)](https://libcobblersignatures.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/cobbler/libcobblersignatures/branch/master/graph/badge.svg)](https://codecov.io/gh/cobbler/libcobblersignatures)
 
 # libcobblersignatures
 
 This library should be the interface for all applications using cobbler signatures.
+
+[![asciicast](https://asciinema.org/a/363956.svg)](https://asciinema.org/a/363956)
 
 ## Features
 
@@ -15,62 +18,4 @@ This library should be the interface for all applications using cobbler signatur
 
 ## Signatures-JSON Specification
 
-### Goal
-
-This file should be the data which is used by a program to detect with a general algorithm which operating system an iso
-image is handed to the program. This specification should not limit itself to one operating system but if this is not
-possible then we shall focus on Linux and it's Distributions.
-
-### File structure
-
-The file should be a single JSON Object which has a single key with the name `breeds`. This key should contain a single
-sub-object with key-value pairs for each operating system group.
-
-Currently the following operating system groups are existing:
-
-- redhat
-- debian
-- ubuntu
-- suse
-- vmware
-- freebsd
-- xen
-- unix
-- windows
-- powerkvm
-- generic
-
-This list should be modified when new groups are added, removed or changed when changed in the JSON.
-
-Each of these operating system groups has a key for each version of it. The key should be in lowercase and should have
-a version suffix. The name of the key should be unique across the distribution section.
-
-The Key contains an object which has the following keys (type included):
-
-- signatures - Array of Strings
-- version_file - String 
-- version_file_regex - String
-- kernel_arch - String
-- kernel_arch_regex - String
-- supported_arches - Array of Strings
-- supported_repo_breeds - Array of Strings
-- kernel_file - String
-- initrd_file - String
-- isolinux_ok - Boolean
-- default_autoinstall - String
-- kernel_options - String
-- kernel_options_post - String
-- template_files - String
-- boot_files - Array of Strings
-- boot_loaders - Dictionary
-
-### Example files
-
-Please have a look at https://github.com/cobbler/cobbler/blob/master/config/cobbler/distro_signatures.json
-
-The most simple valid (but useless) `signatures.json` file will be:
-```json
-{
-  "breeds": {}
-}
-```
+Can be found in our Docs: <https://libcobblersignatures.readthedocs.io>

@@ -38,6 +38,7 @@ setup(
     extras_require={
         'lint': ['pyflakes', 'pycodestyle'],
         'test': ['coverage', 'pytest'],
+        'docs': ['sphinx_rtd_theme']
     },
     entry_points={
         'console_scripts': [
