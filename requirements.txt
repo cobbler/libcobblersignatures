@@ -1,3 +1,3 @@
-pyflakes
+pyflakes==2.2.0
 pycodestyle
 PyInquirer
