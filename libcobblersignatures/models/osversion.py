@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class OsArchitectures(Enum):
+    """
+    An enumeration which defines the in Cobbler available architectures.
+    """
     i386 = 1
     x86_64 = 2
     ppc = 3
@@ -10,6 +13,9 @@ class OsArchitectures(Enum):
 
 
 class RepositoryBreeds(Enum):
+    """
+    An enumeration which defines the in Cobbler available repository breeds.
+    """
     rsync = 1
     rhn = 2
     yum = 3
@@ -17,6 +23,11 @@ class RepositoryBreeds(Enum):
 
 
 class Osversion:
+    """
+    A version of an operating system breed like ``openSUSE Leap 15.2``. The specification of the attributes and what
+    values are valid are described in the JSON specification.
+    """
+
     def __init__(self):
         self._signatures = []
         self._version_file = ""
@@ -247,7 +258,12 @@ class Osversion:
     def boot_loaders(self):
         del self._boot_loaders
 
-    def encode(self):
+    def encode(self) -> dict:
+        """
+        Encodes a single :class:`Osversion`. This means that the properties of an object is transferred into a JSON.
+
+        :return: The dictionary with the data.
+        """
         return {
             "signatures": self.signatures,
             "version_file": self.version_file,
@@ -268,6 +284,11 @@ class Osversion:
         }
 
     def decode(self, data):
+        """
+        Decodes the received data. This means parsing each attribute from the JSON into the property of an object.
+
+        :param data: The data to decode.
+        """
         self.signatures = data.get("signatures", [])
         self.version_file = data.get("version_file", "")
         self.version_file_regex = data.get("version_file_regex", "")
