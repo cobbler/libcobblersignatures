@@ -26,7 +26,6 @@ class OsBreed:
     def osversions(self, value: collections.OrderedDict):
         if not isinstance(value, collections.OrderedDict):
             raise TypeError("The osversion needs to be an ordered dict!")
-            return
         self._osversions = value
 
     @osversions.deleter

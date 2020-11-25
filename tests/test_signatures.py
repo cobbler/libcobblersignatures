@@ -1,6 +1,3 @@
-import os
-from pathlib import Path
-
 import pytest
 
 from libcobblersignatures import signatures
@@ -70,6 +67,25 @@ def test_importsignatures_unkown():
         os_signatures.importsignatures(100, "")
 
 
+def test_exportsignatures_none():
+    # Arrange
+    os_signatures = signatures.Signatures()
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        os_signatures.exportsignatures(ExportTypes.STRING)
+
+
+def test_export_missing_rootkey():
+    # Arrange
+    os_signatures = signatures.Signatures()
+    os_signatures.importsignatures(ImportTypes.STRING, "{}")
+
+    # Act & Assert
+    with pytest.raises(AttributeError):
+        os_signatures.jsontomodels()
+
+
 @pytest.mark.usefixtures("delete_signatures_json")
 def test_exportsignatures_file(testpath):
     # Arrange
@@ -90,6 +106,7 @@ def test_exportsignatures_file(testpath):
 def test_exportsignatures_file_nopath():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.importsignatures(ImportTypes.STRING, "{\"breeds\": {}}")
 
     # Act & Assert
     with pytest.raises(ValueError):
@@ -113,6 +130,7 @@ def test_exportsignatures_string():
 def test_exportsignatures_unkown():
     # Arrange
     os_signatures = Signatures()
+    os_signatures.importsignatures(ImportTypes.STRING, "{\"breeds\": {}}")
 
     # Act & Assert
     with pytest.raises(ValueError):
