@@ -1,3 +1,9 @@
+"""
+The CLI. This CLI is interactive and may not be used in scripts. Please use the library for this purpose.
+
+This module contains no logic related to the library it just contains logic for making it possible to edit the data
+managed by it.
+"""
 from PyInquirer import prompt
 
 from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
@@ -405,6 +411,12 @@ edit_menu_version_add_remove_edit = [
 
 
 def get_os_breed_names():
+    """
+    This searches for all names of the operation system breeds in the current instance of the library.
+
+    :return: An empty list if no names are found. Otherwise all names of the operating system breeds.
+    :rtype: list
+    """
     names = []
     for v in os_signatures.osbreeds:
         names.append(v.name)
@@ -412,6 +424,13 @@ def get_os_breed_names():
 
 
 def get_os_version_names(breed):
+    """
+    This searches for all names of the given breed in the current instance of the library.
+
+    :param breed: This is the breed object.
+    :return: The list of all names if the breed has them. Otherwise an empty list.
+    :rtype: list
+    """
     index = os_signatures.get_breed_index_by_name(breed)
     if index >= 0:
         return list(os_signatures.osbreeds[index].osversions.keys())
@@ -421,6 +440,12 @@ def get_os_version_names(breed):
 
 
 def update_choices(question: list, values: list):
+    """
+    Update the choices of the first question to the attached list and add a "Go Back" option.
+
+    :param question: The list with the dictionaries with the questions.
+    :param values: The values which will replace the old choices.
+    """
     if len(values) == 0:
         values = []
     values.append("Go Back")
@@ -428,6 +453,11 @@ def update_choices(question: list, values: list):
 
 
 def prepare_version_edit_information_os_version(version):
+    """
+    Add the information of an :class:`Osversion` to the CLI prompt in the edit menu.
+
+    :param version: The :class:`Osversion` to fetch information of.
+    """
     values = [
         "signatures - %s" % str(version.signatures),
         "version_file - %s" % version.version_file,
@@ -448,6 +478,9 @@ def prepare_version_edit_information_os_version(version):
 
 
 def reset_edit_information_os_version():
+    """
+    Reset the CLI edit prompt of the :class:`Osversion`.
+    """
     values = [
         "signatures",
         "version_file",
@@ -468,6 +501,9 @@ def reset_edit_information_os_version():
 
 
 def import_menu():
+    """
+    Second level menu with the purpose to catch all functionality related to importing the data from a source.
+    """
     result_import_menu = prompt(import_menu_questions)
     choice_import_menu = result_import_menu.get("import_menu_source", "")
     if choice_import_menu in ["URL", "File", "String"]:
@@ -491,6 +527,9 @@ def import_menu():
 
 
 def export_menu():
+    """
+    Second level menu with the purpose to catch all functionality related to exporting the data to a target.
+    """
     result_export_menu = prompt(export_menu_questions)
     choice_export_menu = result_export_menu.get("export_menu_sources", "")
     if choice_export_menu == "String":
@@ -510,6 +549,9 @@ def export_menu():
 
 
 def edit_menu():
+    """
+    Second level menu with the purpose to catch all functionality related to editing the current loaded information.
+    """
     global os_signatures
     result_edit_menu = prompt(edit_menu_questions)
     choice_edit_menu = result_edit_menu.get("edit_main_menu", "")
@@ -567,6 +609,9 @@ def edit_menu():
 
 
 def edit_menu_breed_version_info():
+    """
+    Third level menu to edit the information of an :class:`Osversion`.
+    """
     # Prechoose which OsBreed and OsVersion should be manipulated
     update_choices(edit_information_os_version_which, get_os_breed_names())
     edit_information_os_version_which_result = prompt(edit_information_os_version_which)
@@ -733,6 +778,10 @@ def edit_menu_breed_version_info():
 
 
 def main():
+    """
+    The main entrypoint for the CLI. This is called when you execute the CLI. The exitcode of the application is zero.
+    This is a first level menu.
+    """
     main_menu_option_selected = 0
     while main_menu_option_selected != 3:
         result_main_menu = prompt(main_menu_questions)

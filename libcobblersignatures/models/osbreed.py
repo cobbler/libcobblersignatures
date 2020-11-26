@@ -4,6 +4,10 @@ from libcobblersignatures.models.osversion import Osversion
 
 
 class OsBreed:
+    """
+    On operating system breed like SUSE or Redhat. The specification of the attributes and what values are valid are
+    described in the JSON specification.
+    """
 
     def __init__(self, name):
         self._name = name
@@ -28,10 +32,15 @@ class OsBreed:
 
     @property
     def name(self):
+        """
+        This property represents the name of the operating system breed.
+
+        :return: The last successfully validated name of the operating system breed.
+        """
         return self._name
 
     @name.setter
-    def name(self, value):
+    def name(self, value: str):
         if not value:
             raise TypeError("Name cannot be an empty string.")
         else:
@@ -41,23 +50,47 @@ class OsBreed:
     def name(self):
         raise TypeError("The name of this error cannot be deleted.")
 
-    def encode(self):
+    def encode(self) -> dict:
+        """
+        Encodes the current OsBreed and nested Osversions.
+
+        :return: The dictionary with all its versions. The name of the OsBreed is not included as this is normally the
+                 name of the returned key.
+        """
         versionsdict = {}
         for name in self.osversions:
             versionsdict.update({name: self.osversions[name].encode()})
         return versionsdict
 
     def decode(self, data):
+        """
+        Decodes the received data. Decoding of each single version is done by the corresponding decode method in
+        :class:`Osversion`.
+
+        :param data: The data to decode.
+        """
         for key in data.keys():
             version = Osversion()
             version.decode(data.get(key))
             self.osversion_add(key, version)
 
-    def osversion_add(self, name, version):
+    def osversion_add(self, name: str, version: Osversion):
+        """
+        Add an Osversion to this OsBreed.
+
+        :param name: The name of the version to add.
+        :param version: The Osversion to add to the OsBreed.
+        :raises ValueError: If the Name is not a ``str`` and/or the Version is not an ``Osversion``.
+        """
         if isinstance(name, str) and isinstance(version, Osversion):
             self.osversions[name] = version
         else:
             raise ValueError("Name must be str and Version must be Osversion.")
 
-    def osversion_remove(self, key):
+    def osversion_remove(self, key: str):
+        """
+        Remove an Osversion with its key.
+
+        :param key: The key of the dictionary to remove.
+        """
         self.osversions.pop(key)
