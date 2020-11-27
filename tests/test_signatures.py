@@ -32,6 +32,15 @@ def test_importsignatures_file(create_signatures_json, testpath):
     assert expected == os_signatures.signaturesjson
 
 
+def test_importsignatures_file_not_found(testpath):
+    # Arrange
+    os_signatures = signatures.Signatures()
+
+    # Act & Assert
+    with pytest.raises(FileNotFoundError):
+        os_signatures.importsignatures(ImportTypes.FILE, testpath)
+
+
 def test_importsignatures_string():
     # Arrange
     signatures_text = "{\"breeds\": {}}"
@@ -58,6 +67,15 @@ def test_importsignatures_url():
     assert True
 
 
+def test_importsignatures_unkown():
+    # Arrange
+    os_signatures = signatures.Signatures()
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        os_signatures.importsignatures(100, "")
+
+
 @pytest.mark.usefixtures("delete_signatures_json")
 def test_exportsignatures_file(testpath):
     # Arrange
@@ -75,6 +93,15 @@ def test_exportsignatures_file(testpath):
     assert expected == result
 
 
+def test_exportsignatures_file_nopath():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        os_signatures.exportsignatures(ExportTypes.FILE)
+
+
 def test_exportsignatures_string():
     # Arrange
     os_signatures = Signatures()
@@ -87,6 +114,15 @@ def test_exportsignatures_string():
 
     # Assert
     assert expected == result
+
+
+def test_exportsignatures_unkown():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        os_signatures.exportsignatures(100)
 
 
 @pytest.mark.parametrize("input_data,result", [
@@ -158,6 +194,18 @@ def test_addosversion():
     assert os_signatures.osbreeds[0].osversions["sles"] == Osversion()
 
 
+def test_addosversion_empty():
+    # Arrange
+    os_signatures = Signatures()
+    os_signatures.addosbreed("suse")
+
+    # Act
+    os_signatures.addosversion(0, "sles", None)
+
+    # Assert
+    assert os_signatures.osbreeds[0].osversions["sles"] == Osversion()
+
+
 def test_removeosbreed():
     # Arrange
     os_signatures = Signatures()
@@ -184,3 +232,36 @@ def test_removeosversion():
 
     # Assert
     assert os_signatures.osbreeds[0].osversions == {}
+
+
+def test_removeosversion_outofbounds():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        os_signatures.removeosbreed(1)
+
+
+def test_get_breed_index_by_name():
+    # Arrange
+    os_signatures = Signatures()
+    name_to_get = "suse"
+    os_signatures.addosbreed(name_to_get)
+
+    # Act
+    result = os_signatures.get_breed_index_by_name(name_to_get)
+
+    # Assert
+    assert result == 0
+
+
+def test_get_breed_index_by_name_not_existent():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act
+    result = os_signatures.get_breed_index_by_name("redhat")
+
+    # Assert
+    assert result == -1
