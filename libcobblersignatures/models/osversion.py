@@ -67,124 +67,154 @@ class Osversion:
             and self.boot_loaders == other.boot_loaders
 
     @property
-    def signatures(self):
+    def signatures(self) -> list:
         return self._signatures
 
     @signatures.setter
-    def signatures(self, value):
-        self._signatures = value
+    def signatures(self, value: list):
+        if isinstance(value, list):
+            self._signatures = value
+        else:
+            raise TypeError("Signatures should be a list.")
 
     @signatures.deleter
     def signatures(self):
-        del self._signatures
+        self._signatures = []
 
     @property
-    def version_file(self):
+    def version_file(self) -> str:
         return self._version_file
 
     @version_file.setter
     def version_file(self, value):
-        self._version_file = value
+        if isinstance(value, str):
+            self._version_file = value
+        else:
+            raise TypeError("The version_file should be a str.")
 
     @version_file.deleter
     def version_file(self):
-        del self._version_file
+        self._version_file = ""
 
     @property
-    def version_file_regex(self):
+    def version_file_regex(self) -> str:
         return self._version_file_regex
 
     @version_file_regex.setter
     def version_file_regex(self, value):
-        self._version_file_regex = value
+        if isinstance(value, str):
+            self._version_file_regex = value
+        else:
+            raise TypeError("The version_file_regex should be a str.")
 
     @version_file_regex.deleter
     def version_file_regex(self):
-        del self._version_file_regex
+        self._version_file_regex = ""
 
     @property
-    def kernel_arch(self):
+    def kernel_arch(self) -> str:
         return self._kernel_arch
 
     @kernel_arch.setter
     def kernel_arch(self, value):
-        self._kernel_arch = value
+        if isinstance(value, str):
+            self._kernel_arch = value
+        else:
+            raise TypeError("The kernel_arch should be a str.")
 
     @kernel_arch.deleter
     def kernel_arch(self):
-        del self._kernel_arch
+        self._kernel_arch = ""
 
     @property
-    def kernel_arch_regex(self):
+    def kernel_arch_regex(self) -> str:
         return self._kernel_arch_regex
 
     @kernel_arch_regex.setter
     def kernel_arch_regex(self, value):
-        self._kernel_arch_regex = value
+        if isinstance(value, str):
+            self._kernel_arch_regex = value
+        else:
+            raise TypeError("The kernel_arch_regex should be a str.")
 
     @kernel_arch_regex.deleter
     def kernel_arch_regex(self):
-        del self._kernel_arch_regex
+        self._kernel_arch_regex = ""
 
     @property
-    def supported_arches(self):
+    def supported_arches(self) -> list:
         return self._supported_arches
 
     @supported_arches.setter
     def supported_arches(self, value):
-        self._supported_arches = value
+        if isinstance(value, list):
+            self._supported_arches = value
+        else:
+            raise TypeError("The supported_arches should be a list.")
 
     @supported_arches.deleter
     def supported_arches(self):
-        del self._supported_arches
+        self._supported_arches = []
 
     @property
-    def supported_repo_breeds(self):
+    def supported_repo_breeds(self) -> list:
         return self._supported_repo_breeds
 
     @supported_repo_breeds.setter
     def supported_repo_breeds(self, value):
-        self._supported_repo_breeds = value
+        if isinstance(value, list):
+            self._supported_repo_breeds = value
+        else:
+            raise TypeError("The supported_repo_breeds should be a list.")
 
     @supported_repo_breeds.deleter
     def supported_repo_breeds(self):
-        del self._supported_repo_breeds
+        self._supported_repo_breeds = []
 
     @property
-    def kernel_file(self):
+    def kernel_file(self) -> list:
         return self._kernel_file
 
     @kernel_file.setter
     def kernel_file(self, value):
-        self._kernel_file = value
+        if isinstance(value, list):
+            self._kernel_file = value
+        else:
+            raise TypeError("The kernel_file should be a list.")
 
     @kernel_file.deleter
     def kernel_file(self):
-        del self._kernel_file
+        self._kernel_file = []
 
     @property
-    def initrd_file(self):
+    def initrd_file(self) -> str:
         return self._initrd_file
 
     @initrd_file.setter
     def initrd_file(self, value):
-        self._initrd_file = value
+        if isinstance(value, str):
+            self._initrd_file = value
+        else:
+            raise TypeError("The initrd_file should be a str.")
 
     @initrd_file.deleter
     def initrd_file(self):
-        del self._initrd_file
+        self._initrd_file = ""
 
     @property
-    def isolinux_ok(self):
+    def isolinux_ok(self) -> bool:
         return self._isolinux_ok
 
     @isolinux_ok.setter
     def isolinux_ok(self, value):
-        self._isolinux_ok = value
+        if isinstance(value, bool):
+            self._isolinux_ok = value
+        else:
+            raise TypeError("The isolinux_ok should be a bool.")
 
     @isolinux_ok.deleter
     def isolinux_ok(self):
-        del self._isolinux_ok
+        self._isolinux_ok = False
 
     @property
     def default_autoinstall(self):
@@ -196,10 +226,10 @@ class Osversion:
 
     @default_autoinstall.deleter
     def default_autoinstall(self):
-        del self._default_autoinstall
+        self._default_autoinstall = ""
 
     @property
-    def kernel_options(self):
+    def kernel_options(self) -> str:
         return self._kernel_options
 
     @kernel_options.setter
@@ -208,55 +238,67 @@ class Osversion:
 
     @kernel_options.deleter
     def kernel_options(self):
-        del self._kernel_options
+        self._kernel_options = ""
 
     @property
-    def kernel_options_post(self):
+    def kernel_options_post(self) -> str:
         return self._kernel_options_post
 
     @kernel_options_post.setter
     def kernel_options_post(self, value):
-        self._kernel_options_post = value
+        if isinstance(value, str):
+            self._kernel_options_post = value
+        else:
+            raise TypeError("The kernel_options_post should be a str.")
 
     @kernel_options_post.deleter
     def kernel_options_post(self):
-        del self._kernel_options_post
+        self._kernel_options_post = ""
 
     @property
-    def template_files(self):
+    def template_files(self) -> str:
         return self._template_files
 
     @template_files.setter
     def template_files(self, value):
-        self._template_files = value
+        if isinstance(value, str):
+            self._template_files = value
+        else:
+            raise TypeError("The template_files should be a str.")
 
     @template_files.deleter
     def template_files(self):
-        del self._template_files
+        self._template_files = ""
 
     @property
-    def boot_files(self):
+    def boot_files(self) -> list:
         return self._boot_files
 
     @boot_files.setter
     def boot_files(self, value):
-        self._boot_files = value
+        if isinstance(value, list):
+            self._boot_files = value
+        else:
+            raise TypeError("The boot_files should be a list.")
 
     @boot_files.deleter
     def boot_files(self):
-        del self._boot_files
+        self._boot_files = []
 
     @property
-    def boot_loaders(self):
+    def boot_loaders(self) -> dict:
         return self._boot_loaders
 
     @boot_loaders.setter
     def boot_loaders(self, value):
-        self._boot_loaders = value
+        if isinstance(value, dict):
+            self._boot_loaders = value
+        else:
+            raise TypeError("The boot_loaders should be a dict.")
 
     @boot_loaders.deleter
     def boot_loaders(self):
-        del self._boot_loaders
+        self._boot_loaders = {}
 
     def encode(self) -> dict:
         """
