@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 import pytest
 
 from libcobblersignatures import signatures
@@ -30,15 +33,6 @@ def test_importsignatures_file(create_signatures_json, testpath):
 
     # Assert
     assert expected == os_signatures.signaturesjson
-
-
-def test_importsignatures_file_not_found(testpath):
-    # Arrange
-    os_signatures = signatures.Signatures()
-
-    # Act & Assert
-    with pytest.raises(FileNotFoundError):
-        os_signatures.importsignatures(ImportTypes.FILE, testpath)
 
 
 def test_importsignatures_string():

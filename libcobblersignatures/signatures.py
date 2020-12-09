@@ -117,11 +117,8 @@ class Signatures:
         :param filepath: The relative or absolute path. Additionally this may be all path variations which are accepted
                          by the Python ``open()`` function.
         """
-        with open(filepath) as f:
-            filecontent = f.read()
-        if filecontent is None:
-            raise FileNotFoundError("Filecontent was not correctly read!")
-        self.signaturesjson = filecontent
+        with open(filepath, 'r') as f:
+            self.signaturesjson = f.read()
 
     def _importsignaturesurl(self, url):
         """
