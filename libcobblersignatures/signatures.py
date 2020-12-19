@@ -26,11 +26,6 @@ class ImportTypes(Enum):
     This value shall be given when the content shall be imported from a string. This string shall not contain any
     linebreaks.
     """
-    JSON = 3
-    """
-    This value shall be given when the content shall be imported from a Python JSON object. This is only useful for
-    Python Code.
-    """
 
 
 class ExportTypes(Enum):
@@ -112,8 +107,6 @@ class Signatures:
             self._importsignaturesurl(source)
         elif import_type == ImportTypes.STRING:
             self.signaturesjson = source
-        elif import_type == ImportTypes.JSON:
-            self._importsignaturesjson(source)
         else:
             raise ValueError("Please use on of the four given options for the source!")
 
@@ -124,11 +117,8 @@ class Signatures:
         :param filepath: The relative or absolute path. Additionally this may be all path variations which are accepted
                          by the Python ``open()`` function.
         """
-        with open(filepath) as f:
-            filecontent = f.read()
-        if filecontent is None:
-            raise FileNotFoundError("Filecontent was not correctly read!")
-        self.signaturesjson = filecontent
+        with open(filepath, 'r') as f:
+            self.signaturesjson = f.read()
 
     def _importsignaturesurl(self, url):
         """
@@ -139,14 +129,6 @@ class Signatures:
         response = urllib.request.urlopen(url)
         data = response.read()
         self.signaturesjson = data.decode('utf-8')
-
-    def _importsignaturesjson(self, jsonobject):
-        """
-        Internal function to handle the import of a direct JSON based approach.
-
-        :param jsonobject: The JSON Object to set as the signatures.
-        """
-        self.signaturesjson = jsonobject
 
     def exportsignatures(self, export_type, target=""):
         """
