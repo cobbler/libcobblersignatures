@@ -1,3 +1,2 @@
-pyflakes
-pycodestyle
-PyInquirer
+pylint
+questionary

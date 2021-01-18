@@ -1,183 +1,116 @@
 """
-The CLI. This CLI is interactive and may not be used in scripts. Please use the library for this purpose.
-
-This module contains no logic related to the library it just contains logic for making it possible to edit the data
-managed by it.
+The CLI. This CLI is interactive and may not be used in scripts. Please use the library for this
+purpose.
+This module contains no logic related to the library, it just contains logic for making it
+possible to edit the data managed by it.
 """
-from PyInquirer import prompt
+import questionary
 
 from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
 
 os_signatures = Signatures()
 
-main_menu_questions = [
-    {
-        "type": "list",
-        "name": "main_menu",
-        "message": "What do you want to do?",
-        "choices": [
-            "Import",
-            "Export",
-            "Edit",
-            "Exit"
-        ]
-    }
-]
+#### questions ####
 
-import_menu_questions = [
-    {
-        "type": "list",
-        "name": "import_menu_source",
-        "message": "What is your desired source of input?",
-        "choices": [
-            "URL",
-            "String",
-            "File",
-            "Go Back"
-        ]
-    }
-]
+main_menu_questions = questionary.select(
+    "What do you want to do?",
+    choices=[
+        "Import",
+        "Export",
+        "Edit",
+        "Exit"
+    ])
 
-import_menu_questions2 = [
-    {
-        "type": "input",
-        "name": "import_menu_signatures",
-        "message": "Please enter the json in a single line or the source in a single line:",
-    }
-]
+import_menu_questions = questionary.select(
+    "What is your desired source of input?",
+    choices=[
+        "URL",
+        "String",
+        "File",
+        "Go back"
+    ])
 
-export_menu_questions = [
-    {
-        "type": "list",
-        "name": "export_menu_sources",
-        "message": "What is your desired export target?",
-        "choices": [
-            "String",
-            "File",
-            "Go Back"
-        ]
-    }
-]
+import_menu_questions2 = questionary.path(
+    "Please enter the json in a single line or the source in a single line:"
+)
+export_menu_questions = questionary.select(
+    "What is your desired export target?",
+    choices=[
+        "String",
+        "File",
+        "Go back"
+    ])
 
-export_menu_questions2 = [
-    {
-        "type": "input",
-        "name": "export_menu_signatures",
-        "message": "Please enter the target path",
-    }
-]
+export_menu_questions2 = questionary.text(
+    "Please enter the target path"
+)
+edit_menu_questions = questionary.select(
+    "What do you want to do?",
+    choices=[
+        "Add Operating System Breed",
+        "Remove Operating System Breed",
+        "Edit the name of an Operating System Breed",
+        "Add Operating System Version",
+        "Remove Operating System Version",
+        "Edit the information of an Operating System Version",
+        "Start from scratch",
+        "Go back"
+    ])
 
-edit_menu_questions = [
-    {
-        "type": "list",
-        "name": "edit_main_menu",
-        "message": "What do you want to do?",
-        "choices": [
-            "Add Operating System Breed",
-            "Remove Operating System Breed",
-            "Edit the name of an Operating System Breed",
-            "Add Operating System Version",
-            "Remove Operating System Version",
-            "Edit the information of an Operating System Version",
-            "Start from scratch",
-            "Go Back"
-        ]
-    }
-]
+edit_add_os_breed = questionary.text(
+        #"name": "edit_add_os_breed",
+        "What should the name of the new Operating System Breed be?"
+)
 
-edit_add_os_breed = [
-    {
-        "type": "input",
-        "name": "edit_add_os_breed",
-        "message": "What should the name of the new Operating System Breed be?",
-    }
-]
+edit_remove_os_breed = questionary.text(
+        #"name": "edit_remove_os_breed",
+        "What Operating System Breed (and all its versions) do you want to remove?"
+)
 
-edit_remove_os_breed = [
-    {
-        "type": "list",
-        "name": "edit_remove_os_breed",
-        "message": "What Operating System Breed (and all its versions) do you want to remove?",
-        "choices": [],
-    }
-]
+edit_name_os_breed_1 = questionary.text(
+        #"name": "edit_name_os_breed_1",
+        "Which Operating System Breed do you want to edit?"
+)
 
-edit_name_os_breed_1 = [
-    {
-        "type": "list",
-        "name": "edit_name_os_breed_1",
-        "message": "Which Operating System Breed do you want to edit?",
-        "choice": [],
-    }
-]
+edit_name_os_breed_2 = questionary.text(
+        #"name": "edit_name_os_breed_2",
+        "What shall be the new name?"
+)
 
-edit_name_os_breed_2 = [
-    {
-        "type": "input",
-        "name": "edit_name_os_breed_2",
-        "message": "What shall be the new name?",
-    }
-]
+edit_add_os_version_1 = questionary.text(
+        #"name": "edit_add_os_version_1",
+        "Under what Operating System Breed shall the new Version be put?"
+)
 
-edit_add_os_version_1 = [
-    {
-        "type": "list",
-        "name": "edit_add_os_version_1",
-        "message": "Under what Operating System Breed shall the new Version be put?",
-        "choice": []
-    }
-]
+edit_add_os_version_2 = questionary.text(
+        #"name": "edit_add_os_version_2",
+        "What shall be the name of the new version?"
+)
 
-edit_add_os_version_2 = [
-    {
-        "type": "input",
-        "name": "edit_add_os_version_2",
-        "message": "What shall be the name of the new version?",
-    }
-]
+edit_remove_os_version_1 = questionary.text(
+        #"name": "edit_remove_os_version_1",
+        "In what Operating System Breed is the to be removed OS Version?"
+)
 
-edit_remove_os_version_1 = [
-    {
-        "type": "list",
-        "name": "edit_remove_os_version_1",
-        "message": "In what Operating System Breed is the to be removed OS Version?",
-        "choices": [],
-    }
-]
+edit_remove_os_version_2 = questionary.text(
+        #"name": "edit_remove_os_version_2",
+        "What is the version that you wish to remove?"
+)
 
-edit_remove_os_version_2 = [
-    {
-        "type": "list",
-        "name": "edit_remove_os_version_2",
-        "message": "What is the version that you wish to remove?",
-        "choices": [],
-    }
-]
+edit_information_os_version_which = questionary.text(
+        #"name": "edit_information_os_version_which",
+        "In which operating system breed should the version be?"
+)
 
-edit_information_os_version_which = [
-    {
-        "type": "list",
-        "name": "edit_information_os_version_which",
-        "message": "In which operating system breed should the version be?",
-        "choices": []
-    }
-]
+edit_information_os_version_which_2 = questionary.text(
+        #"name": "edit_information_os_version_which_2",
+        "Which operating system version details do you want to edit?"
+)
 
-edit_information_os_version_which_2 = [
-    {
-        "type": "list",
-        "name": "edit_information_os_version_which_2",
-        "message": "Which operating system version details do you want to edit?",
-        "choices": []
-    }
-]
-
-edit_information_os_version = [
-    {
-        "type": "list",
-        "name": "edit_information_os_version",
-        "message": "What key of the Signatures do you want to edit?",
-        "choices": [
+edit_information_os_version = questionary.select(
+        #"name": "edit_information_os_version",
+        "What key of the Signatures do you want to edit?",
+        choices=[
             "signatures",
             "version_file",
             "version_file_regex",
@@ -192,223 +125,164 @@ edit_information_os_version = [
             "kernel_options",
             "kernel_options_post",
             "boot_files",
-            "Go Back"
-        ]
-    }
-]
+            "Go back"
+        ])
 
-edit_menu_breed_version_signatures_add = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_signatures_add",
-        "message": "What should the name of the new entry be?"
-    }
-]
-
+edit_menu_breed_version_signatures_add = questionary.text(
+        #"name": "edit_menu_breed_version_signatures_add",
+        "What should the name of the new entry be?"
+)
+#TODO prompt needed!
 edit_menu_breed_version_signatures_edit = [
     {
-        "type": "list",
+        "type": "text",
         "name": "edit_menu_breed_version_signatures",
         "message": "What signature should be edited?",
-        "choices": []
-    }, {
-        "type": "input",
+    },
+    {
+        "type": "text",
         "name": "edit_menu_breed_version_signatures_new",
         "message": "What shall be the new name of the selected entry?"
     }
 ]
 
-edit_menu_breed_version_signatures_delete = [
-    {
-        "type": "list",
-        "name": "edit_menu_breed_version_signatures",
-        "message": "What signature should be deleted?",
-        "choices": []
-    }
-]
+edit_menu_breed_version_signatures_delete = questionary.text(
+        #"name": "edit_menu_breed_version_signatures",
+        "What signature should be deleted?"
+)
 
-edit_menu_breed_version_version_file = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_version_file",
-        "message": "What shall be the new value for the \"version_file\"?"
-    }
-]
+edit_menu_breed_version_version_file = questionary.text(
+        #"name": "edit_menu_breed_version_version_file",
+        "What shall be the new value for the \"version_file\"?"
+)
 
-edit_menu_breed_version_version_file_regex = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_version_file_regex",
-        "message": "What shall be the new value for the \"version_file_regex\"?"
-    }
-]
+edit_menu_breed_version_version_file_regex = questionary.text(
+        #"name": "edit_menu_breed_version_version_file_regex",
+        "What shall be the new value for the \"version_file_regex\"?"
+)
 
-edit_menu_breed_version_kernel_arch = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_kernel_arch",
-        "message": "What shall be the new value for the \"kernel_arch\"?"
-    }
-]
+edit_menu_breed_version_kernel_arch = questionary.text(
+        #"name": "edit_menu_breed_version_kernel_arch",
+        "What shall be the new value for the \"kernel_arch\"?"
+)
 
-edit_menu_breed_version_kernel_arch_regex = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_kernel_arch_regex",
-        "message": "What shall be the new value for the \"kernel_arch_regex\"?"
-    }
-]
+edit_menu_breed_version_kernel_arch_regex = questionary.text(
+        #"name": "edit_menu_breed_version_kernel_arch_regex",
+        "What shall be the new value for the \"kernel_arch_regex\"?"
+)
 
-edit_menu_breed_version_supported_arches_add = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_supported_arches_add",
-        "message": "What should the name of the new architecture be?"
-    }
-]
+edit_menu_breed_version_supported_arches_add = questionary.text(
+        #"name": "edit_menu_breed_version_supported_arches_add",
+        "What should the name of the new architecture be?"
+)
 
+#TODO needs prompt!
 edit_menu_breed_version_supported_arches_edit = [
     {
-        "type": "list",
+        "type": "text",
         "name": "edit_menu_breed_version_supported_arches_edit",
         "message": "What supported architecture shall be edited?",
-        "choices": []
-    }, {
-        "type": "input",
+    },
+    {
+        "type": "text",
         "name": "edit_menu_breed_version_supported_arches_edit_new",
         "message": "What shall be the new name of the selected architecture?"
     }
 ]
 
-edit_menu_breed_version_supported_arches_delete = [
-    {
-        "type": "list",
-        "name": "edit_menu_breed_version_supported_arches_delete",
-        "message": "What architecture shall be deleted from the operating system version?",
-        "choices": []
-    }
-]
+edit_menu_breed_version_supported_arches_delete = questionary.text(
+        #"name": "edit_menu_breed_version_supported_arches_delete",
+        "What architecture shall be deleted from the operating system version?"
+)
 
-edit_menu_breed_version_supported_repo_breeds_add = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_supported_repo_breeds_add",
-        "message": "What should the name of the new repository breed be?"
-    }
-]
+edit_menu_breed_version_supported_repo_breeds_add = questionary.text(
+        #"name": "edit_menu_breed_version_supported_repo_breeds_add",
+        "What should the name of the new repository breed be?"
+)
+
+#TODO needs prompt!
 edit_menu_breed_version_supported_repo_breeds_edit = [
     {
-        "type": "list",
+        "type": "text",
         "name": "edit_menu_breed_version_supported_repo_breeds_edit",
         "message": "What repository breed shall be edited?",
-        "choices": []
-    }, {
-        "type": "input",
+    },
+    {
+        "type": "text",
         "name": "edit_menu_breed_version_supported_repo_breeds_edit_new",
         "message": "What shall be the new name of the selected repository breed?"
     }
 ]
 
-edit_menu_breed_version_supported_repo_breeds_delete = [
-    {
-        "type": "list",
-        "name": "edit_menu_breed_version_supported_repo_breeds_delete",
-        "message": "What repository breed shall be deleted from the operating system version?",
-        "choices": []
-    }
-]
+edit_menu_breed_version_supported_repo_breeds_delete = questionary.text(
+        #"name": "edit_menu_breed_version_supported_repo_breeds_delete",
+        "What repository breed shall be deleted from the operating system version?"
+)
 
-edit_menu_breed_version_kernel_file = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_kernel_file",
-        "message": "What should the new value of the \"kernel_file\" be?"
-    }
-]
+edit_menu_breed_version_kernel_file = questionary.text(
+        #"name": "edit_menu_breed_version_kernel_file",
+        "What should the new value of the \"kernel_file\" be?"
+)
 
-edit_menu_breed_version_initrd_file = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_initrd_file",
-        "message": "What should the new value of the \"initrd_file\" be?"
-    }
-]
+edit_menu_breed_version_initrd_file = questionary.text(
+        #"name": "edit_menu_breed_version_initrd_file",
+        "What should the new value of the \"initrd_file\" be?"
+)
 
-edit_menu_breed_version_isolinux_ok = [
-    {
-        "type": "confirm",
-        "name": "edit_menu_breed_version_isolinux_ok",
-        "message": "Whether to set this to true (y) or not (N)?"
-    }
-]
+edit_menu_breed_version_isolinux_ok = questionary.text(
+        #"name": "edit_menu_breed_version_isolinux_ok",
+        "Whether to set this to true (y) or not (N)?"
+)
 
-edit_menu_breed_version_default_autoinstall = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_default_autoinstall",
-        "message": "What should the new value of the \"default_autoinstall\" be?"
-    }
-]
+edit_menu_breed_version_default_autoinstall = questionary.text(
+        #"name": "edit_menu_breed_version_default_autoinstall",
+        "What should the new value of the \"default_autoinstall\" be?"
+)
 
-edit_menu_breed_version_kernel_options = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_kernel_options",
-        "message": "What should the new value of the \"kernel_options\" be?"
-    }
-]
+edit_menu_breed_version_kernel_options = questionary.text(
+        #"name": "edit_menu_breed_version_kernel_options",
+        "What should the new value of the \"kernel_options\" be?"
+)
 
-edit_menu_breed_version_kernel_options_post = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_kernel_options_post",
-        "message": "What should the new value of the \"kernel_options_post\" be?"
-    }
-]
+edit_menu_breed_version_kernel_options_post = questionary.text(
+        #"name": "edit_menu_breed_version_kernel_options_post",
+        "What should the new value of the \"kernel_options_post\" be?"
+)
 
-edit_menu_breed_version_boot_files_add = [
-    {
-        "type": "input",
-        "name": "edit_menu_breed_version_boot_files_add",
-        "message": "What should the name of the new boot files entry be?"
-    }
-]
+edit_menu_breed_version_boot_files_add = questionary.text(
+        #"name": "edit_menu_breed_version_boot_files_add",
+        "What should the name of the new boot files entry be?"
+)
 
+#TODO needs prompt!
 edit_menu_breed_version_boot_files_edit = [
     {
-        "type": "list",
+        "type": "text",
         "name": "edit_menu_breed_version_boot_files_edit",
         "message": "What boot files entry shall be edited?",
-        "choices": []
-    }, {
-        "type": "input",
+    },
+    {
+        "type": "text",
         "name": "edit_menu_breed_version_boot_files_edit_new",
         "message": "What shall be the new name of the selected file entry?"
     }
 ]
 
-edit_menu_breed_version_boot_files_delete = [
-    {
-        "type": "list",
-        "name": "edit_menu_breed_version_boot_files_delete",
-        "message": "What boot files entry shall be deleted from the operating system version?",
-        "choices": []
-    }
-]
+edit_menu_breed_version_boot_files_delete = questionary.text(
+        #"name": "edit_menu_breed_version_boot_files_delete",
+        "What boot files entry shall be deleted from the operating system version?"
+)
 
-edit_menu_version_add_remove_edit = [
-    {
-        "type": "list",
-        "name": "edit_menu_version_add_remove_edit",
-        "message": "What do you want to do?",
-        "choices": [
+edit_menu_version_add_remove_edit = questionary.select(
+        #"name": "edit_menu_version_add_remove_edit",
+        "What do you want to do?",
+        choices=[
             "Add",
             "Edit",
             "Remove"
-        ]
-    }
-]
+        ])
 
+#### definitions ####
 
 def get_os_breed_names():
     """
@@ -421,7 +295,6 @@ def get_os_breed_names():
     for v in os_signatures.osbreeds:
         names.append(v.name)
     return names
-
 
 def get_os_version_names(breed):
     """
@@ -437,7 +310,6 @@ def get_os_version_names(breed):
     else:
         print("Operating System Breed not found. Doing nothing.")
         return []
-
 
 def update_choices(question: list, values: list):
     """
@@ -504,10 +376,9 @@ def import_menu():
     """
     Second level menu with the purpose to catch all functionality related to importing the data from a source.
     """
-    result_import_menu = prompt(import_menu_questions)
-    choice_import_menu = result_import_menu.get("import_menu_source", "")
+    choice_import_menu = import_menu_questions.ask()
     if choice_import_menu in ["URL", "File", "String"]:
-        result_import_menu_2 = prompt(import_menu_questions2)
+        result_import_menu_2 = import_menu_questions2.ask()
         if choice_import_menu == "URL":
             import_type = ImportTypes.URL
         elif choice_import_menu == "File":
@@ -516,7 +387,7 @@ def import_menu():
             import_type = ImportTypes.STRING
         else:
             return
-        input_import_source = result_import_menu_2.get("import_menu_signatures", "")
+        input_import_source = result_import_menu_2
         if input_import_source == "":
             print("Source was not entered correctly.")
             return
@@ -530,14 +401,13 @@ def export_menu():
     """
     Second level menu with the purpose to catch all functionality related to exporting the data to a target.
     """
-    result_export_menu = prompt(export_menu_questions)
-    choice_export_menu = result_export_menu.get("export_menu_sources", "")
+    choice_export_menu = export_menu_questions.ask()
     if choice_export_menu == "String":
         os_signatures.modelstojson()
         print(os_signatures.exportsignatures(ExportTypes.STRING))
     elif choice_export_menu == "File":
-        result_export_menu_2 = prompt(export_menu_questions2)
-        input_export_menu_2 = result_export_menu_2.get("export_menu_signatures", "")
+        #result_export_menu_2 = prompt(export_menu_questions2)
+        input_export_menu_2 = export_menu_questions2.ask() #result_export_menu_2.get("export_menu_signatures", "")
         if input_export_menu_2 == "":
             print("Targetpath for the file was not correctly entered. Returning to main menu.")
             return
@@ -553,16 +423,15 @@ def edit_menu():
     Second level menu with the purpose to catch all functionality related to editing the current loaded information.
     """
     global os_signatures
-    result_edit_menu = prompt(edit_menu_questions)
-    choice_edit_menu = result_edit_menu.get("edit_main_menu", "")
+    choice_edit_menu = edit_menu_questions.ask()
     if choice_edit_menu == "Add Operating System Breed":
-        result_edit_add_os_breed = prompt(edit_add_os_breed)
+        result_edit_add_os_breed = edit_add_os_breed.ask()
         os_signatures.addosbreed(result_edit_add_os_breed["edit_add_os_breed"])
         print("We now have %s Operating System Breeds in this file." % len(os_signatures.osbreeds))
     elif choice_edit_menu == "Remove Operating System Breed":
         update_choices(edit_remove_os_breed, get_os_breed_names())
-        result_edit_remove_os_breed = prompt(edit_remove_os_breed)
-        name_to_find = result_edit_remove_os_breed["edit_remove_os_breed"]
+        result_edit_remove_os_breed = edit_remove_os_breed.ask()
+        name_to_find = result_edit_remove_os_breed["edit_remove_os_breed"] #TODO
         index = os_signatures.get_breed_index_by_name(name_to_find)
         if index != -1 and result_edit_remove_os_breed["edit_remove_os_breed"] == os_signatures.osbreeds[index].name:
             os_signatures.removeosbreed(index)
@@ -570,31 +439,31 @@ def edit_menu():
             print("Operating System Breed not found. Doing nothing.")
     elif choice_edit_menu == "Edit the name of an Operating System Breed":
         update_choices(edit_name_os_breed_1, get_os_breed_names())
-        result_edit_name_os_breed_1 = prompt(edit_name_os_breed_1)
+        result_edit_name_os_breed_1 = edit_name_os_breed_1.ask()
         name_to_find = result_edit_name_os_breed_1["edit_name_os_breed_1"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
         if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
-            result_edit_name_os_breed_2 = prompt(edit_name_os_breed_2)
+            result_edit_name_os_breed_2 = edit_name_os_breed_2.ask()
             os_signatures.osbreeds[index].name = result_edit_name_os_breed_2["edit_name_os_breed_2"]
         else:
             print("Operating System Breed not found. Doing nothing.")
     elif choice_edit_menu == "Add Operating System Version":
         update_choices(edit_add_os_version_1, get_os_breed_names())
-        result_edit_add_os_version_1 = prompt(edit_add_os_version_1)
+        result_edit_add_os_version_1 = edit_add_os_version_1.ask()
         name_to_find = result_edit_add_os_version_1["edit_add_os_version_1"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
         if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
-            result_edit_add_os_version_2 = prompt(edit_add_os_version_2)
+            result_edit_add_os_version_2 = edit_add_os_version_2.ask()
             os_signatures.addosversion(index, result_edit_add_os_version_2["edit_add_os_version_2"], None)
         else:
             print("Operating System Breed not found. Doing nothing.")
     elif choice_edit_menu == "Remove Operating System Version":
         update_choices(edit_remove_os_version_1, get_os_breed_names())
-        result_edit_remove_os_version_1 = prompt(edit_remove_os_version_1)
+        result_edit_remove_os_version_1 = edit_remove_os_version_1.ask()
         name_to_find = result_edit_remove_os_version_1["edit_remove_os_version_1"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
         if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
-            result_edit_remove_os_version_2 = prompt(edit_remove_os_version_2)
+            result_edit_remove_os_version_2 = edit_remove_os_version_2.ask()
             os_signatures.removeosversion(index, result_edit_remove_os_version_2["edit_remove_os_version_2"])
         else:
             print("Operating System Breed not found. Doing nothing.")
@@ -614,9 +483,7 @@ def edit_menu_breed_version_info():
     """
     # Prechoose which OsBreed and OsVersion should be manipulated
     update_choices(edit_information_os_version_which, get_os_breed_names())
-    edit_information_os_version_which_result = prompt(edit_information_os_version_which)
-    choice_edit_information_os_version_which = edit_information_os_version_which_result \
-        .get("edit_information_os_version_which", "")
+    choice_edit_information_os_version_which = edit_information_os_version_which.ask()
     if choice_edit_information_os_version_which == "Go Back":
         return
     elif choice_edit_information_os_version_which == "":
@@ -624,9 +491,7 @@ def edit_menu_breed_version_info():
         return
     update_choices(edit_information_os_version_which_2,
                    get_os_version_names(choice_edit_information_os_version_which))
-    edit_information_os_version_which_result_2 = prompt(edit_information_os_version_which_2)
-    choice_edit_information_os_version_which_2 = \
-        edit_information_os_version_which_result_2.get("edit_information_os_version_which_2", "")
+    choice_edit_information_os_version_which_2 = edit_information_os_version_which_2.ask()
     if choice_edit_information_os_version_which_2 == "Go Back":
         return
     elif choice_edit_information_os_version_which_2 == "":
@@ -637,54 +502,55 @@ def edit_menu_breed_version_info():
     breed_index = os_signatures.get_breed_index_by_name(choice_edit_information_os_version_which)
 
     # Prepare the values for the attribute editing
+    #TODO
     prepare_version_edit_information_os_version(
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2)
     )
 
     # Do the actual editing
-    result_edit_information_os_version = prompt(edit_information_os_version)
-    choice_edit_information_os_version = result_edit_information_os_version.get("edit_information_os_version", "")
+    #result_edit_information_os_version = prompt(edit_information_os_version)
+    choice_edit_information_os_version = edit_information_os_version.ask()
     if choice_edit_information_os_version == "signatures":
-        result_signatures_choice = prompt(edit_menu_version_add_remove_edit)
+        result_signatures_choice = edit_menu_version_add_remove_edit.ask()
         if result_signatures_choice["edit_menu_version_add_remove_edit"] == "Add":
-            new_value_signature = prompt(edit_menu_breed_version_signatures_add)
+            new_value_signature = edit_menu_breed_version_signatures_add.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .signatures.append(new_value_signature["edit_menu_breed_version_signatures_add"])
         elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Edit":
             new_value_edit_signatures = prompt(edit_menu_breed_version_signatures_edit)
             index_to_change = os_signatures.osbreeds[breed_index].osversions \
-                .get(choice_edit_information_os_version_which_2) \
-                .signatures.index(new_value_edit_signatures["edit_menu_breed_version_signatures"])
-            os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
+                    .get(choice_edit_information_os_version_which_2) \
+                    .signatures.index(new_value_edit_signatures["edit_menu_breed_version_signatures"])
+                os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .signatures[index_to_change] = new_value_edit_signatures["edit_menu_breed_version_signatures_new"]
         elif result_signatures_choice["edit_menu_version_add_remove_edit"] == "Remove":
-            value_to_be_removed = prompt(edit_menu_breed_version_signatures_delete)
+            value_to_be_removed = edit_menu_breed_version_signatures_delete.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .signatures.remove(value_to_be_removed["edit_menu_breed_version_signatures"])
         else:
             print("Unknown option selected.")
     elif choice_edit_information_os_version == "version_file":
-        new_value_version_file = prompt(edit_menu_breed_version_version_file)
+        new_value_version_file = edit_menu_breed_version_version_file.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).version_file \
             = new_value_version_file["edit_menu_breed_version_version_file"]
     elif choice_edit_information_os_version == "version_file_regex":
-        new_value_version_file_regex = prompt(edit_menu_breed_version_version_file_regex)
+        new_value_version_file_regex = edit_menu_breed_version_version_file_regex.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .version_file_regex = new_value_version_file_regex["edit_menu_breed_version_version_file_regex"]
     elif choice_edit_information_os_version == "kernel_arch":
-        new_value_kernel_arch = prompt(edit_menu_breed_version_kernel_arch)
+        new_value_kernel_arch = edit_menu_breed_version_kernel_arch.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_arch \
             = new_value_kernel_arch["edit_menu_breed_version_kernel_arch"]
     elif choice_edit_information_os_version == "kernel_arch_regex":
-        new_value_kernel_arch_regex = prompt(edit_menu_breed_version_kernel_arch_regex)
+        new_value_kernel_arch_regex = edit_menu_breed_version_kernel_arch_regex.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .kernel_arch_regex = new_value_kernel_arch_regex["edit_menu_breed_version_kernel_arch_regex"]
     elif choice_edit_information_os_version == "supported_arches":
-        result_supported_arches_choice = prompt(edit_menu_version_add_remove_edit)
+        result_supported_arches_choice = edit_menu_version_add_remove_edit.ask()
         choice_result_supported_arches_choice = result_supported_arches_choice \
             .get("edit_menu_version_add_remove_edit", "")
         if choice_result_supported_arches_choice == "Add":
-            new_value_supported_arches = prompt(edit_menu_breed_version_supported_arches_add)
+            new_value_supported_arches = edit_menu_breed_version_supported_arches_add.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .supported_arches.append(new_value_supported_arches["edit_menu_breed_version_supported_arches_add"])
         elif choice_result_supported_arches_choice == "Edit":
@@ -696,17 +562,17 @@ def edit_menu_breed_version_info():
                 .supported_arches[index_to_change] = new_value_edit_arches[
                 "edit_menu_breed_version_supported_arches_edit_new"]
         elif choice_result_supported_arches_choice == "Remove":
-            value_to_be_removed = prompt(edit_menu_breed_version_supported_arches_delete)
+            value_to_be_removed = edit_menu_breed_version_supported_arches_delete.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .supported_arches.remove(value_to_be_removed["edit_menu_breed_version_supported_arches_delete"])
         else:
             print("Unknown option selected.")
-        # TODO: Validation of arches (only with warning)
+        #TODO: Validation of arches (only with warning)
     elif choice_edit_information_os_version == "supported_repo_breeds":
-        result_repo_breeds_choice = prompt(edit_menu_version_add_remove_edit)
+        result_repo_breeds_choice = edit_menu_version_add_remove_edit.ask()
         choice_result_repo_breeds_choice = result_repo_breeds_choice.get("edit_menu_version_add_remove_edit", "")
         if choice_result_repo_breeds_choice == "Add":
-            new_value_supported_repo_breed = prompt(edit_menu_breed_version_supported_repo_breeds_add)
+            new_value_supported_repo_breed = edit_menu_breed_version_supported_repo_breeds_add.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .supported_repo_breeds.append(
                 new_value_supported_repo_breed["edit_menu_breed_version_supported_repo_breeds_add"])
@@ -720,43 +586,43 @@ def edit_menu_breed_version_info():
                 .supported_repo_breeds[index_to_change] = \
                 new_value_edit_supported_repo_breeds["edit_menu_breed_version_supported_repo_breeds_edit_new"]
         elif choice_result_repo_breeds_choice == "Remove":
-            value_to_be_removed = prompt(edit_menu_breed_version_supported_repo_breeds_delete)
+            value_to_be_removed = edit_menu_breed_version_supported_repo_breeds_delete.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .supported_repo_breeds.remove(
                 value_to_be_removed["edit_menu_breed_version_supported_repo_breeds_delete"])
         else:
             print("Unknown option selected.")
-        # TODO: Validation for choices (only with warning)
+        #TODO: Validation for choices (only with warning)
     elif choice_edit_information_os_version == "kernel_file":
-        new_value_kernel_file = prompt(edit_menu_breed_version_kernel_file)
+        new_value_kernel_file = edit_menu_breed_version_kernel_file.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_file \
             = new_value_kernel_file["edit_menu_breed_version_kernel_file"]
     elif choice_edit_information_os_version == "initrd_file":
-        new_value_initrd_file = prompt(edit_menu_breed_version_initrd_file)
+        new_value_initrd_file = edit_menu_breed_version_initrd_file.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_file \
             = new_value_initrd_file["edit_menu_breed_version_initrd_file"]
     elif choice_edit_information_os_version == "isolinux_ok":
-        new_value_isolinux_ok = prompt(edit_menu_breed_version_isolinux_ok)
+        new_value_isolinux_ok = edit_menu_breed_version_isolinux_ok.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).isolinux_ok \
             = new_value_isolinux_ok["edit_menu_breed_version_isolinux_ok"]
     elif choice_edit_information_os_version == "default_autoinstall":
-        # TODO: Filename validation
-        new_value_default_autoinstall = prompt(edit_menu_breed_version_default_autoinstall)
+        #TODO: Filename validation
+        new_value_default_autoinstall = edit_menu_breed_version_default_autoinstall.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .default_autoinstall = new_value_default_autoinstall["edit_menu_breed_version_default_autoinstall"]
     elif choice_edit_information_os_version == "kernel_options":
-        new_value_kernel_options = prompt(edit_menu_breed_version_kernel_options)
+        new_value_kernel_options = edit_menu_breed_version_kernel_options.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2).kernel_options \
             = new_value_kernel_options["edit_menu_breed_version_kernel_options"]
     elif choice_edit_information_os_version == "kernel_options_post":
-        new_value_kernel_options_post = prompt(edit_menu_breed_version_kernel_options_post)
+        new_value_kernel_options_post = edit_menu_breed_version_kernel_options_post.ask()
         os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
             .kernel_options_post = new_value_kernel_options_post["edit_menu_breed_version_kernel_options_post"]
     elif choice_edit_information_os_version == "boot_files":
-        result_boot_files_choice = prompt(edit_menu_version_add_remove_edit)
+        result_boot_files_choice = edit_menu_version_add_remove_edit.ask()
         choice_result_boot_files_choice = result_boot_files_choice.get("edit_menu_version_add_remove_edit", "")
         if choice_result_boot_files_choice == "Add":
-            new_value_boot_files_add = prompt(edit_menu_breed_version_boot_files_add)
+            new_value_boot_files_add = edit_menu_breed_version_boot_files_add.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .boot_files.append(new_value_boot_files_add["edit_menu_breed_version_boot_files_add"])
         elif choice_result_boot_files_choice == "Edit":
@@ -767,7 +633,7 @@ def edit_menu_breed_version_info():
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .boot_files[index_to_change] = new_value_edit_boot_files["edit_menu_breed_version_boot_files_edit_new"]
         elif choice_result_boot_files_choice == "Remove":
-            value_to_be_removed = prompt(edit_menu_breed_version_boot_files_delete)
+            value_to_be_removed = edit_menu_breed_version_boot_files_delete.ask()
             os_signatures.osbreeds[breed_index].osversions.get(choice_edit_information_os_version_which_2) \
                 .boot_files.remove(value_to_be_removed["edit_menu_breed_version_boot_files_delete"])
         else:
@@ -784,8 +650,7 @@ def main():
     """
     main_menu_option_selected = 0
     while main_menu_option_selected != 3:
-        result_main_menu = prompt(main_menu_questions)
-        chosen_option = result_main_menu.get("main_menu", "")
+        chosen_option = main_menu_questions.ask()
         if chosen_option == "Import":
             main_menu_option_selected = 0
             import_menu()
