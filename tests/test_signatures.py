@@ -1,9 +1,12 @@
+from json.decoder import JSONDecodeError
 import pytest
 
 from libcobblersignatures import signatures
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
+
+from tests.conftest import does_not_raise
 
 
 def test_breeds():
@@ -67,15 +70,6 @@ def test_importsignatures_unkown():
         os_signatures.importsignatures(100, "")
 
 
-def test_exportsignatures_none():
-    # Arrange
-    os_signatures = signatures.Signatures()
-
-    # Act & Assert
-    with pytest.raises(ValueError):
-        os_signatures.exportsignatures(ExportTypes.STRING)
-
-
 def test_export_missing_rootkey():
     # Arrange
     os_signatures = signatures.Signatures()
@@ -137,17 +131,18 @@ def test_exportsignatures_unkown():
         os_signatures.exportsignatures(100)
 
 
-@pytest.mark.parametrize("input_data,result", [
-    ("{\"breeds; {}}", None),
-    ("{\"breeds\": {}}", {"breeds": {}})
+@pytest.mark.parametrize("input_data,result,raises", [
+    ("{\"breeds; {}}", {}, pytest.raises(JSONDecodeError)),
+    ("{\"breeds\": {}}", {"breeds": {}}, does_not_raise())
 ])
-def test_signaturesjson(input_data, result):
+def test_signaturesjson(input_data, result, raises):
     # Arrange
     os_signatures = Signatures()
-    os_signatures.importsignatures(ImportTypes.STRING, input_data)
+    with raises:
+        os_signatures.importsignatures(ImportTypes.STRING, input_data)
 
-    # Act
-    os_signatures.signaturesjson = input_data
+        # Act
+        os_signatures.signaturesjson = input_data
 
     # Assert
     assert result == os_signatures.signaturesjson

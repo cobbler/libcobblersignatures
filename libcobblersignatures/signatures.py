@@ -51,7 +51,7 @@ class Signatures:
     """
 
     _rootkey: str
-    _signaturesjson: json
+    _signaturesjson: dict
     _osbreeds: List[OsBreed]
 
     def __init__(self):
@@ -60,24 +60,25 @@ class Signatures:
         an import function.
         """
         self._rootkey = "breeds"
-        self._signaturesjson = None
+        self._signaturesjson = {}
         self._osbreeds = []
 
     @property
-    def signaturesjson(self):
+    def signaturesjson(self) -> dict:
         """
         This property represents the json which was im- or exported.
 
+        :raises JSONDecodeError: If invalid json is given
         :return: The last valid content of the json which the library knows about.
         """
         return self._signaturesjson
 
+    # TODO value has to be type dict or string
     @signaturesjson.setter
-    def signaturesjson(self, value):
-        try:
-            self._signaturesjson = json.loads(value)
-        except JSONDecodeError:
+    def signaturesjson(self, value: dict):
+        if value is None:
             pass
+        self._signaturesjson = json.loads(value)
 
     @property
     def osbreeds(self):
@@ -101,6 +102,7 @@ class Signatures:
         :param source: A string containing the data to be parsed into a json in the end
         :type source: str
         """
+        #TODO make sure source is never none and reasonable
         if import_type == ImportTypes.FILE:
             self._importsignaturesfile(source)
         elif import_type == ImportTypes.URL:
@@ -138,8 +140,6 @@ class Signatures:
         :param target: This is only required when using this for a file based export. Otherwise this can be skipped.
         :raises ValueError: When the :class:`ExportTypes` is not implemented or not known.
         """
-        if self.signaturesjson is None:
-            raise ValueError("No Signatures to export.")
         if export_type == ExportTypes.FILE:
             if not target:
                 raise ValueError("Please provide a path if your want to export to a file!")
