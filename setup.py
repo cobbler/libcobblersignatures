@@ -34,9 +34,9 @@ setup(
     keywords='cobbler',
     packages=find_packages(exclude="tests"),
     python_requires='>=3',
-    install_requires=['PyInquirer'],
+    install_requires=['questionary'],
     extras_require={
-        'lint': ['pyflakes', 'pycodestyle'],
+        'lint': ['pylint'],
         'test': ['coverage', 'pytest'],
         'docs': ['sphinx_rtd_theme']
     },

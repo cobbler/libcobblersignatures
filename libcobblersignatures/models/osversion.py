@@ -36,7 +36,7 @@ class Osversion:
         self._kernel_arch_regex = ""
         self._supported_arches = []
         self._supported_repo_breeds = []
-        self._kernel_file = []
+        self._kernel_file = ""
         self._initrd_file = ""
         self._isolinux_ok = False
         self._default_autoinstall = ""
@@ -86,7 +86,7 @@ class Osversion:
         return self._version_file
 
     @version_file.setter
-    def version_file(self, value):
+    def version_file(self, value: str):
         if isinstance(value, str):
             self._version_file = value
         else:
@@ -101,8 +101,9 @@ class Osversion:
         return self._version_file_regex
 
     @version_file_regex.setter
-    def version_file_regex(self, value):
+    def version_file_regex(self, value: str):
         if isinstance(value, str):
+            #TODO validate regex - regex syntax
             self._version_file_regex = value
         else:
             raise TypeError("The version_file_regex should be a str.")
@@ -116,7 +117,7 @@ class Osversion:
         return self._kernel_arch
 
     @kernel_arch.setter
-    def kernel_arch(self, value):
+    def kernel_arch(self, value: str):
         if isinstance(value, str):
             self._kernel_arch = value
         else:
@@ -131,8 +132,9 @@ class Osversion:
         return self._kernel_arch_regex
 
     @kernel_arch_regex.setter
-    def kernel_arch_regex(self, value):
+    def kernel_arch_regex(self, value: str):
         if isinstance(value, str):
+            #TODO validate regex - regex syntax
             self._kernel_arch_regex = value
         else:
             raise TypeError("The kernel_arch_regex should be a str.")
@@ -146,7 +148,7 @@ class Osversion:
         return self._supported_arches
 
     @supported_arches.setter
-    def supported_arches(self, value):
+    def supported_arches(self, value: list):
         if isinstance(value, list):
             self._supported_arches = value
         else:
@@ -161,7 +163,7 @@ class Osversion:
         return self._supported_repo_breeds
 
     @supported_repo_breeds.setter
-    def supported_repo_breeds(self, value):
+    def supported_repo_breeds(self, value: list):
         if isinstance(value, list):
             self._supported_repo_breeds = value
         else:
@@ -172,26 +174,26 @@ class Osversion:
         self._supported_repo_breeds = []
 
     @property
-    def kernel_file(self) -> list:
+    def kernel_file(self) -> str:
         return self._kernel_file
 
     @kernel_file.setter
-    def kernel_file(self, value):
-        if isinstance(value, list):
+    def kernel_file(self, value: str):
+        if isinstance(value, str):
             self._kernel_file = value
         else:
-            raise TypeError("The kernel_file should be a list.")
+            raise TypeError("The kernel_file should be a str.")
 
     @kernel_file.deleter
     def kernel_file(self):
-        self._kernel_file = []
+        self._kernel_file = ""
 
     @property
     def initrd_file(self) -> str:
         return self._initrd_file
 
     @initrd_file.setter
-    def initrd_file(self, value):
+    def initrd_file(self, value: str):
         if isinstance(value, str):
             self._initrd_file = value
         else:
@@ -206,7 +208,7 @@ class Osversion:
         return self._isolinux_ok
 
     @isolinux_ok.setter
-    def isolinux_ok(self, value):
+    def isolinux_ok(self, value: bool):
         if isinstance(value, bool):
             self._isolinux_ok = value
         else:
@@ -221,8 +223,11 @@ class Osversion:
         return self._default_autoinstall
 
     @default_autoinstall.setter
-    def default_autoinstall(self, value):
-        self._default_autoinstall = value
+    def default_autoinstall(self, value: str):
+        if isinstance(value, str):
+            self._default_autoinstall = value
+        else:
+            raise TypeError("The default_autoinstall should be a str.")
 
     @default_autoinstall.deleter
     def default_autoinstall(self):
@@ -233,8 +238,11 @@ class Osversion:
         return self._kernel_options
 
     @kernel_options.setter
-    def kernel_options(self, value):
-        self._kernel_options = value
+    def kernel_options(self, value: str):
+        if isinstance(value, str):
+            self._kernel_options = value
+        else:
+            raise TypeError("The kernel_options should be a str.")
 
     @kernel_options.deleter
     def kernel_options(self):
@@ -245,7 +253,7 @@ class Osversion:
         return self._kernel_options_post
 
     @kernel_options_post.setter
-    def kernel_options_post(self, value):
+    def kernel_options_post(self, value: str):
         if isinstance(value, str):
             self._kernel_options_post = value
         else:
@@ -260,8 +268,9 @@ class Osversion:
         return self._template_files
 
     @template_files.setter
-    def template_files(self, value):
+    def template_files(self, value: str):
         if isinstance(value, str):
+            #TODO validate file path
             self._template_files = value
         else:
             raise TypeError("The template_files should be a str.")
@@ -275,7 +284,7 @@ class Osversion:
         return self._boot_files
 
     @boot_files.setter
-    def boot_files(self, value):
+    def boot_files(self, value: list):
         if isinstance(value, list):
             self._boot_files = value
         else:
@@ -290,8 +299,9 @@ class Osversion:
         return self._boot_loaders
 
     @boot_loaders.setter
-    def boot_loaders(self, value):
+    def boot_loaders(self, value: dict):
         if isinstance(value, dict):
+            #TODO validate dict format
             self._boot_loaders = value
         else:
             raise TypeError("The boot_loaders should be a dict.")

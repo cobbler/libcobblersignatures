@@ -190,12 +190,13 @@ def test_supported_repo_breeds_del():
 
 
 @pytest.mark.parametrize("param,result,raises", [
-    ("", [], pytest.raises(TypeError)),
-    (0, [], pytest.raises(TypeError)),
-    ({}, [], pytest.raises(TypeError)),
-    (None, [], pytest.raises(TypeError)),
-    (False, [], pytest.raises(TypeError)),
-    (["Element"], ["Element"], does_not_raise())
+    ("", "", does_not_raise()),
+    (0, "", pytest.raises(TypeError)),
+    ({}, "", pytest.raises(TypeError)),
+    (None, "", pytest.raises(TypeError)),
+    (False, "", pytest.raises(TypeError)),
+    (["Element"], "", pytest.raises(TypeError)),
+    ("ergodox", "ergodox", does_not_raise())
 ])
 def test_kernel_file(param, result, raises):
     # Arrange
@@ -217,7 +218,7 @@ def test_kernel_file_del():
     del version.kernel_file
 
     # Assert
-    assert version.kernel_file == []
+    assert version.kernel_file == ""
 
 
 @pytest.mark.parametrize("param,result", [

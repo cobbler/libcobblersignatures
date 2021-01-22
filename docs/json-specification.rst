@@ -72,6 +72,10 @@ The object has the following keys (type included):
 | ``boot_loaders``          | Dictionary       |             |
 +---------------------------+------------------+-------------+
 
+.. note:
+   The current json type ``null`` is not valid in our context. Please use empty string, list or dicts for default
+   values.
+
 Example files
 #############
 
