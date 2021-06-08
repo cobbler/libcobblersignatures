@@ -32,13 +32,17 @@ from questionary.prompts import prompt_by_name
 from questionary.utils import is_prompt_toolkit_3
 
 
-class KeyInputs:
-    DOWN = "\x1b[B"
-    UP = "\x1b[A"
-    LEFT = "\x1b[D"
-    RIGHT = "\x1b[C"
-    ENTER = "\r"
-    ESCAPE = "\x1b"
+class KI:
+    """
+    KI - KeyInputs
+    Possible key inputs.
+    """
+    D = "\x1b[B"
+    U = "\x1b[A"
+    L = "\x1b[D"
+    R = "\x1b[C"
+    ENT = "\r"
+    ESC = "\x1b"
     CONTROLC = "\x03"
     BACK = "\x7f"
     SPACE = " "
