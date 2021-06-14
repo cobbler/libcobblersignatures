@@ -287,27 +287,29 @@ edit_menu_version_add_remove_edit = questionary.select(
 
 # definitions
 
-def get_os_breed_names():
+def get_os_breed_names() -> list:
     """
     This searches for all names of the operation system breeds in the current instance of the library.
 
     :return: An empty list if no names are found. Otherwise all names of the operating system breeds.
-    :rtype: list
     """
+    if os_signatures is None:
+        raise TypeError("os_signatures object must not be none!")
     names = []
     for v in os_signatures.osbreeds:
         names.append(v.name)
     return names
 
 
-def get_os_version_names(breed):
+def get_os_version_names(breed) -> list:
     """
     This searches for all names of the given breed in the current instance of the library.
 
     :param breed: This is the breed object.
     :return: The list of all names if the breed has them. Otherwise an empty list.
-    :rtype: list
     """
+    if os_signatures is None:
+        raise TypeError("os_signatures object must not be none!")
     index = os_signatures.get_breed_index_by_name(breed)
     if index >= 0:
         return list(os_signatures.osbreeds[index].osversions.keys())
@@ -326,6 +328,9 @@ def update_choices(question: list, values: list):
     if len(values) == 0:
         values = []
     values.append("Go Back")
+
+    if not isinstance(question[0], dict):
+        raise TypeError("First element of list question must be of type dict!")
     question[0].update({"choices": values})
 
 
