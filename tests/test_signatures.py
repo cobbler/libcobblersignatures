@@ -1,10 +1,10 @@
 from json.decoder import JSONDecodeError
 import pytest
 
-from libcobblersignatures import signatures
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
-from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
+from libcobblersignatures.enums import ImportTypes, ExportTypes
+from libcobblersignatures import Signatures
 
 from tests.conftest import does_not_raise
 
@@ -26,7 +26,7 @@ def test_importsignatures_file(create_signatures_json, testpath):
     testdata = "{\"breeds\": {}}"
     expected = {"breeds": {}}
     create_signatures_json(testdata)
-    os_signatures = signatures.Signatures()
+    os_signatures = Signatures()
 
     # Act
     os_signatures.importsignatures(ImportTypes.FILE, testpath)
@@ -38,7 +38,7 @@ def test_importsignatures_file(create_signatures_json, testpath):
 def test_importsignatures_string():
     # Arrange
     signatures_text = "{\"breeds\": {}}"
-    os_signatures = signatures.Signatures()
+    os_signatures = Signatures()
 
     # Act
     os_signatures.importsignatures(ImportTypes.STRING, signatures_text)
@@ -51,7 +51,7 @@ def test_importsignatures_string():
 def test_importsignatures_url():
     # Arrange
     url = "https://cobbler.github.io/signatures/latest.json"
-    os_signatures = signatures.Signatures()
+    os_signatures = Signatures()
 
     # Act
     os_signatures.importsignatures(ImportTypes.URL, url)
@@ -63,7 +63,7 @@ def test_importsignatures_url():
 
 def test_importsignatures_unkown():
     # Arrange
-    os_signatures = signatures.Signatures()
+    os_signatures = Signatures()
 
     # Act & Assert
     with pytest.raises(ValueError):
@@ -72,7 +72,7 @@ def test_importsignatures_unkown():
 
 def test_export_missing_rootkey():
     # Arrange
-    os_signatures = signatures.Signatures()
+    os_signatures = Signatures()
     os_signatures.importsignatures(ImportTypes.STRING, "{}")
 
     # Act & Assert
