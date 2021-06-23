@@ -6,7 +6,8 @@ managed by it.
 
 import questionary
 
-from libcobblersignatures.signatures import Signatures, ImportTypes, ExportTypes
+from libcobblersignatures import Signatures
+from libcobblersignatures.enums import ImportTypes, ExportTypes
 
 os_signatures = Signatures()
 

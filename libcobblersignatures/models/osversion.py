@@ -3,6 +3,8 @@ Module for the datastructure of an operating system version. An operating system
 operating system breed.
 """
 
+from libcobblersignatures import utils
+
 
 class Osversion:
     """
@@ -582,7 +584,9 @@ class Osversion:
 
         :return: The dictionary with the data.
         """
-        return {
+        keys_with_defaults = []
+        result = {}
+        interim_result = {
             "signatures": self.signatures,
             "version_file": self.version_file,
             "version_file_regex": self.version_file_regex,
@@ -601,25 +605,44 @@ class Osversion:
             "boot_loaders": self.boot_loaders
         }
 
-    def decode(self, data):
+        for key in interim_result:
+            value = interim_result[key]
+            if isinstance(value, str):
+                if value == "":
+                    keys_with_defaults.append(key)
+            elif isinstance(value, (list, dict)):
+                if len(value) == 0:
+                    keys_with_defaults.append(key)
+            elif isinstance(value, (bool, int)):
+                continue
+            else:
+                raise TypeError("Wrong type for a value which should be exported.")
+        for key in interim_result:
+            if key in keys_with_defaults:
+                continue
+            else:
+                result[key] = interim_result[key]
+        return result
+
+    def decode(self, data: dict):
         """
         Decodes the received data. This means parsing each attribute from the JSON into the property of an object.
 
         :param data: The data to decode.
         """
-        self.signatures = data.get("signatures", [])
-        self.version_file = data.get("version_file", "")
-        self.version_file_regex = data.get("version_file_regex", "")
-        self.kernel_arch = data.get("kernel_arch", "")
-        self.kernel_arch_regex = data.get("kernel_arch_regex", "")
-        self.supported_arches = data.get("supported_arches", [])
-        self.supported_repo_breeds = data.get("supported_repo_breeds", [])
-        self.kernel_file = data.get("kernel_file", [])
-        self.initrd_file = data.get("initrd_file", "")
-        self.isolinux_ok = data.get("isolinux_ok", False)
-        self.default_autoinstall = data.get("default_autoinstall", "")
-        self.kernel_options = data.get("kernel_options", "")
-        self.kernel_options_post = data.get("kernel_options_post", "")
-        self.template_files = data.get("template_files", "")
-        self.boot_files = data.get("boot_files", [])
-        self.boot_loaders = data.get("boot_loaders", {})
+        self.signatures = utils.convert_none_to_default(data.get("signatures"), list)
+        self.version_file = utils.convert_none_to_default(data.get("version_file"), str)
+        self.version_file_regex = utils.convert_none_to_default(data.get("version_file_regex"), str)
+        self.kernel_arch = utils.convert_none_to_default(data.get("kernel_arch"), str)
+        self.kernel_arch_regex = utils.convert_none_to_default(data.get("kernel_arch_regex"), str)
+        self.supported_arches = utils.convert_none_to_default(data.get("supported_arches"), list)
+        self.supported_repo_breeds = utils.convert_none_to_default(data.get("supported_repo_breeds"), list)
+        self.kernel_file = utils.convert_none_to_default(data.get("kernel_file"), str)
+        self.initrd_file = utils.convert_none_to_default(data.get("initrd_file"), str)
+        self.isolinux_ok = utils.convert_none_to_default(data.get("isolinux_ok"), bool)
+        self.default_autoinstall = utils.convert_none_to_default(data.get("default_autoinstall"), str)
+        self.kernel_options = utils.convert_none_to_default(data.get("kernel_options"), str)
+        self.kernel_options_post = utils.convert_none_to_default(data.get("kernel_options_post"), str)
+        self.template_files = utils.convert_none_to_default(data.get("template_files"), str)
+        self.boot_files = utils.convert_none_to_default(data.get("boot_files"), list)
+        self.boot_loaders = utils.convert_none_to_default(data.get("boot_loaders"), dict)
