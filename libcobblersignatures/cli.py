@@ -34,13 +34,52 @@ import_menu_questions2 = questionary.path(
     "Please enter the json in a single line or the source in a single line:"
 )
 
-export_menu_questions = questionary.select(
-    "What is your desired export target?",
-    choices=[
-        "String",
-        "File",
-        "Go back"
-    ])
+
+class IntegerValidator(questionary.Validator):
+    """
+    Validator class which checks if the input is an integer.
+    """
+    def validate(self, document):
+        """
+        Validation function which does raise a ValidationError or does not return a value.
+
+        :param document: The user input. Handed over by questionary.
+        :raises ValidationError: In case the text could not be parsed to an integer.
+        """
+        if len(document.text) == 0:
+            return
+        try:
+            int(document.text)
+        except ValueError:
+            raise questionary.ValidationError(message="Please enter an integer!")
+
+
+export_menu_questions = [
+    {
+        'type': 'select',
+        'name': 'export_menu_target',
+        'message': 'What is your desired export target?',
+        'choices': [
+            "String",
+            "File",
+            "Go back"
+        ]
+    },
+    {
+        'type': 'confirm',
+        'name': 'export_menu_prettyprint_1',
+        'message': 'Should the keys be sorted?',
+        "when": lambda x: x["export_menu_target"] != "Go back"
+    },
+    {
+        'type': 'text',
+        'name': 'export_menu_prettyprint_2',
+        'message': 'Which indentation should the keys have? (Hit enter for no indentation or enter a number)',
+        #'default': None,
+        'validate': IntegerValidator,
+        "when": lambda x: x["export_menu_target"] != "Go back"
+    }
+]
 
 export_menu_questions2 = questionary.text(
     "Please enter the target path"
@@ -411,17 +450,27 @@ def export_menu():
     """
     Second level menu with the purpose to catch all functionality related to exporting the data to a target.
     """
-    choice_export_menu = export_menu_questions.ask()
+    export_menu_answers = questionary.prompt(export_menu_questions)
+    choice_export_menu = export_menu_answers.get("export_menu_target")
+    choice_pretty_print_sort = export_menu_answers.get("export_menu_prettyprint_1")
+    choice_pretty_print_indent = export_menu_answers.get("export_menu_prettyprint_2")
+    if not choice_pretty_print_indent:
+        choice_pretty_print_indent = None
+    else:
+        choice_pretty_print_indent = int(choice_pretty_print_indent)
+
     if choice_export_menu == "String":
-        os_signatures.modelstojson()
-        print(os_signatures.exportsignatures(ExportTypes.STRING))
+        print(os_signatures.exportsignatures(ExportTypes.STRING, sort_keys=choice_pretty_print_sort,
+              indent=choice_pretty_print_indent))
     elif choice_export_menu == "File":
         input_export_menu_2 = export_menu_questions2.ask()
         if input_export_menu_2 == "":
             print("Target path for the file was not entered correctly. Returning to main menu.")
             return
-        os_signatures.modelstojson()
-        os_signatures.exportsignatures(ExportTypes.FILE, input_export_menu_2)
+        os_signatures.exportsignatures(ExportTypes.FILE, input_export_menu_2, choice_pretty_print_sort,
+                                       choice_pretty_print_indent)
+    elif choice_export_menu == "Go back":
+        return
     else:
         print("Unknown option selected. Returning to the main menu.")
         return
