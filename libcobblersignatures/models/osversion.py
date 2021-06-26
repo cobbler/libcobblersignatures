@@ -6,10 +6,25 @@ class OsArchitectures(Enum):
     An enumeration which defines the in Cobbler available architectures.
     """
     i386 = 1
+    """
+    32-bit architecture which is also called ``IA-32`` or ``80x86`` by some people.
+    """
     x86_64 = 2
+    """
+    64-bit architecture which is also called ``x64``, ``x86-64``, ``AMD64`` or ``amd64``.
+    """
     ppc = 3
+    """
+    32-bit big-endian PowerPC architecture.
+    """
     ppc64 = 4
+    """
+    64-bit big-endian PowerPC architecture.
+    """
     amd64 = 5
+    """
+    Synonym for ``x86_64``.
+    """
 
 
 class RepositoryBreeds(Enum):
@@ -17,9 +32,21 @@ class RepositoryBreeds(Enum):
     An enumeration which defines the in Cobbler available repository breeds.
     """
     rsync = 1
+    """
+    A repository which is synced by rsync.
+    """
     rhn = 2
+    """
+    A repository type from Red Hat which can be used by yum.
+    """
     yum = 3
+    """
+    A repository which is manged by yum.
+    """
     apt = 4
+    """
+    A repository which is managed by apt.
+    """
 
 
 class Osversion:
@@ -29,6 +56,9 @@ class Osversion:
     """
 
     def __init__(self):
+        """
+        Creates default values for all values.
+        """
         self._signatures = []
         self._version_file = ""
         self._version_file_regex = ""
@@ -46,7 +76,14 @@ class Osversion:
         self._boot_files = []
         self._boot_loaders = {}
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
+        """
+        Checks for equality. Equality is given if all attributes are identical.
+
+        :param other: The other object.
+        :raises NotImplemented: In case other is not Osversion
+        :return: Only true if all attributes are identical.
+        """
         if not isinstance(other, Osversion):
             return NotImplemented
         return self.signatures == other.signatures \
@@ -68,10 +105,24 @@ class Osversion:
 
     @property
     def signatures(self) -> list:
+        """
+        This is a list of strings with currently an unknown functionality.
+
+        :setter: May raise a TypeError in case the value was not of type list.
+        :getter: Returns the last correctly validated str of the property.
+        :deleter: Resets this to an empty list.
+        :type: list
+        """
         return self._signatures
 
     @signatures.setter
     def signatures(self, value: list):
+        """
+        Setter for the signatures.
+
+        :param value: The list with the signatures.
+        :raises TypeError: In case the value was not of of type list.
+        """
         if isinstance(value, list):
             self._signatures = value
         else:
@@ -79,14 +130,31 @@ class Osversion:
 
     @signatures.deleter
     def signatures(self):
+        """
+        Resets the value of the signatures to an emtpy list.
+        """
         self._signatures = []
 
     @property
     def version_file(self) -> str:
+        """
+        The regular expression which points to the file with the os-version info.
+
+        :setter: May raise a TypeError in case the value was not of type str.
+        :getter: Returns the last correctly validated str of the property.
+        :deleter: Resets this to an empty string.
+        :type: str
+        """
         return self._version_file
 
     @version_file.setter
     def version_file(self, value: str):
+        """
+        Setter for the version_file.
+
+        :param value: The string which will become the version file.
+        :raises TypeError: In case the value is not a str.
+        """
         if isinstance(value, str):
             self._version_file = value
         else:
@@ -94,30 +162,65 @@ class Osversion:
 
     @version_file.deleter
     def version_file(self):
+        """
+        Resets the version_file to an empty string instead of deleting the attribute.
+        """
         self._version_file = ""
 
     @property
     def version_file_regex(self) -> str:
+        """
+        The regular expression which tells Cobbler to pick this version if it matches.
+
+        :getter: The str with the regex.
+        :setter: Validates the regex and raises in case an error was detected (TypeError).
+        :deleter: Resets the attribute to an empty str instead of deleting it.
+        :type: str
+        """
         return self._version_file_regex
 
     @version_file_regex.setter
     def version_file_regex(self, value: str):
+        """
+        Setter for the version_file_regex.
+
+        :param value: The str with the new value.
+        :raises TypeError: In case the regex was not of type str.
+        """
         if isinstance(value, str):
-            #TODO validate regex - regex syntax
+            # TODO validate regex - regex syntax
             self._version_file_regex = value
         else:
             raise TypeError("The version_file_regex should be a str.")
 
     @version_file_regex.deleter
     def version_file_regex(self):
+        """
+        Resets the version_file_regex to an empty string instead of deleting the attribute.
+        """
         self._version_file_regex = ""
 
     @property
     def kernel_arch(self) -> str:
+        """
+        The regular expression which tells Cobbler where to look for the architecture of the operating system.
+        In some cases this may also be a path to the file where Cobbler should look for the architecture.
+
+        :getter: The value of the last successfully validated kernel_arch.
+        :setter: May raise a TypeError in case the value was not of type str.
+        :deleter: Resets the value instead of deleting the attribute.
+        :type: str
+        """
         return self._kernel_arch
 
     @kernel_arch.setter
     def kernel_arch(self, value: str):
+        """
+        Setter for the kernel_arch.
+
+        :param value: The new str for the kernel_arch.
+        :raises TypeError: In case ``value`` was not of type str.
+        """
         if isinstance(value, str):
             self._kernel_arch = value
         else:
@@ -125,30 +228,65 @@ class Osversion:
 
     @kernel_arch.deleter
     def kernel_arch(self):
+        """
+        Resets the kernel_arch to an empty string instead of deleting the attribute.
+        """
         self._kernel_arch = ""
 
     @property
     def kernel_arch_regex(self) -> str:
+        """
+        In case ``kernel_arch`` does not point to the architecture directly, this is the regex where Cobbler looks for
+        in the file specified by ``kernel_arch``.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._kernel_arch_regex
 
     @kernel_arch_regex.setter
     def kernel_arch_regex(self, value: str):
+        """
+        Setter for the kernel_arch_regex.
+
+        :param value: The new str for the ``kernel_arch_regex``.
+        :raises TypeError: In case value was not of type str.
+        """
         if isinstance(value, str):
-            #TODO validate regex - regex syntax
+            # TODO validate regex - regex syntax
             self._kernel_arch_regex = value
         else:
             raise TypeError("The kernel_arch_regex should be a str.")
 
     @kernel_arch_regex.deleter
     def kernel_arch_regex(self):
+        """
+        Resets the kernel_arch_regex to an empty string instead of deleting the attribute.
+        """
         self._kernel_arch_regex = ""
 
     @property
     def supported_arches(self) -> list:
+        """
+        Unused field currently. There for compatibility reasons for now.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty list.
+        :type: list
+        """
         return self._supported_arches
 
     @supported_arches.setter
     def supported_arches(self, value: list):
+        """
+        Setter for the supported_arches.
+
+        :param value: The new list for the ``supported_arches``.
+        :raises TypeError: In case value is not of type list.
+        """
         if isinstance(value, list):
             self._supported_arches = value
         else:
@@ -156,14 +294,31 @@ class Osversion:
 
     @supported_arches.deleter
     def supported_arches(self):
+        """
+        Resets the supported_arches to an empty list instead of deleting the attribute.
+        """
         self._supported_arches = []
 
     @property
     def supported_repo_breeds(self) -> list:
+        """
+        Unused field currently. There for compatibility reasons for now.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty list.
+        :type: list
+        """
         return self._supported_repo_breeds
 
     @supported_repo_breeds.setter
     def supported_repo_breeds(self, value: list):
+        """
+        Setter for supported_repo_breeds.
+
+        :param value: The new list for the ``supported_repo_breeds``.
+        :raises TypeError: In case value is not of type list.
+        """
         if isinstance(value, list):
             self._supported_repo_breeds = value
         else:
@@ -171,14 +326,31 @@ class Osversion:
 
     @supported_repo_breeds.deleter
     def supported_repo_breeds(self):
+        """
+        Resets the supported_repo_breeds to an empty list instead of deleting the attribute.
+        """
         self._supported_repo_breeds = []
 
     @property
     def kernel_file(self) -> str:
+        """
+        The regular expression to match to find the kernel.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._kernel_file
 
     @kernel_file.setter
     def kernel_file(self, value: str):
+        """
+        Setter for the kernel_file.
+
+        :param value: The new str for the ``kernel_file``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
             self._kernel_file = value
         else:
@@ -186,14 +358,31 @@ class Osversion:
 
     @kernel_file.deleter
     def kernel_file(self):
+        """
+        Resets the kernel_file to an empty string instead of deleting the attribute.
+        """
         self._kernel_file = ""
 
     @property
     def initrd_file(self) -> str:
+        """
+        The regular expression to match to find the initrd.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._initrd_file
 
     @initrd_file.setter
     def initrd_file(self, value: str):
+        """
+        Setter for the initrd_file.
+
+        :param value: The new str for the ``initrd_file``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
             self._initrd_file = value
         else:
@@ -201,14 +390,31 @@ class Osversion:
 
     @initrd_file.deleter
     def initrd_file(self):
+        """
+        Resets the initrd_file to an empty string instead of deleting the attribute.
+        """
         self._initrd_file = ""
 
     @property
     def isolinux_ok(self) -> bool:
+        """
+        Unknown field currently. There for compatibility reasons for now.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to ``False``.
+        :type: bool
+        """
         return self._isolinux_ok
 
     @isolinux_ok.setter
     def isolinux_ok(self, value: bool):
+        """
+        Setter for isolinux_ok.
+
+        :param value: The new bool for ``isolinux_ok``.
+        :raises TypeError: In case value is not of type bool.
+        """
         if isinstance(value, bool):
             self._isolinux_ok = value
         else:
@@ -216,14 +422,31 @@ class Osversion:
 
     @isolinux_ok.deleter
     def isolinux_ok(self):
+        """
+        Resets the isolinux_ok to ``False`` instead of deleting the attribute.
+        """
         self._isolinux_ok = False
 
     @property
-    def default_autoinstall(self):
+    def default_autoinstall(self) -> str:
+        """
+        The filename for the default autoinstall template in Cobbler.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._default_autoinstall
 
     @default_autoinstall.setter
     def default_autoinstall(self, value: str):
+        """
+        Setter for default_autoinstall.
+
+        :param value: The new str for the ``default_autoinstall``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
             self._default_autoinstall = value
         else:
@@ -231,14 +454,31 @@ class Osversion:
 
     @default_autoinstall.deleter
     def default_autoinstall(self):
+        """
+        Resets the default_autoinstall to an empty string instead of deleting the attribute.
+        """
         self._default_autoinstall = ""
 
     @property
     def kernel_options(self) -> str:
+        """
+        Default kernel options to apply to the imported ISO.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._kernel_options
 
     @kernel_options.setter
     def kernel_options(self, value: str):
+        """
+        Setter for kernel_options.
+
+        :param value: The new str for the ``kernel_options``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
             self._kernel_options = value
         else:
@@ -246,14 +486,31 @@ class Osversion:
 
     @kernel_options.deleter
     def kernel_options(self):
+        """
+        Resets the kernel_options to an empty string instead of deleting the attribute.
+        """
         self._kernel_options = ""
 
     @property
     def kernel_options_post(self) -> str:
+        """
+        Default kernel post options to apply to the imported ISO.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._kernel_options_post
 
     @kernel_options_post.setter
     def kernel_options_post(self, value: str):
+        """
+        Setter for kernel_options_post
+
+        :param value: The new str for the ``kernel_options_post``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
             self._kernel_options_post = value
         else:
@@ -261,30 +518,64 @@ class Osversion:
 
     @kernel_options_post.deleter
     def kernel_options_post(self):
+        """
+        Resets the kernel_options_post to an empty string instead of deleting the attribute.
+        """
         self._kernel_options_post = ""
 
     @property
     def template_files(self) -> str:
+        """
+        Currently only used in ESXi. Needs more investigation what this is for.
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty str.
+        :type: str
+        """
         return self._template_files
 
     @template_files.setter
     def template_files(self, value: str):
+        """
+        Setter for template_files.
+
+        :param value: The new str for the ``template_files``.
+        :raises TypeError: In case value is not of type str.
+        """
         if isinstance(value, str):
-            #TODO validate file path
+            # TODO validate file path
             self._template_files = value
         else:
             raise TypeError("The template_files should be a str.")
 
     @template_files.deleter
     def template_files(self):
+        """
+        Resets the template_files to an empty string instead of deleting the attribute.
+        """
         self._template_files = ""
 
     @property
     def boot_files(self) -> list:
+        """
+        Unknown field currently. There for compatibility reasons for now. Used by xenserver
+
+        :getter: The last successfully validated value of this field.
+        :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
+        :deleter: Resets this to an empty list.
+        :type: list
+        """
         return self._boot_files
 
     @boot_files.setter
     def boot_files(self, value: list):
+        """
+        Setter for the ``boot_files``.
+
+        :param value: The new boot files which should be set.
+        :raises TypeError: In case value was not of type list.
+        """
         if isinstance(value, list):
             self._boot_files = value
         else:
@@ -292,22 +583,42 @@ class Osversion:
 
     @boot_files.deleter
     def boot_files(self):
+        """
+        Resets the boot_files to an empty list instead of deleting the attribute.
+        """
         self._boot_files = []
 
     @property
     def boot_loaders(self) -> dict:
+        """
+        Defines the supported well known boot loaders inside Cobbler.
+
+        :getter: The last successfully validated value of this field.
+        :setter: If validation is successful the value will be set, otherwise raises an exception (TypeError).
+        :deleter: Resets this property to an empty dict.
+        :type: dict
+        """
         return self._boot_loaders
 
     @boot_loaders.setter
     def boot_loaders(self, value: dict):
+        """
+        Setter for the ``boot_loaders``.
+
+        :param value: The new boot loaders which should be set.
+        :raises TypeError: In case value was not of type dict.
+        """
         if isinstance(value, dict):
-            #TODO validate dict format
+            # TODO validate dict format
             self._boot_loaders = value
         else:
             raise TypeError("The boot_loaders should be a dict.")
 
     @boot_loaders.deleter
     def boot_loaders(self):
+        """
+        Resets the boot_loaders to an empty dictionary instead of deleting the attribute.
+        """
         self._boot_loaders = {}
 
     def encode(self) -> dict:

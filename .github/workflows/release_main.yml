@@ -22,7 +22,7 @@ jobs:
       - name: Fetch date for version bump
         run: echo "new_version=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
       - name: Replace version in setup.py
-        run: sed -i '/version=\'[0-9].[0-9].[0-9]/s/.$/.'${{ env.new_version }}'"/g' setup.py
+        run: sed -i '/[[:space:]]*version=/s/..$/.'${{ env.new_version }}''"'"',/g' setup.py
       - name: Install Deps with pip
         run: pip install .
       - name: Install pypa/build
