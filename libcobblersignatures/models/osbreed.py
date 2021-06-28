@@ -19,17 +19,32 @@ class OsBreed:
         return self.name == other.name and self.osversions == other.osversions
 
     @property
-    def osversions(self):
+    def osversions(self) -> collections.OrderedDict:
+        """
+        An ordered dictionary which contains all versions of the operating system breed.
+
+        :setter: Raises a TypeError in case the value is not an OrderedDict.
+        :getter: The ordered dictionary.
+        :deleter: Will reset the number of versions to an empty list.
+        """
         return self._osversions
 
     @osversions.setter
     def osversions(self, value: collections.OrderedDict):
+        """
+        The setter of the osversions dictionary.
+
+        :param value: The dictionary which contains all osversions models.
+        """
         if not isinstance(value, collections.OrderedDict):
             raise TypeError("The osversion needs to be an ordered dict!")
         self._osversions = value
 
     @osversions.deleter
     def osversions(self):
+        """
+        Resets the os versions to an empty ordered dict.
+        """
         self._osversions = collections.OrderedDict()
 
     @property
@@ -37,12 +52,19 @@ class OsBreed:
         """
         This property represents the name of the operating system breed.
 
-        :return: The last successfully validated name of the operating system breed.
+        :setter: Invalid values will be discarded.
+        :deleter: Always raises a TypeError since this is not allowed.
+        :getter: The last successfully validated name of the operating system breed.
         """
         return self._name
 
     @name.setter
     def name(self, value: str):
+        """
+        The setter of the name for an OsBreed.
+
+        :param value: The name of the breed.
+        """
         if not value:
             raise TypeError("Name cannot be an empty string.")
         else:
@@ -50,6 +72,11 @@ class OsBreed:
 
     @name.deleter
     def name(self):
+        """
+        This is a forbidden action. Thus always raising.
+
+        :raises TypeError: In case the name is tried to be deleted.
+        """
         raise TypeError("The name of this error cannot be deleted.")
 
     def encode(self) -> dict:
@@ -64,7 +91,7 @@ class OsBreed:
             versionsdict.update({name: self.osversions[name].encode()})
         return versionsdict
 
-    def decode(self, data):
+    def decode(self, data: dict):
         """
         Decodes the received data. Decoding of each single version is done by the corresponding decode method in
         :class:`Osversion`.

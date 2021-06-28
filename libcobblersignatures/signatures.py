@@ -1,7 +1,6 @@
 import json
 import urllib.request
 from enum import Enum
-from json import JSONDecodeError
 from typing import List
 
 from libcobblersignatures.models.osbreed import OsBreed
@@ -68,20 +67,25 @@ class Signatures:
         """
         This property represents the json which was im- or exported.
 
-        :raises JSONDecodeError: If invalid json is given
-        :return: The last valid content of the json which the library knows about.
+        :getter: The last valid content of the json which the library knows about.
+        :setter: May raise a JSONDecodeError in case an invalid json document is given.
         """
         return self._signaturesjson
 
-    # TODO value has to be type dict or string
     @signaturesjson.setter
-    def signaturesjson(self, value: dict):
+    def signaturesjson(self, value: str):
+        """
+        The setter for the exported data structure.
+
+        :param value: The str which will be loaded by the Python json utility.
+        :raises JSONDecodeError: In case the value was not a valid JSON document.
+        """
         if value is None:
             pass
         self._signaturesjson = json.loads(value)
 
     @property
-    def osbreeds(self):
+    def osbreeds(self) -> List[OsBreed]:
         """
         This property represents the currently manipulated data structures.
 
@@ -90,19 +94,22 @@ class Signatures:
         return self._osbreeds
 
     @osbreeds.setter
-    def osbreeds(self, value):
+    def osbreeds(self, value: List[OsBreed]):
+        """
+        The setter for the osbreeds property.
+
+        :param value: The list with the OsBreeds.
+        """
         self._osbreeds = value
 
-    def importsignatures(self, import_type, source):
+    def importsignatures(self, import_type: ImportTypes, source: str):
         """
         This is the main import function.
 
         :param import_type: This is one of the four options from the ImportTypes Enum
-        :type import_type: ImportTypes
         :param source: A string containing the data to be parsed into a json in the end
-        :type source: str
         """
-        #TODO make sure source is never none and reasonable
+        # TODO make sure source is never none and reasonable
         if import_type == ImportTypes.FILE:
             self._importsignaturesfile(source)
         elif import_type == ImportTypes.URL:
@@ -112,7 +119,7 @@ class Signatures:
         else:
             raise ValueError("Please use on of the four given options for the source!")
 
-    def _importsignaturesfile(self, filepath):
+    def _importsignaturesfile(self, filepath: str):
         """
         Internal function to handle the import of a file based import.
 
@@ -122,7 +129,7 @@ class Signatures:
         with open(filepath, 'r') as f:
             self.signaturesjson = f.read()
 
-    def _importsignaturesurl(self, url):
+    def _importsignaturesurl(self, url: str):
         """
         Internal function to handle the import of a URL based import. The data behind it should be a well formed JSON.
 
@@ -132,7 +139,7 @@ class Signatures:
         data = response.read()
         self.signaturesjson = data.decode('utf-8')
 
-    def exportsignatures(self, export_type, target=""):
+    def exportsignatures(self, export_type: ExportTypes, target=""):
         """
         This is the main export function.
 
