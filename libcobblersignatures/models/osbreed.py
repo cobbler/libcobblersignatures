@@ -9,7 +9,9 @@ class OsBreed:
     described in the JSON specification.
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str):
+        if not isinstance(name, str):
+            raise TypeError("The name of an OsBreed must be of type str!")
         self._name = name
         self._osversions = collections.OrderedDict()
 
@@ -112,6 +114,8 @@ class OsBreed:
         :raises ValueError: If the Name is not a ``str`` and/or the Version is not an ``Osversion``.
         """
         if isinstance(name, str) and isinstance(version, Osversion):
+            if name in self.osversions:
+                raise ValueError("The name \"%s\" already exists for the OsBreed \"%s\"!" % (name, self.name))
             self.osversions[name] = version
         else:
             raise ValueError("Name must be str and Version must be Osversion.")

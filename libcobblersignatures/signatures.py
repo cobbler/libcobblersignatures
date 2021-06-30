@@ -199,6 +199,8 @@ class Signatures:
 
         :param name: The name of the new breed. Must not exist in the currently loaded models.
         """
+        if name in [x.name for x in self.osbreeds]:
+            raise ValueError("Breed \"%s\" already in the list of breeds!" % name)
         self.osbreeds.append(OsBreed(name))
 
     def addosversion(self, breedindex: int, versionname: str, versiondata):
