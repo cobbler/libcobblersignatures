@@ -85,7 +85,6 @@ def test_exportsignatures_file(testpath):
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    os_signatures.modelstojson()
     expected = "{\"breeds\": {\"suse\": {}}}"
 
     # Act
@@ -111,7 +110,6 @@ def test_exportsignatures_string():
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    os_signatures.modelstojson()
     expected = "{\"breeds\": {\"suse\": {}}}"
 
     # Act
@@ -162,20 +160,6 @@ def test_jsontomodels(input_data, expected_data):
 
     # Assert
     assert expected_data == os_signatures.osbreeds
-
-
-def test_modelstojson():
-    # Arrange
-    os_signatures = Signatures()
-    os_signatures.addosbreed("suse")
-    os_signatures.addosbreed("debian")
-    expected = {"breeds": {"suse": {}, "debian": {}}}
-
-    # Act
-    os_signatures.modelstojson()
-
-    # Assert
-    assert expected == os_signatures.signaturesjson
 
 
 def test_addosbreed():

@@ -1,7 +1,7 @@
 import json
 import urllib.request
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
@@ -117,7 +117,7 @@ class Signatures:
         elif import_type == ImportTypes.STRING:
             self.signaturesjson = source
         else:
-            raise ValueError("Please use on of the four given options for the source!")
+            raise ValueError("Please use one of the four given options for the source!")
 
     def _importsignaturesfile(self, filepath: str):
         """
@@ -139,23 +139,46 @@ class Signatures:
         data = response.read()
         self.signaturesjson = data.decode('utf-8')
 
-    def exportsignatures(self, export_type: ExportTypes, target=""):
+    def __prepare_export_output(self, sort_keys: bool = False, indent: Union[None, int] = None) -> str:
+        """
+        Convert the internal data to a JSON. Only for internal usage.
+
+        :param sort_keys: If the keys of the dictionary should be sorted to be more human readable.
+        :param indent: If this is something other then ``None`` then the JSON will be pretty printed.
+        """
+        value = {}
+        for breed in self.osbreeds:
+            value[breed.name] = breed.encode()
+        return json.dumps({self._rootkey: value}, sort_keys=sort_keys, indent=indent)
+
+    def exportsignatures(self, export_type: ExportTypes, target: str = "", sort_keys: bool = False,
+                         indent: Union[None, int] = None):
         """
         This is the main export function.
 
         :param export_type: One of the values from the :class:`ExportTypes`.
         :param target: This is only required when using this for a file based export. Otherwise this can be skipped.
+        :param sort_keys: If the keys of the dictionary should be sorted to be more human readable.
+        :param indent: If this is something other then ``None`` then the JSON will be pretty printed.
         :raises ValueError: When the :class:`ExportTypes` is not implemented or not known.
+        :raises TypeError: When one of the arguments has the wrong type.
         """
+        if not isinstance(target, str):
+            raise TypeError("target needs to be of type str!")
+        if not isinstance(sort_keys, bool):
+            raise TypeError("sort_keys needs to be of type bool!")
+        if not (indent is None or isinstance(indent, int)):
+            raise TypeError("indent needs to be of type integer or None!")
+
         if export_type == ExportTypes.FILE:
             if not target:
                 raise ValueError("Please provide a path if your want to export to a file!")
             with open(target, "w") as f:
-                f.write(json.dumps(self.signaturesjson))
+                f.write(self.__prepare_export_output(sort_keys, indent))
         elif export_type == ExportTypes.STRING:
-            return json.dumps(self.signaturesjson)
+            return self.__prepare_export_output(sort_keys, indent)
         else:
-            raise ValueError("Please use on of the four given options for the export type!")
+            raise ValueError("Please use one of the two given options for the export type!")
 
     def jsontomodels(self):
         """
@@ -169,16 +192,6 @@ class Signatures:
             breed = OsBreed(key)
             breed.decode(breeds[key])
             self.osbreeds.append(breed)
-
-    def modelstojson(self):
-        """
-        Convert the internal data to a JSON. Without calling this the created and manipulated content will not be
-        available for im- and export.
-        """
-        value = {}
-        for breed in self.osbreeds:
-            value[breed.name] = breed.encode()
-        self.signaturesjson = json.dumps({self._rootkey: value})
 
     def addosbreed(self, name: str):
         """
