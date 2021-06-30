@@ -117,7 +117,7 @@ class Signatures:
         elif import_type == ImportTypes.STRING:
             self.signaturesjson = source
         else:
-            raise ValueError("Please use on of the four given options for the source!")
+            raise ValueError("Please use one of the four given options for the source!")
 
     def _importsignaturesfile(self, filepath: str):
         """
@@ -178,7 +178,7 @@ class Signatures:
         elif export_type == ExportTypes.STRING:
             return self.__prepare_export_output(sort_keys, indent)
         else:
-            raise ValueError("Please use on of the two given options for the export type!")
+            raise ValueError("Please use one of the two given options for the export type!")
 
     def jsontomodels(self):
         """
