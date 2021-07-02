@@ -50,7 +50,7 @@ class Signatures:
         :param value: The str which will be loaded by the Python json utility.
         """
         if value is None:
-            pass
+            return
         self._signaturesjson = json.loads(value)
 
     @property
@@ -115,9 +115,7 @@ class Signatures:
         :param sort_keys: If the keys of the dictionary should be sorted to be more human readable.
         :param indent: If this is something other then ``None`` then the JSON will be pretty printed.
         """
-        value = {}
-        for breed in self.osbreeds:
-            value[breed.name] = breed.encode()
+        value = {breed.name: breed.encode() for breed in self.osbreeds}
         return json.dumps({self._rootkey: value}, sort_keys=sort_keys, indent=indent)
 
     def exportsignatures(self, export_type: ExportTypes, target: str = "", sort_keys: bool = False,
@@ -154,8 +152,9 @@ class Signatures:
         Convert the loaded JSON to the internal modules. Without calling this the loaded data will not be available for
         manipulation.
         """
-        breeds = self.signaturesjson.get(self._rootkey, -1)
-        if breeds == -1:
+        missing_rootkey = object()
+        breeds = self.signaturesjson.get(self._rootkey, missing_rootkey)
+        if breeds is missing_rootkey:
             raise AttributeError("Missing Rootkey \"" + self._rootkey + "\".")
         for key in breeds:
             breed = OsBreed(key)
