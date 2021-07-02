@@ -1,52 +1,7 @@
-from enum import Enum
-
-
-class OsArchitectures(Enum):
-    """
-    An enumeration which defines the in Cobbler available architectures.
-    """
-    i386 = 1
-    """
-    32-bit architecture which is also called ``IA-32`` or ``80x86`` by some people.
-    """
-    x86_64 = 2
-    """
-    64-bit architecture which is also called ``x64``, ``x86-64``, ``AMD64`` or ``amd64``.
-    """
-    ppc = 3
-    """
-    32-bit big-endian PowerPC architecture.
-    """
-    ppc64 = 4
-    """
-    64-bit big-endian PowerPC architecture.
-    """
-    amd64 = 5
-    """
-    Synonym for ``x86_64``.
-    """
-
-
-class RepositoryBreeds(Enum):
-    """
-    An enumeration which defines the in Cobbler available repository breeds.
-    """
-    rsync = 1
-    """
-    A repository which is synced by rsync.
-    """
-    rhn = 2
-    """
-    A repository type from Red Hat which can be used by yum.
-    """
-    yum = 3
-    """
-    A repository which is manged by yum.
-    """
-    apt = 4
-    """
-    A repository which is managed by apt.
-    """
+"""
+Module for the datastructure of an operating system version. An operating system version needs to be grouped under an
+operating system breed.
+"""
 
 
 class Osversion:

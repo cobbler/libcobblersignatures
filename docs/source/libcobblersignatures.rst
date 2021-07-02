@@ -20,10 +20,10 @@ libcobblersignatures.cli module
    :undoc-members:
    :show-inheritance:
 
-libcobblersignatures.signatures module
---------------------------------------
+libcobblersignatures.enums module
+---------------------------------
 
-.. automodule:: libcobblersignatures.signatures
+.. automodule:: libcobblersignatures.enums
    :members:
    :undoc-members:
    :show-inheritance:
