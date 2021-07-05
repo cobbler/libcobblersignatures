@@ -13,8 +13,8 @@ def test_osversion_equality():
 
 
 @pytest.mark.parametrize("param,result,raises", [
-    (["RedHat/RPMS", "CentOS/RPMS"], ["RedHat/RPMS", "CentOS/RPMS"], does_not_raise()),
-    ("", [], pytest.raises(TypeError))
+    ({"RedHat/RPMS", "CentOS/RPMS"}, {"RedHat/RPMS", "CentOS/RPMS"}, does_not_raise()),
+    ("", set(), pytest.raises(TypeError))
 ])
 def test_signatures(param, result, raises):
     # Arrange
@@ -24,8 +24,8 @@ def test_signatures(param, result, raises):
     with raises:
         version.signatures = param
 
-    # Assert
-    assert version.signatures == result
+        # Assert
+        assert version.signatures == result
 
 
 def test_signatures_del():
@@ -36,7 +36,7 @@ def test_signatures_del():
     del version.signatures
 
     # Assert
-    assert version.signatures == []
+    assert version.signatures == set()
 
 
 @pytest.mark.parametrize("param,result", [
@@ -140,7 +140,8 @@ def test_kernel_arch_regex_del():
 
 
 @pytest.mark.parametrize("param,result", [
-    (["amd64", "i386"], ["amd64", "i386"])
+    ({"amd64", "i386"}, {"amd64", "i386"}),
+    (["amd64", "i386", "amd64"], {"i386", "amd64"})
 ])
 def test_supported_arches(param, result):
     # Arrange
@@ -161,11 +162,11 @@ def test_supported_arches_del():
     del version.supported_arches
 
     # Assert
-    assert version.supported_arches == []
+    assert version.supported_arches == set()
 
 
 @pytest.mark.parametrize("param,result", [
-    (["rhn", "apt"], ["rhn", "apt"])
+    ({"rhn", "apt"}, {"rhn", "apt"})
 ])
 def test_supported_repo_breeds(param, result):
     # Arrange
@@ -378,12 +379,13 @@ def test_template_files_del():
 
 
 @pytest.mark.parametrize("param,result,raises", [
-    ("", [], pytest.raises(TypeError)),
-    (0, [], pytest.raises(TypeError)),
-    ({}, [], pytest.raises(TypeError)),
-    (None, [], pytest.raises(TypeError)),
-    (False, [], pytest.raises(TypeError)),
-    (["Element"], ["Element"], does_not_raise())
+    ("", set(), pytest.raises(TypeError)),
+    (0, set(), pytest.raises(TypeError)),
+    ({}, set(), pytest.raises(TypeError)),
+    (None, set(), pytest.raises(TypeError)),
+    (False, set(), pytest.raises(TypeError)),
+    (["Element"], {"Element"}, does_not_raise()),
+    ({"Element"}, {"Element"}, does_not_raise())
 ])
 def test_boot_files(param, result, raises):
     # Arrange
@@ -393,8 +395,8 @@ def test_boot_files(param, result, raises):
     with raises:
         version.boot_files = param
 
-    # Assert
-    assert version.boot_files == result
+        # Assert
+        assert version.boot_files == result
 
 
 def test_boot_files_del():
@@ -405,7 +407,7 @@ def test_boot_files_del():
     del version.boot_files
 
     # Assert
-    assert version.boot_files == []
+    assert version.boot_files == set()
 
 
 @pytest.mark.parametrize("param,result,raises", [

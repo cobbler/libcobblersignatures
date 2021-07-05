@@ -16,13 +16,13 @@ class Osversion:
         """
         Creates default values for all values.
         """
-        self._signatures = []
+        self._signatures = set()
         self._version_file = ""
         self._version_file_regex = ""
         self._kernel_arch = ""
         self._kernel_arch_regex = ""
-        self._supported_arches = []
-        self._supported_repo_breeds = []
+        self._supported_arches = set()
+        self._supported_repo_breeds = set()
         self._kernel_file = ""
         self._initrd_file = ""
         self._isolinux_ok = False
@@ -30,7 +30,7 @@ class Osversion:
         self._kernel_options = ""
         self._kernel_options_post = ""
         self._template_files = ""
-        self._boot_files = []
+        self._boot_files = set()
         self._boot_loaders = {}
 
     def __eq__(self, other) -> bool:
@@ -61,36 +61,38 @@ class Osversion:
             and self.boot_loaders == other.boot_loaders
 
     @property
-    def signatures(self) -> list:
+    def signatures(self) -> set:
         """
         This is a list of strings with currently an unknown functionality.
 
         :setter: May raise a TypeError in case the value was not of type list.
         :getter: Returns the last correctly validated str of the property.
         :deleter: Resets this to an empty list.
-        :type: list
+        :type: set
         """
         return self._signatures
 
     @signatures.setter
-    def signatures(self, value: list):
+    def signatures(self, value: set):
         """
         Setter for the signatures.
 
         :param value: The list with the signatures.
         :raises TypeError: In case the value was not of of type list.
         """
-        if isinstance(value, list):
+        if isinstance(value, set):
             self._signatures = value
+        elif isinstance(value, list):
+            self._signatures = set(value)
         else:
-            raise TypeError("Signatures should be a list.")
+            raise TypeError("Signatures should be a set.")
 
     @signatures.deleter
     def signatures(self):
         """
         Resets the value of the signatures to an emtpy list.
         """
-        self._signatures = []
+        self._signatures = set()
 
     @property
     def version_file(self) -> str:
@@ -225,61 +227,65 @@ class Osversion:
         self._kernel_arch_regex = ""
 
     @property
-    def supported_arches(self) -> list:
+    def supported_arches(self) -> set:
         """
         Unused field currently. There for compatibility reasons for now.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
         :deleter: Resets this to an empty list.
-        :type: list
+        :type: set
         """
         return self._supported_arches
 
     @supported_arches.setter
-    def supported_arches(self, value: list):
+    def supported_arches(self, value: set):
         """
         Setter for the supported_arches.
 
         :param value: The new list for the ``supported_arches``.
         :raises TypeError: In case value is not of type list.
         """
-        if isinstance(value, list):
+        if isinstance(value, set):
             self._supported_arches = value
+        elif isinstance(value, list):
+            self._supported_arches = set(value)
         else:
-            raise TypeError("The supported_arches should be a list.")
+            raise TypeError("The supported_arches should be a set.")
 
     @supported_arches.deleter
     def supported_arches(self):
         """
         Resets the supported_arches to an empty list instead of deleting the attribute.
         """
-        self._supported_arches = []
+        self._supported_arches = set()
 
     @property
-    def supported_repo_breeds(self) -> list:
+    def supported_repo_breeds(self) -> set:
         """
         Unused field currently. There for compatibility reasons for now.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
         :deleter: Resets this to an empty list.
-        :type: list
+        :type: set
         """
         return self._supported_repo_breeds
 
     @supported_repo_breeds.setter
-    def supported_repo_breeds(self, value: list):
+    def supported_repo_breeds(self, value: set):
         """
         Setter for supported_repo_breeds.
 
         :param value: The new list for the ``supported_repo_breeds``.
         :raises TypeError: In case value is not of type list.
         """
-        if isinstance(value, list):
+        if isinstance(value, set):
             self._supported_repo_breeds = value
+        elif isinstance(value, list):
+            self._supported_repo_breeds = set(value)
         else:
-            raise TypeError("The supported_repo_breeds should be a list.")
+            raise TypeError("The supported_repo_breeds should be a set.")
 
     @supported_repo_breeds.deleter
     def supported_repo_breeds(self):
@@ -514,27 +520,29 @@ class Osversion:
         self._template_files = ""
 
     @property
-    def boot_files(self) -> list:
+    def boot_files(self) -> set:
         """
         Unknown field currently. There for compatibility reasons for now. Used by xenserver
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
         :deleter: Resets this to an empty list.
-        :type: list
+        :type: set
         """
         return self._boot_files
 
     @boot_files.setter
-    def boot_files(self, value: list):
+    def boot_files(self, value: set):
         """
         Setter for the ``boot_files``.
 
         :param value: The new boot files which should be set.
         :raises TypeError: In case value was not of type list.
         """
-        if isinstance(value, list):
+        if isinstance(value, set):
             self._boot_files = value
+        elif isinstance(value, list):
+            self._boot_files = set(value)
         else:
             raise TypeError("The boot_files should be a list.")
 
@@ -543,7 +551,7 @@ class Osversion:
         """
         Resets the boot_files to an empty list instead of deleting the attribute.
         """
-        self._boot_files = []
+        self._boot_files = set()
 
     @property
     def boot_loaders(self) -> dict:
@@ -610,7 +618,7 @@ class Osversion:
             if isinstance(value, str):
                 if value == "":
                     keys_with_defaults.append(key)
-            elif isinstance(value, (list, dict)):
+            elif isinstance(value, (list, set, dict)):
                 if len(value) == 0:
                     keys_with_defaults.append(key)
             elif isinstance(value, (bool, int)):
@@ -630,13 +638,13 @@ class Osversion:
 
         :param data: The data to decode.
         """
-        self.signatures = utils.convert_none_to_default(data.get("signatures"), list)
+        self.signatures = utils.convert_none_to_default(data.get("signatures"), set)
         self.version_file = utils.convert_none_to_default(data.get("version_file"), str)
         self.version_file_regex = utils.convert_none_to_default(data.get("version_file_regex"), str)
         self.kernel_arch = utils.convert_none_to_default(data.get("kernel_arch"), str)
         self.kernel_arch_regex = utils.convert_none_to_default(data.get("kernel_arch_regex"), str)
-        self.supported_arches = utils.convert_none_to_default(data.get("supported_arches"), list)
-        self.supported_repo_breeds = utils.convert_none_to_default(data.get("supported_repo_breeds"), list)
+        self.supported_arches = utils.convert_none_to_default(data.get("supported_arches"), set)
+        self.supported_repo_breeds = utils.convert_none_to_default(data.get("supported_repo_breeds"), set)
         self.kernel_file = utils.convert_none_to_default(data.get("kernel_file"), str)
         self.initrd_file = utils.convert_none_to_default(data.get("initrd_file"), str)
         self.isolinux_ok = utils.convert_none_to_default(data.get("isolinux_ok"), bool)
@@ -644,5 +652,5 @@ class Osversion:
         self.kernel_options = utils.convert_none_to_default(data.get("kernel_options"), str)
         self.kernel_options_post = utils.convert_none_to_default(data.get("kernel_options_post"), str)
         self.template_files = utils.convert_none_to_default(data.get("template_files"), str)
-        self.boot_files = utils.convert_none_to_default(data.get("boot_files"), list)
+        self.boot_files = utils.convert_none_to_default(data.get("boot_files"), set)
         self.boot_loaders = utils.convert_none_to_default(data.get("boot_loaders"), dict)
