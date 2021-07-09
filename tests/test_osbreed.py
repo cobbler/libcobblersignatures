@@ -104,3 +104,32 @@ def test_breed_remove():
 
     # Act & Assert
     osbreed.osversion_remove(itemname)
+
+
+def test_encode():
+    # Arrange
+    breed = OsBreed("test")
+    breed.osversion_add("test1", Osversion())
+    breed.osversion_add("test2", Osversion())
+
+    # Act
+    result = breed.encode()
+
+    # Assert
+    assert isinstance(result, dict)
+    assert "test1" in result
+    assert "test2" in result
+    assert isinstance(result["test1"], dict)
+
+
+def test_decode():
+    # Arrange
+    breed = OsBreed("test")
+    data = {"version1": {}, "version2": {}}
+
+    # Act
+    breed.decode(data)
+
+    # Assert
+    assert breed.osversions["version1"]
+    assert breed.osversions["version2"]

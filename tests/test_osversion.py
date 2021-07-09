@@ -439,3 +439,42 @@ def test_boot_loaders_del():
 
     # Assert
     assert version.boot_loaders == {}
+
+
+def test_encode():
+    # Arrange
+    version = Osversion()
+
+    # Act
+    result = version.encode()
+
+    # Assert
+    assert isinstance(result, dict)
+    # If we have an empty version, only the bools are shown.
+    assert len(result) == 1
+
+
+def test_encode_set():
+    # Arrange
+    version = Osversion()
+    version.signatures.add("test")
+
+    # Act
+    result = version.encode()
+
+    # Assert
+    assert isinstance(result, dict)
+    # If we have an empty version, only the bools are shown.
+    assert len(result) == 2
+
+
+def test_decode():
+    # Arrange
+    version = Osversion()
+    data = {"version_file": "test"}
+
+    # Act
+    version.decode(data)
+
+    # Assert
+    assert version.version_file == "test"
