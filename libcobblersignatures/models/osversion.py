@@ -615,6 +615,11 @@ class Osversion:
 
         for key in interim_result:
             value = interim_result[key]
+
+            # Convert non JSON convertable sets to convertable lists
+            if isinstance(value, set):
+                interim_result[key] = list(value)
+
             if isinstance(value, str):
                 if value == "":
                     keys_with_defaults.append(key)
