@@ -532,6 +532,7 @@ def edit_menu():
         name_to_find = result_edit_remove_os_version_1["edit_remove_os_version_1"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
         if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
+            update_choices(edit_remove_os_version_2, get_os_version_names(name_to_find))
             result_edit_remove_os_version_2 = questionary.prompt(edit_remove_os_version_2)
             name_to_find_1 = result_edit_remove_os_version_2["edit_remove_os_version_2"]
             os_signatures.removeosversion(index, name_to_find_1)
