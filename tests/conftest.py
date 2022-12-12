@@ -30,6 +30,7 @@ def create_signatures_json(testpath):
         full_path = testpath
         with open(full_path, "w") as f:
             f.write(content)
+
     return _create_signatures_json
 
 
@@ -39,4 +40,4 @@ def delete_signatures_json(testpath):
     if os.path.exists(testpath):
         os.remove(testpath)
     else:
-        raise FileExistsError("Given file at \"" + testpath + "\" not found.")
+        raise FileExistsError('Given file at "' + testpath + '" not found.')

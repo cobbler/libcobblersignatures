@@ -115,7 +115,10 @@ class OsBreed:
         """
         if isinstance(name, str) and isinstance(version, Osversion):
             if name in self.osversions:
-                raise ValueError("The name \"%s\" already exists for the OsBreed \"%s\"!" % (name, self.name))
+                raise ValueError(
+                    'The name "%s" already exists for the OsBreed "%s"!'
+                    % (name, self.name)
+                )
             self.osversions[name] = version
         else:
             raise ValueError("Name must be str and Version must be Osversion.")

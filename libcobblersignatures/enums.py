@@ -9,6 +9,7 @@ class OsArchitectures(Enum):
     """
     An enumeration which defines the in Cobbler available architectures.
     """
+
     i386 = 1
     """
     32-bit architecture which is also called ``IA-32`` or ``80x86`` by some people.
@@ -35,6 +36,7 @@ class RepositoryBreeds(Enum):
     """
     An enumeration which defines the in Cobbler available repository breeds.
     """
+
     rsync = 1
     """
     A repository which is synced by rsync.
@@ -57,6 +59,7 @@ class ImportTypes(Enum):
     """
     An enumeration which defines the possible sources for importing the JSON file.
     """
+
     FILE = 0
     """
     This value shall be given when the content shall be imported from a file on a file system which is locally
@@ -77,6 +80,7 @@ class ExportTypes(Enum):
     """
     An enumeration which defines the possible export targets for the JSON file.
     """
+
     FILE = 0
     """
     This value shall be given when the content of the manipulated content shall be exported to a file.

@@ -23,7 +23,7 @@ def test_breeds():
 @pytest.mark.usefixtures("delete_signatures_json")
 def test_importsignatures_file(create_signatures_json, testpath):
     # Arrange
-    testdata = "{\"breeds\": {}}"
+    testdata = '{"breeds": {}}'
     expected = {"breeds": {}}
     create_signatures_json(testdata)
     os_signatures = Signatures()
@@ -37,7 +37,7 @@ def test_importsignatures_file(create_signatures_json, testpath):
 
 def test_importsignatures_string():
     # Arrange
-    signatures_text = "{\"breeds\": {}}"
+    signatures_text = '{"breeds": {}}'
     os_signatures = Signatures()
 
     # Act
@@ -85,7 +85,7 @@ def test_exportsignatures_file(testpath):
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    expected = "{\"breeds\": {\"suse\": {}}}"
+    expected = '{"breeds": {"suse": {}}}'
 
     # Act
     os_signatures.exportsignatures(ExportTypes.FILE, testpath)
@@ -99,7 +99,7 @@ def test_exportsignatures_file(testpath):
 def test_exportsignatures_file_nopath():
     # Arrange
     os_signatures = Signatures()
-    os_signatures.importsignatures(ImportTypes.STRING, "{\"breeds\": {}}")
+    os_signatures.importsignatures(ImportTypes.STRING, '{"breeds": {}}')
 
     # Act & Assert
     with pytest.raises(ValueError):
@@ -110,7 +110,7 @@ def test_exportsignatures_string():
     # Arrange
     os_signatures = Signatures()
     os_signatures.addosbreed("suse")
-    expected = "{\"breeds\": {\"suse\": {}}}"
+    expected = '{"breeds": {"suse": {}}}'
 
     # Act
     result = os_signatures.exportsignatures(ExportTypes.STRING)
@@ -122,17 +122,20 @@ def test_exportsignatures_string():
 def test_exportsignatures_unkown():
     # Arrange
     os_signatures = Signatures()
-    os_signatures.importsignatures(ImportTypes.STRING, "{\"breeds\": {}}")
+    os_signatures.importsignatures(ImportTypes.STRING, '{"breeds": {}}')
 
     # Act & Assert
     with pytest.raises(ValueError):
         os_signatures.exportsignatures(100)
 
 
-@pytest.mark.parametrize("input_data,result,raises", [
-    ("{\"breeds; {}}", {}, pytest.raises(JSONDecodeError)),
-    ("{\"breeds\": {}}", {"breeds": {}}, does_not_raise())
-])
+@pytest.mark.parametrize(
+    "input_data,result,raises",
+    [
+        ('{"breeds; {}}', {}, pytest.raises(JSONDecodeError)),
+        ('{"breeds": {}}', {"breeds": {}}, does_not_raise()),
+    ],
+)
 def test_signaturesjson(input_data, result, raises):
     # Arrange
     os_signatures = Signatures()
@@ -146,10 +149,10 @@ def test_signaturesjson(input_data, result, raises):
     assert result == os_signatures.signaturesjson
 
 
-@pytest.mark.parametrize("input_data,expected_data", [
-    ("{\"breeds\": {}}", []),
-    ("{\"breeds\": {\"suse\": {}}}", [OsBreed("suse")])
-])
+@pytest.mark.parametrize(
+    "input_data,expected_data",
+    [('{"breeds": {}}', []), ('{"breeds": {"suse": {}}}', [OsBreed("suse")])],
+)
 def test_jsontomodels(input_data, expected_data):
     # Arrange
     os_signatures = Signatures()

@@ -5,8 +5,9 @@ Helper methods which are not directly related to any class or module in this lib
 from typing import Union
 
 
-def convert_none_to_default(value: Union[str, int, bool, list, dict, set, None], value_type) \
-        -> Union[str, int, bool, list, dict, set, None]:
+def convert_none_to_default(
+    value: Union[str, int, bool, list, dict, set, None], value_type
+) -> Union[str, int, bool, list, dict, set, None]:
     """
     This method checks if the value handed to it is ``None``, otherwise the default value for the type will be returned.
 
