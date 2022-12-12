@@ -1,0 +1,18 @@
+name: Linting
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  linter_name:
+    name: runner/black_formatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: psf/black@stable
+        with:
+          options: "--check --safe --verbose"
+          version: "22.3.0"
