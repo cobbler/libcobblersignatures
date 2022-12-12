@@ -12,10 +12,17 @@ def test_osversion_equality():
     assert Osversion() == Osversion()
 
 
-@pytest.mark.parametrize("param,result,raises", [
-    ({"RedHat/RPMS", "CentOS/RPMS"}, {"RedHat/RPMS", "CentOS/RPMS"}, does_not_raise()),
-    ("", set(), pytest.raises(TypeError))
-])
+@pytest.mark.parametrize(
+    "param,result,raises",
+    [
+        (
+            {"RedHat/RPMS", "CentOS/RPMS"},
+            {"RedHat/RPMS", "CentOS/RPMS"},
+            does_not_raise(),
+        ),
+        ("", set(), pytest.raises(TypeError)),
+    ],
+)
 def test_signatures(param, result, raises):
     # Arrange
     version = Osversion()
@@ -39,9 +46,7 @@ def test_signatures_del():
     assert version.signatures == set()
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_version_file(param, result):
     # Arrange
     version = Osversion()
@@ -64,9 +69,7 @@ def test_version_file_del():
     assert version.version_file == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_version_file_regex(param, result):
     # Arrange
     version = Osversion()
@@ -89,9 +92,7 @@ def test_version_file_regex_del():
     assert version.version_file_regex == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_kernel_arch(param, result):
     # Arrange
     version = Osversion()
@@ -114,9 +115,7 @@ def test_kernel_arch_del():
     assert version.kernel_arch == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_kernel_arch_regex(param, result):
     # Arrange
     version = Osversion()
@@ -139,10 +138,13 @@ def test_kernel_arch_regex_del():
     assert version.kernel_arch_regex == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ({"amd64", "i386"}, {"amd64", "i386"}),
-    (["amd64", "i386", "amd64"], {"i386", "amd64"})
-])
+@pytest.mark.parametrize(
+    "param,result",
+    [
+        ({"amd64", "i386"}, {"amd64", "i386"}),
+        (["amd64", "i386", "amd64"], {"i386", "amd64"}),
+    ],
+)
 def test_supported_arches(param, result):
     # Arrange
     osversion = Osversion()
@@ -165,9 +167,7 @@ def test_supported_arches_del():
     assert version.supported_arches == set()
 
 
-@pytest.mark.parametrize("param,result", [
-    ({"rhn", "apt"}, {"rhn", "apt"})
-])
+@pytest.mark.parametrize("param,result", [({"rhn", "apt"}, {"rhn", "apt"})])
 def test_supported_repo_breeds(param, result):
     # Arrange
     osversion = Osversion()
@@ -190,15 +190,18 @@ def test_supported_repo_breeds_del():
     assert version.supported_repo_breeds == []
 
 
-@pytest.mark.parametrize("param,result,raises", [
-    ("", "", does_not_raise()),
-    (0, "", pytest.raises(TypeError)),
-    ({}, "", pytest.raises(TypeError)),
-    (None, "", pytest.raises(TypeError)),
-    (False, "", pytest.raises(TypeError)),
-    (["Element"], "", pytest.raises(TypeError)),
-    ("ergodox", "ergodox", does_not_raise())
-])
+@pytest.mark.parametrize(
+    "param,result,raises",
+    [
+        ("", "", does_not_raise()),
+        (0, "", pytest.raises(TypeError)),
+        ({}, "", pytest.raises(TypeError)),
+        (None, "", pytest.raises(TypeError)),
+        (False, "", pytest.raises(TypeError)),
+        (["Element"], "", pytest.raises(TypeError)),
+        ("ergodox", "ergodox", does_not_raise()),
+    ],
+)
 def test_kernel_file(param, result, raises):
     # Arrange
     version = Osversion()
@@ -222,9 +225,7 @@ def test_kernel_file_del():
     assert version.kernel_file == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_initrd_file(param, result):
     # Arrange
     version = Osversion()
@@ -247,14 +248,17 @@ def test_initrd_file_del():
     assert version.initrd_file == ""
 
 
-@pytest.mark.parametrize("param,result,raises", [
-    ("", False, pytest.raises(TypeError)),
-    (0, False, pytest.raises(TypeError)),
-    ([], False, pytest.raises(TypeError)),
-    ({}, False, pytest.raises(TypeError)),
-    (True, True, does_not_raise()),
-    (False, False, does_not_raise())
-])
+@pytest.mark.parametrize(
+    "param,result,raises",
+    [
+        ("", False, pytest.raises(TypeError)),
+        (0, False, pytest.raises(TypeError)),
+        ([], False, pytest.raises(TypeError)),
+        ({}, False, pytest.raises(TypeError)),
+        (True, True, does_not_raise()),
+        (False, False, does_not_raise()),
+    ],
+)
 def test_isolinux_ok(param, result, raises):
     # Arrange
     version = Osversion()
@@ -278,9 +282,7 @@ def test_isolinux_ok_del():
     assert not version.isolinux_ok
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_default_autoinstall(param, result):
     # Arrange
     version = Osversion()
@@ -303,9 +305,7 @@ def test_default_autoinstall_del():
     assert version.default_autoinstall == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_kernel_options(param, result):
     # Arrange
     version = Osversion()
@@ -328,9 +328,7 @@ def test_kernel_options_del():
     assert version.kernel_options == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_kernel_options_post(param, result):
     # Arrange
     version = Osversion()
@@ -353,9 +351,7 @@ def test_kernel_options_post_del():
     assert version.kernel_options_post == ""
 
 
-@pytest.mark.parametrize("param,result", [
-    ("", "")
-])
+@pytest.mark.parametrize("param,result", [("", "")])
 def test_template_files(param, result):
     # Arrange
     version = Osversion()
@@ -378,15 +374,18 @@ def test_template_files_del():
     assert version.template_files == ""
 
 
-@pytest.mark.parametrize("param,result,raises", [
-    ("", set(), pytest.raises(TypeError)),
-    (0, set(), pytest.raises(TypeError)),
-    ({}, set(), pytest.raises(TypeError)),
-    (None, set(), pytest.raises(TypeError)),
-    (False, set(), pytest.raises(TypeError)),
-    (["Element"], {"Element"}, does_not_raise()),
-    ({"Element"}, {"Element"}, does_not_raise())
-])
+@pytest.mark.parametrize(
+    "param,result,raises",
+    [
+        ("", set(), pytest.raises(TypeError)),
+        (0, set(), pytest.raises(TypeError)),
+        ({}, set(), pytest.raises(TypeError)),
+        (None, set(), pytest.raises(TypeError)),
+        (False, set(), pytest.raises(TypeError)),
+        (["Element"], {"Element"}, does_not_raise()),
+        ({"Element"}, {"Element"}, does_not_raise()),
+    ],
+)
 def test_boot_files(param, result, raises):
     # Arrange
     version = Osversion()
@@ -410,14 +409,17 @@ def test_boot_files_del():
     assert version.boot_files == set()
 
 
-@pytest.mark.parametrize("param,result,raises", [
-    ("", {}, pytest.raises(TypeError)),
-    (0, {}, pytest.raises(TypeError)),
-    (False, {}, pytest.raises(TypeError)),
-    ([], {}, pytest.raises(TypeError)),
-    (None, {}, pytest.raises(TypeError)),
-    ({"Element": False}, {"Element": False}, does_not_raise())
-])
+@pytest.mark.parametrize(
+    "param,result,raises",
+    [
+        ("", {}, pytest.raises(TypeError)),
+        (0, {}, pytest.raises(TypeError)),
+        (False, {}, pytest.raises(TypeError)),
+        ([], {}, pytest.raises(TypeError)),
+        (None, {}, pytest.raises(TypeError)),
+        ({"Element": False}, {"Element": False}, does_not_raise()),
+    ],
+)
 def test_boot_loaders(param, result, raises):
     # Arrange
     version = Osversion()

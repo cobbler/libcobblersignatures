@@ -95,7 +95,7 @@ class Signatures:
         :param filepath: The relative or absolute path. Additionally this may be all path variations which are accepted
                          by the Python ``open()`` function.
         """
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             self.signaturesjson = f.read()
 
     def _importsignaturesurl(self, url: str):
@@ -106,9 +106,11 @@ class Signatures:
         """
         response = urllib.request.urlopen(url)
         data = response.read()
-        self.signaturesjson = data.decode('utf-8')
+        self.signaturesjson = data.decode("utf-8")
 
-    def __prepare_export_output(self, sort_keys: bool = False, indent: Union[None, int] = None) -> str:
+    def __prepare_export_output(
+        self, sort_keys: bool = False, indent: Union[None, int] = None
+    ) -> str:
         """
         Convert the internal data to a JSON. Only for internal usage.
 
@@ -118,8 +120,13 @@ class Signatures:
         value = {breed.name: breed.encode() for breed in self.osbreeds}
         return json.dumps({self._rootkey: value}, sort_keys=sort_keys, indent=indent)
 
-    def exportsignatures(self, export_type: ExportTypes, target: str = "", sort_keys: bool = False,
-                         indent: Union[None, int] = None):
+    def exportsignatures(
+        self,
+        export_type: ExportTypes,
+        target: str = "",
+        sort_keys: bool = False,
+        indent: Union[None, int] = None,
+    ):
         """
         This is the main export function.
 
@@ -139,13 +146,17 @@ class Signatures:
 
         if export_type == ExportTypes.FILE:
             if not target:
-                raise ValueError("Please provide a path if your want to export to a file!")
+                raise ValueError(
+                    "Please provide a path if your want to export to a file!"
+                )
             with open(target, "w") as f:
                 f.write(self.__prepare_export_output(sort_keys, indent))
         elif export_type == ExportTypes.STRING:
             return self.__prepare_export_output(sort_keys, indent)
         else:
-            raise ValueError("Please use on of the two given options for the export type!")
+            raise ValueError(
+                "Please use on of the two given options for the export type!"
+            )
 
     def jsontomodels(self):
         """
@@ -155,7 +166,7 @@ class Signatures:
         missing_rootkey = object()
         breeds = self.signaturesjson.get(self._rootkey, missing_rootkey)
         if breeds is missing_rootkey:
-            raise AttributeError("Missing Rootkey \"" + self._rootkey + "\".")
+            raise AttributeError('Missing Rootkey "' + self._rootkey + '".')
         for key in breeds:
             breed = OsBreed(key)
             breed.decode(breeds[key])
@@ -168,7 +179,7 @@ class Signatures:
         :param name: The name of the new breed. Must not exist in the currently loaded models.
         """
         if name in [x.name for x in self.osbreeds]:
-            raise ValueError("Breed \"%s\" already in the list of breeds!" % name)
+            raise ValueError('Breed "%s" already in the list of breeds!' % name)
         self.osbreeds.append(OsBreed(name))
 
     def addosversion(self, breedindex: int, versionname: str, versiondata):
@@ -217,5 +228,3 @@ class Signatures:
                 if name == self.osbreeds[index].name:
                     return index
         return -1
-
-

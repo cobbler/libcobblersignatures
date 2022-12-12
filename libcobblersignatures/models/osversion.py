@@ -43,22 +43,24 @@ class Osversion:
         """
         if not isinstance(other, Osversion):
             return NotImplemented
-        return self.signatures == other.signatures \
-            and self.version_file == other.version_file \
-            and self.version_file_regex == other.version_file_regex \
-            and self.kernel_arch == other.kernel_arch \
-            and self.kernel_arch_regex == other.kernel_arch_regex \
-            and self.supported_arches == other.supported_arches \
-            and self.supported_repo_breeds == other.supported_repo_breeds \
-            and self.kernel_file == other.kernel_file \
-            and self.initrd_file == other.initrd_file \
-            and self.isolinux_ok == other.isolinux_ok \
-            and self.default_autoinstall == other.default_autoinstall \
-            and self.kernel_options == other.kernel_options \
-            and self.kernel_options_post == other.kernel_options_post \
-            and self.template_files == other._template_files \
-            and self.boot_files == other.boot_files \
+        return (
+            self.signatures == other.signatures
+            and self.version_file == other.version_file
+            and self.version_file_regex == other.version_file_regex
+            and self.kernel_arch == other.kernel_arch
+            and self.kernel_arch_regex == other.kernel_arch_regex
+            and self.supported_arches == other.supported_arches
+            and self.supported_repo_breeds == other.supported_repo_breeds
+            and self.kernel_file == other.kernel_file
+            and self.initrd_file == other.initrd_file
+            and self.isolinux_ok == other.isolinux_ok
+            and self.default_autoinstall == other.default_autoinstall
+            and self.kernel_options == other.kernel_options
+            and self.kernel_options_post == other.kernel_options_post
+            and self.template_files == other._template_files
+            and self.boot_files == other.boot_files
             and self.boot_loaders == other.boot_loaders
+        )
 
     @property
     def signatures(self) -> set:
@@ -610,7 +612,7 @@ class Osversion:
             "kernel_options_post": self.kernel_options_post,
             "template_files": self._template_files,
             "boot_files": self.boot_files,
-            "boot_loaders": self.boot_loaders
+            "boot_loaders": self.boot_loaders,
         }
 
         for key in interim_result:
@@ -645,17 +647,35 @@ class Osversion:
         """
         self.signatures = utils.convert_none_to_default(data.get("signatures"), set)
         self.version_file = utils.convert_none_to_default(data.get("version_file"), str)
-        self.version_file_regex = utils.convert_none_to_default(data.get("version_file_regex"), str)
+        self.version_file_regex = utils.convert_none_to_default(
+            data.get("version_file_regex"), str
+        )
         self.kernel_arch = utils.convert_none_to_default(data.get("kernel_arch"), str)
-        self.kernel_arch_regex = utils.convert_none_to_default(data.get("kernel_arch_regex"), str)
-        self.supported_arches = utils.convert_none_to_default(data.get("supported_arches"), set)
-        self.supported_repo_breeds = utils.convert_none_to_default(data.get("supported_repo_breeds"), set)
+        self.kernel_arch_regex = utils.convert_none_to_default(
+            data.get("kernel_arch_regex"), str
+        )
+        self.supported_arches = utils.convert_none_to_default(
+            data.get("supported_arches"), set
+        )
+        self.supported_repo_breeds = utils.convert_none_to_default(
+            data.get("supported_repo_breeds"), set
+        )
         self.kernel_file = utils.convert_none_to_default(data.get("kernel_file"), str)
         self.initrd_file = utils.convert_none_to_default(data.get("initrd_file"), str)
         self.isolinux_ok = utils.convert_none_to_default(data.get("isolinux_ok"), bool)
-        self.default_autoinstall = utils.convert_none_to_default(data.get("default_autoinstall"), str)
-        self.kernel_options = utils.convert_none_to_default(data.get("kernel_options"), str)
-        self.kernel_options_post = utils.convert_none_to_default(data.get("kernel_options_post"), str)
-        self.template_files = utils.convert_none_to_default(data.get("template_files"), str)
+        self.default_autoinstall = utils.convert_none_to_default(
+            data.get("default_autoinstall"), str
+        )
+        self.kernel_options = utils.convert_none_to_default(
+            data.get("kernel_options"), str
+        )
+        self.kernel_options_post = utils.convert_none_to_default(
+            data.get("kernel_options_post"), str
+        )
+        self.template_files = utils.convert_none_to_default(
+            data.get("template_files"), str
+        )
         self.boot_files = utils.convert_none_to_default(data.get("boot_files"), set)
-        self.boot_loaders = utils.convert_none_to_default(data.get("boot_loaders"), dict)
+        self.boot_loaders = utils.convert_none_to_default(
+            data.get("boot_loaders"), dict
+        )
