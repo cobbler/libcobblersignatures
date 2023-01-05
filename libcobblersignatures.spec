@@ -17,7 +17,7 @@
 
 
 Name:           libcobblersignatures
-Version:        1596876389.b382a7d
+Version:        0.1.0
 Release:        0
 Summary:        Cobbler Signatures Library
 License:        GPL-2.0-or-later

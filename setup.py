@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
+import libcobblersignatures
 
 here = path.abspath(path.dirname(__file__))
 
@@ -9,7 +10,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="libcobblersignatures",
-    version="0.0.1",
+    version=libcobblersignatures.__version__,
     description="This library manages the operating system distribution signatures to enable cobbler to detect it "
     "correctly.",
     long_description=long_description,
@@ -33,7 +34,7 @@ setup(
     python_requires=">=3",
     install_requires=["questionary"],
     extras_require={
-        "lint": ["pylint"],
+        "lint": ["pylint", "black"],
         "test": ["coverage", "pytest"],
         "docs": ["sphinx_rtd_theme"],
     },
