@@ -11,6 +11,7 @@ from libcobblersignatures.enums import ExportTypes, ImportTypes
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 
+__version__ = "0.1.0"
 
 class Signatures:
     """
