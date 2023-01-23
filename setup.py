@@ -37,6 +37,7 @@ setup(
         "lint": ["pylint", "black"],
         "test": ["coverage", "pytest"],
         "docs": ["sphinx_rtd_theme"],
+        "changelog": ["towncrier>=22.8.0"],
     },
     entry_points={
         "console_scripts": [
