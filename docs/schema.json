@@ -1,0 +1,161 @@
+{
+  "title": "distro-signatures",
+  "description": "the different distributions spupported by cobbler",
+  "type": "object",
+  "properties": {
+    "breeds": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "distro": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "os": {
+              "desciption": "",
+              "type": "object",
+              "properties": {
+                "signatures": {
+                  "description": "",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "version_file": {
+                  "description": "",
+                  "type": "string"
+                },
+                "version_file_regex": {
+                  "description": "",
+                  "type": "string"
+                },
+                "kernel_arch": {
+                  "description": "",
+                  "type": "string"
+                },
+                "kernel_arch_regex": {
+                  "description": "",
+                  "type": "string"
+                },
+                "supported_arches": {
+                  "description": "",
+                  "enum": [
+                    "arm",
+                    "armhfp",
+                    "aarch64",
+                    "i386",
+                    "ia64",
+                    "ppc",
+                    "ppc64",
+                    "ppc64le",
+                    "s390",
+                    "s390x",
+                    "x86_64"
+                  ]
+                },
+                "supported_repo_breeds": {
+                  "description": "",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "kernel_file": {
+                  "description": "",
+                  "type": "string"
+                },
+                "initrd_file": {
+                  "description": "",
+                  "type": "string"
+                },
+                "isolinux_ok": {
+                  "description": "",
+                  "type": "boolean"
+                },
+                "default_autoinstall": {
+                  "description": "",
+                  "type": "string"
+                },
+                "kernel_options": {
+                  "description": "",
+                  "type": "string"
+                },
+                "kernel_options_post": {
+                  "description": "",
+                  "type": "string"
+                },
+                "template_files": {
+                  "description": "",
+                  "type": "string"
+                },
+                "boot_files": {
+                  "description": "",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "boot_loaders": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "arm": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "armhfp": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "aarch64": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "i386": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "ia64": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "ppc": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "ppc64": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "ppc64le": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "s390": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "s390x": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    },
+                    "x86_64": {
+                      "enum": ["pxe", "ipxe", "grub"]
+                    }
+                  }
+                }
+              },
+              "required": [
+                "signatures",
+                "version_file",
+                "kernel_arch",
+                "supported_arches",
+                "supported_repo_breeds",
+                "kernel_file",
+                "initrd_file",
+                "isolinux_ok",
+                "default_autoinstall",
+                "kernel_options",
+                "kernel_options_post",
+                "template_files",
+                "boot_files"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["breeds"]
+}

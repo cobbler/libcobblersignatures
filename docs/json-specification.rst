@@ -34,52 +34,22 @@ This list should be modified when new groups are added, removed or changed when 
 Each of these operating system groups have a key for each version of it. The key should be in lowercase and should have
 a version suffix. The name of the key should be unique across the distribution section and contains an object.
 
-The object has the following keys (type included):
+For a list of keys and types please look at our schema:
+https://github.com/cobbler/libcobblersignatures/tree/main/docs/schema.json
 
-+---------------------------+------------------+-------------+
-| Name                      | Type             | Description |
-+---------------------------+------------------+-------------+
-| ``signatures``            | Array of Strings |             |
-+---------------------------+------------------+-------------+
-| ``version_file``          | String           |             |
-+---------------------------+------------------+-------------+
-| ``version_file_regex``    | String           |             |
-+---------------------------+------------------+-------------+
-| ``kernel_arch``           | String           |             |
-+---------------------------+------------------+-------------+
-| ``kernel_arch_regex``     | String           |             |
-+---------------------------+------------------+-------------+
-| ``supported_arches``      | Array of Strings |             |
-+---------------------------+------------------+-------------+
-| ``supported_repo_breeds`` | Array of Strings |             |
-+---------------------------+------------------+-------------+
-| ``kernel_file``           | String           |             |
-+---------------------------+------------------+-------------+
-| ``initrd_file``           | String           |             |
-+---------------------------+------------------+-------------+
-| ``isolinux_ok``           | Boolean          |             |
-+---------------------------+------------------+-------------+
-| ``default_autoinstall``   | String           |             |
-+---------------------------+------------------+-------------+
-| ``kernel_options``        | String           |             |
-+---------------------------+------------------+-------------+
-| ``kernel_options_post``   | String           |             |
-+---------------------------+------------------+-------------+
-| ``template_files``        | String           |             |
-+---------------------------+------------------+-------------+
-| ``boot_files``            | Array of Strings |             |
-+---------------------------+------------------+-------------+
-| ``boot_loaders``          | Dictionary       |             |
-+---------------------------+------------------+-------------+
+.. note::
+   The schema is used to validate the signatures and can be used as a template for writing and comparing
+   your own signatures. For more information read the JSON Schema documentation at https://json-schema.org/
 
-.. note:
-   The current json type ``null`` is not valid in our context. Please use empty string, list or dicts for default
-   values.
+.. note::
+    The current json type ``null`` is only valid for ``version_file_regex`` and ``kernel_arch_regex``.
+    For all other keys please use empty strings, lists or dicts for default values.
 
 Example files
 #############
 
-Please have a look at https://github.com/cobbler/cobbler/blob/master/config/cobbler/distro_signatures.json
+Please have a look at
+https://github.com/cobbler/libcobblersignatures/tree/main/libcobblersignatures/config/distro_signatures.json
 
 The most simple valid (but useless) ``signatures.json`` file will be:
 
