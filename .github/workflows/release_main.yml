@@ -1,9 +1,6 @@
 name: Publish Python distributions to TestPyPI
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build-n-publish:
@@ -22,6 +19,8 @@ jobs:
       - name: Fetch date for version bump
         run: echo "new_version=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
       - name: Replace version in setup.py
+        if: startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/main'
+        # Only replace the version if we are not on a tag and on main.
         run: sed -i '/[[:space:]]*version="[0-9]+(\.[0-9]+){2}"/s//version="${{ env.new_version }}"/' setup.py
       - name: Install Deps with pip
         run: pip install .
@@ -30,7 +29,13 @@ jobs:
       - name: Build a binary wheel and a source tarball
         run: python setup.py sdist bdist_wheel
       - name: Publish distribution to Test PyPI
+        if: github.ref == 'refs/heads/main'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+      - name: Publish distribution to PyPI
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
