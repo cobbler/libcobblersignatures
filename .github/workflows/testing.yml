@@ -24,12 +24,10 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run the tests
       run: |
-        pytest --cache-clear --cov=libcobblersignatures tests/ --cov-report=xml
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+        pytest --cache-clear --cov=libcobblersignatures tests/ && coverage xml
+    # https://github.com/codacy/codacy-coverage-reporter-action
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@v1
       with:
-        token: 53b8444a-0631-40e8-a199-7c5d71a8d174
-        flags: unittests
-        env_vars: OS,PYTHON
-        fail_ci_if_error: true
-        verbose: true
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: coverage.xml
