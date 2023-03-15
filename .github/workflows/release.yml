@@ -1,10 +1,10 @@
-name: Publish Python distributions to TestPyPI
+name: Publish to PyPI
 
 on: [push]
 
 jobs:
   build-n-publish:
-    name: Build and publish Python distributions to TestPyPI
+    name: Build and publish Python distributions to PyPI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
       - name: Replace version in setup.py
         if: startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/main'
         # Only replace the version if we are not on a tag and on main.
-        run: sed -i '/[[:space:]]*version="[0-9]+(\.[0-9]+){2}"/s//version="${{ env.new_version }}"/' setup.py
+        run: sed -i '/__version__ = "[0-9].[0-9].[0-9]/s/.$/.'${{ env.new_version }}'"/g' libcobblersignatures/__init__.py
       - name: Install Deps with pip
         run: pip install .
       - name: Install pypa/build
