@@ -15,56 +15,28 @@ jobs:
     name: Website V2.x.x
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: libcobblersignatures
-      - uses: actions/checkout@v3
-        with:
-          repository: "cobbler/cobbler.github.io"
-          path: cobbler-github-io
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/schema_v1.json
-          jsons: ./cobbler-github-io/signatures/${{ matrix.version }}/latest.json
+          schema: ./libcobblersignatures/docs/resources/v1/schema.json
+          jsons: ./libcobblersignatures/docs/resources/v1/distro_signatures.json
   verify-json-validation-website-3-0-x:
     runs-on: ubuntu-latest
     name: Website V3.0.x
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: libcobblersignatures
-      - uses: actions/checkout@v3
-        with:
-          repository: "cobbler/cobbler.github.io"
-          path: cobbler-github-io
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/schema_v2.json
-          jsons: ./cobbler-github-io/signatures/3.0.x/latest.json
+          schema: ./libcobblersignatures/docs/resources/v2/schema.json
+          jsons: ./libcobblersignatures/docs/resources/v2/distro_signatures.json
   verify-json-validation-website-latest:
     runs-on: ubuntu-latest
     name: Website V3.0.x
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: libcobblersignatures
-      - uses: actions/checkout@v3
-        with:
-          repository: "cobbler/cobbler.github.io"
-          path: cobbler-github-io
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/schema_v2.json
-          jsons: ./cobbler-github-io/signatures/latest.json
-  verify-json-validation-v2-local:
-    runs-on: ubuntu-latest
-    name: Local Repository V2
-    steps:
-      - uses: actions/checkout@v3
-      - name: Validate JSON
-        uses: nhalstead/validate-json-action@0.1.3
-        with:
-          schema: ./docs/schema_v2.json
-          jsons: ./libcobblersignatures/config/distro_signatures.json
+          schema: ./libcobblersignatures/docs/resources/v2/schema.json
+          jsons: ./libcobblersignatures/docs/resources/v2/distro_signatures.json
