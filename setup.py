@@ -31,6 +31,7 @@ setup(
     ],
     keywords="cobbler",
     packages=find_packages(exclude="tests"),
+    package_data={"libcobblersignatures.data": ["*.json"]},
     python_requires=">=3",
     install_requires=["questionary"],
     extras_require={
@@ -38,6 +39,7 @@ setup(
         "test": ["coverage", "pytest"],
         "docs": ["sphinx_rtd_theme"],
         "changelog": ["towncrier>=22.8.0"],
+        "data": ["importlib-resources=5.4.0"]
     },
     entry_points={
         "console_scripts": [
