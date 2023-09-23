@@ -39,7 +39,7 @@ setup(
         "test": ["coverage", "pytest"],
         "docs": ["sphinx_rtd_theme"],
         "changelog": ["towncrier>=22.8.0"],
-        "data": ["importlib-resources=5.4.0"]
+        "data": ["importlib-resources==5.4.0"],
     },
     entry_points={
         "console_scripts": [

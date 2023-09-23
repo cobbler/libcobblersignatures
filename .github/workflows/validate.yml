@@ -18,8 +18,8 @@ jobs:
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/resources/v1/schema.json
-          jsons: ./libcobblersignatures/docs/resources/v1/distro_signatures.json
+          schema: ./libcobblersignatures/data/v1/schema.json
+          jsons: ./libcobblersignatures/data/v1/distro_signatures.json
   verify-json-validation-website-3-0-x:
     runs-on: ubuntu-latest
     name: Website V3.0.x
@@ -28,8 +28,8 @@ jobs:
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/resources/v2/schema.json
-          jsons: ./libcobblersignatures/docs/resources/v2/distro_signatures.json
+          schema: ./libcobblersignatures/data/v2/schema.json
+          jsons: ./libcobblersignatures/data/v2/distro_signatures.json
   verify-json-validation-website-latest:
     runs-on: ubuntu-latest
     name: Website V3.0.x
@@ -38,15 +38,5 @@ jobs:
       - name: Validate JSON
         uses: nhalstead/validate-json-action@0.1.3
         with:
-          schema: ./libcobblersignatures/docs/resources/v2/schema.json
-          jsons: ./libcobblersignatures/docs/resources/v2/distro_signatures.json
-  verify-json-validation-package-latest:
-    runs-on: ubuntu-latest
-    name: Website V3.0.x
-    steps:
-      - uses: actions/checkout@v3
-      - name: Validate JSON
-        uses: nhalstead/validate-json-action@0.1.3
-        with:
-          schema: ./libcobblersignatures/libcobblersignatures/data/schema.json
-          jsons: ./libcobblersignatures/libcobblersignatures/data/distro_signatures.json
+          schema: ./libcobblersignatures/data/v2/schema.json
+          jsons: ./libcobblersignatures/data/v2/distro_signatures.json

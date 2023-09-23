@@ -25,8 +25,8 @@ Can be found in our Docs: <https://libcobblersignatures.readthedocs.io>
 
 The JSON Schema and an example can be found at
 
-* <https://cobbler.github.io/libcobblersignatures/docs/resources/<version>/schema.json >
-* <https://cobbler.github.io/libcobblersignatures/docs/resources/<version>/distro_signatures.json >
+* <https://cobbler.github.io/libcobblersignatures/libcobblersignatures/data/<version>/schema.json >
+* <https://cobbler.github.io/libcobblersignatures/libcobblersignatures/data/<version>/distro_signatures.json >
 
 
 | version | cobbler_version |
