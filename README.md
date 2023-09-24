@@ -21,3 +21,17 @@ This library should be the interface for all applications using cobbler signatur
 
 Can be found in our Docs: <https://libcobblersignatures.readthedocs.io>
 
+## Schema and Examples
+
+The JSON Schema and an example can be found at
+
+* <https://cobbler.github.io/libcobblersignatures/data/<version>/schema.json >
+* <https://cobbler.github.io/libcobblersignatures/data/<version>/distro_signatures.json >
+
+
+| version | cobbler_version |
+|---------|-----------------|
+| v1      | v2.x.x          |
+| v2      | v3.0.0 - latest |
+
+

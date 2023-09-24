@@ -31,8 +31,9 @@ setup(
     ],
     keywords="cobbler",
     packages=find_packages(exclude="tests"),
+    package_data={"libcobblersignatures.data": ["*.json"]},
     python_requires=">=3",
-    install_requires=["questionary"],
+    install_requires=["questionary", "importlib_resources;python_version=='3.6'"],
     extras_require={
         "lint": ["pylint", "black"],
         "test": ["coverage", "pytest"],
