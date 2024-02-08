@@ -3,8 +3,8 @@
 [![Gitter](https://badges.gitter.im/cobbler/libcobblersignatures.svg)](https://gitter.im/cobbler/libcobblersignatures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Build Status](https://github.com/cobbler/libcobblersignatures/workflows/Testing%20libcobblersignatures/badge.svg)](https://github.com/cobbler/libcobblersignatures)
 [![Documentation Status](https://readthedocs.org/projects/libcobblersignatures/badge/?version=latest)](https://libcobblersignatures.readthedocs.io/en/latest/?badge=latest)
-[![codecov](https://codecov.io/gh/cobbler/libcobblersignatures/branch/master/graph/badge.svg)](https://codecov.io/gh/cobbler/libcobblersignatures)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/022b08877130419a9273d6a3618e0c38)](https://www.codacy.com/gh/cobbler/libcobblersignatures/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cobbler/libcobblersignatures&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/27a33cc9663f400aa0c9ee2686bf12c1)](https://app.codacy.com/gh/cobbler/libcobblersignatures/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/27a33cc9663f400aa0c9ee2686bf12c1)](https://app.codacy.com/gh/cobbler/libcobblersignatures/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 This library should be the interface for all applications using cobbler signatures.
 
