@@ -71,7 +71,13 @@
                           "description": "",
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "rsync",
+                              "rhn",
+                              "yum",
+                              "apt"
+                            ]
                           }
                         },
                         "kernel_file": {
