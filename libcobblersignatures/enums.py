@@ -74,6 +74,10 @@ class ImportTypes(Enum):
     This value shall be given when the content shall be imported from a string. This string shall not contain any
     linebreaks.
     """
+    BUILT_IN = 3
+    """
+    This value shall be given when the content shall be imported from the built in file in data/v2/distro_signature.json
+    """
 
 
 class ExportTypes(Enum):

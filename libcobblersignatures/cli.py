@@ -19,7 +19,7 @@ main_menu_questions = questionary.select(
 
 import_menu_questions = questionary.select(
     "What is your desired source of input?",
-    choices=["URL", "String", "File", "Go back"],
+    choices=["URL", "String", "File", "Built-In", "Go back"],
 )
 
 import_menu_questions2 = questionary.path(
@@ -424,14 +424,18 @@ def import_menu():
     Second level menu with the purpose to catch all functionality related to importing the data from a source.
     """
     choice_import_menu = import_menu_questions.ask()
-    if choice_import_menu in ["URL", "File", "String"]:
-        result_import_menu_2 = import_menu_questions2.ask()
+    if choice_import_menu in ["URL", "File", "String", "Built-In"]:
+        result_import_menu_2 = "unknown"
+        if choice_import_menu != "Built-In":
+            result_import_menu_2 = import_menu_questions2.ask()
         if choice_import_menu == "URL":
             import_type = ImportTypes.URL
         elif choice_import_menu == "File":
             import_type = ImportTypes.FILE
         elif choice_import_menu == "String":
             import_type = ImportTypes.STRING
+        elif choice_import_menu == "Built-In":
+            import_type = ImportTypes.BUILT_IN
         else:
             return
         input_import_source = result_import_menu_2

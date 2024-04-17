@@ -11,6 +11,11 @@ from libcobblersignatures.enums import ExportTypes, ImportTypes
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
+
 __version__ = "0.1.0"
 
 
@@ -87,6 +92,13 @@ class Signatures:
             self._importsignaturesurl(source)
         elif import_type == ImportTypes.STRING:
             self.signaturesjson = source
+        elif import_type == ImportTypes.BUILT_IN:
+            self.signaturesjson = (
+                files("libcobblersignatures.data")
+                .joinpath("distro_signatures.json")
+                .open("r", encoding="utf-8")
+                .read()
+            )
         else:
             raise ValueError("Please use on of the four given options for the source!")
 
