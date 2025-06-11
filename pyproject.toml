@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "libcobblersignatures"
+dynamic = ["version"]
+requires-python = ">=3"
+dependencies = [
+	"questionary",
+	"importlib_resources;python_version=='3.6'",
+]
+license = { file = "LICENSE" }
+authors = [
+	{ name = "Cobbler", email = "cobbler.project@gmail.com" }
+]
+keywords = ["cobbler"]
+classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries",
+        "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+]
+description = "This library manages the operating system distribution signatures to enable cobbler to detect it correctly."
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.urls]
+"Homepage" = "https://cobbler.github.io/"
+"Documentation" = "https://libcobblersignatures.readthedocs.io/"
+"Source" = "https://github.com/cobbler/libcobblersignatures"
+"Bug Tracker" = "https://github.com/cobbler/libcobblersignatures/issues"
+
+[project.optional-dependencies]
+lint = ["pylint", "black"]
+test = ["coverage", "pytest", "pytest-cov"]
+docs = ["sphinx_rtd_theme"]
+changelog = ["towncrier>=22.8.0"]
+
+[project.scripts]
+cobbler-manage-signatures = "libcobblersignatures.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+libcobblersignatures = ["data/*.json"]
+
+[tool.setuptools.dynamic]
+version = {attr = "libcobblersignatures.__version__"}
+
