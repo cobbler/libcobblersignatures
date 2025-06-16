@@ -15,18 +15,29 @@
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
-
+%{?sle15_python_module_pythons}
+%define pythons python3
+%define parent_tag 0.1.0
 Name:           libcobblersignatures
-Version:        0.1.0
+Version:        0.1.0+git40
 Release:        0
 Summary:        Cobbler Signatures Library
 License:        GPL-2.0-or-later
 URL:            https://github.com/cobbler/libcobblersignatures
 Source:         libcobblersignatures-%{version}.tar.gz
 BuildRequires:  python-rpm-macros
-BuildRequires:  python3-setuptools
+BuildRequires:  %{python_module setuptools}
+BuildRequires:  %{python_module pip}
+BuildRequires:  %{python_module wheel}
+# SECTION tests
+BuildRequires:  %{python_module pytest}
+BuildRequires:  %{python_module coverage}
+BuildRequires:  %{python_module pytest-cov}
+#
 BuildRequires:  fdupes
-Requires:       python3-PyInquirer
+# TODO: remove dependencies that are not in Factory
+# Requires:     python-PyInquirer
+# Requires:     python-questionary
 BuildArch:      noarch
 
 %description
@@ -38,20 +49,25 @@ Features are:
  - Hand over structured data to other applications
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
-%python_expand %fdupes %{buildroot}%{$python_sitelib}/%name
+%pyproject_install
+%python_expand %fdupes %{buildroot}%{python_sitelib}/%{name}
+%python_expand rm -rf %{buildroot}%{python_sitelib}/tests
+
+%check
+# disable test that requires network for OBS build
+%pytest -k "not test_importsignatures_url"
 
 %files
 %license LICENSE
 %doc README.md
 %{_bindir}/cobbler-manage-signatures
-%{python3_sitelib}/%{name}/
-%{python3_sitelib}/%{name}-*-py*.egg-info
+%{python3_sitelib}/%{name}
+%{python3_sitelib}/%{name}-%{parent_tag}.dist-info
 
 %changelog
