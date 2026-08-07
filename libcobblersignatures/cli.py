@@ -739,18 +739,18 @@ def edit_menu_breed_version_info():
     print(choice_edit_information_os_version)
     if choice_edit_information_os_version.startswith("signatures"):
         edit_menu_breed_version_info_signatures(my_osversion)
-    elif choice_edit_information_os_version.startswith("version_file"):
-        new_value_version_file = edit_menu_breed_version_version_file.ask()
-        my_osversion.version_file = new_value_version_file
     elif choice_edit_information_os_version.startswith("version_file_regex"):
         new_value_version_file_regex = edit_menu_breed_version_version_file_regex.ask()
         my_osversion.version_file_regex = new_value_version_file_regex
-    elif choice_edit_information_os_version.startswith("kernel_arch"):
-        new_value_kernel_arch = edit_menu_breed_version_kernel_arch.ask()
-        my_osversion.kernel_arch = new_value_kernel_arch
+    elif choice_edit_information_os_version.startswith("version_file"):
+        new_value_version_file = edit_menu_breed_version_version_file.ask()
+        my_osversion.version_file = new_value_version_file
     elif choice_edit_information_os_version.startswith("kernel_arch_regex"):
         new_value_kernel_arch_regex = edit_menu_breed_version_kernel_arch_regex.ask()
         my_osversion.kernel_arch_regex = new_value_kernel_arch_regex
+    elif choice_edit_information_os_version.startswith("kernel_arch"):
+        new_value_kernel_arch = edit_menu_breed_version_kernel_arch.ask()
+        my_osversion.kernel_arch = new_value_kernel_arch
     elif choice_edit_information_os_version.startswith("supported_arches"):
         edit_menu_breed_version_info_supported_arches(my_osversion)
     elif choice_edit_information_os_version.startswith("supported_repo_breeds"):
@@ -770,14 +770,14 @@ def edit_menu_breed_version_info():
             edit_menu_breed_version_default_autoinstall.ask()
         )
         my_osversion.default_autoinstall = new_value_default_autoinstall
-    elif choice_edit_information_os_version.startswith("kernel_options"):
-        new_value_kernel_options = edit_menu_breed_version_kernel_options.ask()
-        my_osversion.kernel_options = new_value_kernel_options
     elif choice_edit_information_os_version.startswith("kernel_options_post"):
         new_value_kernel_options_post = (
             edit_menu_breed_version_kernel_options_post.ask()
         )
         my_osversion.kernel_options_post = new_value_kernel_options_post
+    elif choice_edit_information_os_version.startswith("kernel_options"):
+        new_value_kernel_options = edit_menu_breed_version_kernel_options.ask()
+        my_osversion.kernel_options = new_value_kernel_options
     elif choice_edit_information_os_version.startswith("boot_files"):
         edit_menu_breed_version_info_boot_files(my_osversion)
     else:
