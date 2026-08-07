@@ -1,1 +1,0 @@
-Added a `libcobblersignatures.exceptions` module with a `SignaturesError` hierarchy, and the CLI now prints a friendly message and returns to the menu instead of crashing when Import, Export or Edit fails; note that `jsontomodels()` now raises `SignaturesValidationError` instead of `AttributeError` for a missing rootkey
