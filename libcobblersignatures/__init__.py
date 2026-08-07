@@ -16,7 +16,10 @@ try:
 except ImportError:
     from importlib_resources import files
 
-__version__ = "0.1.0"
+try:
+    from libcobblersignatures._version import __version__
+except ImportError:
+    __version__ = None
 
 
 class Signatures:
