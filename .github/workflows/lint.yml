@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  linter_name:
+  black:
     name: runner/black_formatter
     runs-on: ubuntu-latest
     steps:
@@ -26,3 +26,4 @@ jobs:
         uses: isort/isort-action@24d8a7a51d33ca7f36c3f23598dafa33f7071326 # v1.1.1
         with:
           configuration: "--check-only --diff --profile black"
+
