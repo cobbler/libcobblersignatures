@@ -65,7 +65,7 @@ class Osversion:
     @property
     def signatures(self) -> set:
         """
-        This is a list of strings with currently an unknown functionality.
+        One or more paths, relative to the root of the ISO, whose existence identifies this OS version.
 
         :setter: May raise a TypeError in case the value was not of type list.
         :getter: Returns the last correctly validated str of the property.
@@ -131,7 +131,8 @@ class Osversion:
     @property
     def version_file_regex(self) -> str:
         """
-        The regular expression which tells Cobbler to pick this version if it matches.
+        The regular expression matched against the contents of the file located via ``version_file`` to confirm this
+        version.
 
         :getter: The str with the regex.
         :setter: Validates the regex and raises in case an error was detected (TypeError).
@@ -197,8 +198,8 @@ class Osversion:
     @property
     def kernel_arch_regex(self) -> str:
         """
-        In case ``kernel_arch`` does not point to the architecture directly, this is the regex where Cobbler looks for
-        in the file specified by ``kernel_arch``.
+        The regex applied within the file located via ``kernel_arch`` when it doesn't point to the architecture
+        directly.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -231,7 +232,7 @@ class Osversion:
     @property
     def supported_arches(self) -> set:
         """
-        Unused field currently. There for compatibility reasons for now.
+        The architectures Cobbler considers valid when detecting the architecture of an imported distro.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -265,7 +266,7 @@ class Osversion:
     @property
     def supported_repo_breeds(self) -> set:
         """
-        Unused field currently. There for compatibility reasons for now.
+        The repository breeds Cobbler may auto-create when it finds a matching repo in the install tree.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -363,7 +364,8 @@ class Osversion:
     @property
     def isolinux_ok(self) -> bool:
         """
-        Unknown field currently. There for compatibility reasons for now.
+        Whether directories named ``isolinux`` should still be scanned for a kernel/initrd pair instead of being
+        skipped.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -491,7 +493,8 @@ class Osversion:
     @property
     def template_files(self) -> str:
         """
-        Currently only used in ESXi. Needs more investigation what this is for.
+        Extra files merged into the imported distro's template_files, used to render templated boot files (e.g. ESXi's
+        boot.cfg).
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -524,7 +527,8 @@ class Osversion:
     @property
     def boot_files(self) -> set:
         """
-        Unknown field currently. There for compatibility reasons for now. Used by xenserver
+        Extra files, beyond the kernel and initrd, that must be copied out of the source tree and templated for the
+        distro.
 
         :getter: The last successfully validated value of this field.
         :setter: Will set this if the validation succeeds, otherwise will raise an exception (TypeError).
@@ -558,7 +562,7 @@ class Osversion:
     @property
     def boot_loaders(self) -> dict:
         """
-        Defines the supported well known boot loaders inside Cobbler.
+        The boot loaders Cobbler considers valid for this OS version, keyed by architecture.
 
         :getter: The last successfully validated value of this field.
         :setter: If validation is successful the value will be set, otherwise raises an exception (TypeError).

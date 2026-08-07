@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "breeds": {
-      "description": "",
+      "description": "The set of supported operating system breeds (e.g. redhat, debian, suse), each mapping to its supported versions.",
       "type": "object",
       "patternProperties": {
         "redhat|debian|ubuntu|suse|vmware|freebsd|xen|unix|windows|powerkvm|generic": {
@@ -19,31 +19,31 @@
                       "type": "object",
                       "properties": {
                         "signatures": {
-                          "description": "",
+                          "description": "One or more paths, relative to the root of the ISO, whose existence identifies this OS version.",
                           "type": "array",
                           "items": {
                             "type": "string"
                           }
                         },
                         "version_file": {
-                          "description": "",
+                          "description": "The regular expression which points to the file with the os-version info.",
                           "type": ["string", "null"]
                         },
                         "version_file_regex": {
-                          "description": "",
+                          "description": "The regular expression matched against the contents of the file located via version_file to confirm this version.",
                           "type": ["string", "null"]
                         },
                         "kernel_arch": {
-                          "description": "",
+                          "description": "The regular expression which tells Cobbler where to look for the architecture of the operating system.",
                           "type": "string"
                         },
                         "kernel_arch_regex": {
-                          "description": "",
+                          "description": "The regex applied within the file located via kernel_arch when it doesn't point to the architecture directly.",
                           "type": ["string", "null"]
                         },
                         "supported_arches": {
                           "type": "array",
-                          "description": "",
+                          "description": "The architectures Cobbler considers valid when detecting the architecture of an imported distro.",
                           "items": {
                             "type": "string",
                             "enum": [
@@ -68,49 +68,49 @@
                           }
                         },
                         "supported_repo_breeds": {
-                          "description": "",
+                          "description": "The repository breeds Cobbler may auto-create when it finds a matching repo in the install tree.",
                           "type": "array",
                           "items": {
                             "type": "string"
                           }
                         },
                         "kernel_file": {
-                          "description": "",
+                          "description": "The regular expression to match to find the kernel.",
                           "type": "string"
                         },
                         "initrd_file": {
-                          "description": "",
+                          "description": "The regular expression to match to find the initrd.",
                           "type": "string"
                         },
                         "isolinux_ok": {
-                          "description": "",
+                          "description": "Whether directories named isolinux should still be scanned for a kernel/initrd pair instead of being skipped.",
                           "type": "boolean"
                         },
                         "default_kickstart": {
-                          "description": "",
+                          "description": "The filename for the default kickstart template in Cobbler. Renamed to default_autoinstall in the v2 schema.",
                           "type": "string"
                         },
                         "kernel_options": {
-                          "description": "",
+                          "description": "Default kernel options to apply to the imported ISO.",
                           "type": "string"
                         },
                         "kernel_options_post": {
-                          "description": "",
+                          "description": "Default kernel post options to apply to the imported ISO.",
                           "type": "string"
                         },
                         "template_files": {
-                          "description": "",
+                          "description": "Extra files merged into the imported distro's template_files, used to render templated boot files.",
                           "type": "string"
                         },
                         "boot_files": {
-                          "description": "",
+                          "description": "Extra files, beyond the kernel and initrd, that must be copied out of the source tree and templated for the distro.",
                           "type": "array",
                           "items": {
                             "type": "string"
                           }
                         },
                         "boot_loaders": {
-                          "description": "",
+                          "description": "The boot loaders Cobbler considers valid for this OS version, keyed by architecture.",
                           "type": "object",
                           "properties": {
                             "arm": {
