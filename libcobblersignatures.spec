@@ -33,11 +33,10 @@ BuildRequires:  %{python_module wheel}
 BuildRequires:  %{python_module pytest}
 BuildRequires:  %{python_module coverage}
 BuildRequires:  %{python_module pytest-cov}
+BuildRequires:  %{python_module questionary}
 #
 BuildRequires:  fdupes
-# TODO: remove dependencies that are not in Factory
-# Requires:     python-PyInquirer
-# Requires:     python-questionary
+Requires:       python3-questionary
 BuildArch:      noarch
 
 %description

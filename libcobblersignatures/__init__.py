@@ -4,10 +4,17 @@ well as to im- and export them.
 """
 
 import json
+import urllib.error
 import urllib.request
 from typing import List, Union
 
 from libcobblersignatures.enums import ExportTypes, ImportTypes
+from libcobblersignatures.exceptions import (
+    SignaturesExportError,
+    SignaturesImportError,
+    SignaturesParseError,
+    SignaturesValidationError,
+)
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 
@@ -61,7 +68,10 @@ class Signatures:
         """
         if value is None:
             return
-        self._signaturesjson = json.loads(value)
+        try:
+            self._signaturesjson = json.loads(value)
+        except json.JSONDecodeError as e:
+            raise SignaturesParseError(f"Invalid JSON: {e}") from e
 
     @property
     def osbreeds(self) -> List[OsBreed]:
@@ -98,6 +108,7 @@ class Signatures:
         elif import_type == ImportTypes.BUILT_IN:
             self.signaturesjson = (
                 files("libcobblersignatures.data")
+                .joinpath("v2")
                 .joinpath("distro_signatures.json")
                 .open("r", encoding="utf-8")
                 .read()
@@ -112,8 +123,14 @@ class Signatures:
         :param filepath: The relative or absolute path. Additionally this may be all path variations which are accepted
                          by the Python ``open()`` function.
         """
-        with open(filepath, "r") as f:
-            self.signaturesjson = f.read()
+        try:
+            with open(filepath, "r") as f:
+                content = f.read()
+        except OSError as e:
+            raise SignaturesImportError(
+                f"Could not read signatures file '{filepath}': {e}"
+            ) from e
+        self.signaturesjson = content
 
     def _importsignaturesurl(self, url: str):
         """
@@ -121,8 +138,13 @@ class Signatures:
 
         :param url: The URL to load the content from. This parameter is handed to urllib.
         """
-        response = urllib.request.urlopen(url)
-        data = response.read()
+        try:
+            response = urllib.request.urlopen(url)
+            data = response.read()
+        except (urllib.error.URLError, ValueError) as e:
+            raise SignaturesImportError(
+                f"Could not fetch signatures from URL '{url}': {e}"
+            ) from e
         self.signaturesjson = data.decode("utf-8")
 
     def __prepare_export_output(
@@ -166,8 +188,13 @@ class Signatures:
                 raise ValueError(
                     "Please provide a path if your want to export to a file!"
                 )
-            with open(target, "w") as f:
-                f.write(self.__prepare_export_output(sort_keys, indent))
+            try:
+                with open(target, "w") as f:
+                    f.write(self.__prepare_export_output(sort_keys, indent))
+            except OSError as e:
+                raise SignaturesExportError(
+                    f"Could not write signatures to file '{target}': {e}"
+                ) from e
         elif export_type == ExportTypes.STRING:
             return self.__prepare_export_output(sort_keys, indent)
         else:
@@ -183,10 +210,15 @@ class Signatures:
         missing_rootkey = object()
         breeds = self.signaturesjson.get(self._rootkey, missing_rootkey)
         if breeds is missing_rootkey:
-            raise AttributeError('Missing Rootkey "' + self._rootkey + '".')
+            raise SignaturesValidationError('Missing Rootkey "' + self._rootkey + '".')
         for key in breeds:
             breed = OsBreed(key)
-            breed.decode(breeds[key])
+            try:
+                breed.decode(breeds[key])
+            except (TypeError, ValueError) as e:
+                raise SignaturesValidationError(
+                    f"Invalid data for OS breed '{key}': {e}"
+                ) from e
             self.osbreeds.append(breed)
 
     def addosbreed(self, name: str):

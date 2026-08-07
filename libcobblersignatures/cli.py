@@ -4,10 +4,13 @@ This module contains no logic related to the library, it just contains logic for
 managed by it.
 """
 
+import sys
+
 import questionary
 
 from libcobblersignatures import Signatures
 from libcobblersignatures.enums import ExportTypes, ImportTypes
+from libcobblersignatures.exceptions import SignaturesError
 
 os_signatures = Signatures()
 
@@ -444,6 +447,8 @@ def import_menu():
             return
         os_signatures.importsignatures(import_type, input_import_source)
         os_signatures.jsontomodels()
+    elif choice_import_menu == "Go back":
+        return
     else:
         print("Unknown import option selected. Returning to main menu.")
 
@@ -518,10 +523,7 @@ def edit_menu():
         result_edit_remove_os_breed = questionary.prompt(edit_remove_os_breed)
         name_to_find = result_edit_remove_os_breed["edit_remove_os_breed"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
-        if (
-            index != -1
-            and result_edit_remove_os_breed == os_signatures.osbreeds[index].name
-        ):
+        if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
             os_signatures.removeosbreed(index)
         else:
             print("Operating System Breed not found. Doing nothing.")
@@ -736,18 +738,18 @@ def edit_menu_breed_version_info():
     print(choice_edit_information_os_version)
     if choice_edit_information_os_version.startswith("signatures"):
         edit_menu_breed_version_info_signatures(my_osversion)
-    elif choice_edit_information_os_version.startswith("version_file"):
-        new_value_version_file = edit_menu_breed_version_version_file.ask()
-        my_osversion.version_file = new_value_version_file
     elif choice_edit_information_os_version.startswith("version_file_regex"):
         new_value_version_file_regex = edit_menu_breed_version_version_file_regex.ask()
         my_osversion.version_file_regex = new_value_version_file_regex
-    elif choice_edit_information_os_version.startswith("kernel_arch"):
-        new_value_kernel_arch = edit_menu_breed_version_kernel_arch.ask()
-        my_osversion.kernel_arch = new_value_kernel_arch
+    elif choice_edit_information_os_version.startswith("version_file"):
+        new_value_version_file = edit_menu_breed_version_version_file.ask()
+        my_osversion.version_file = new_value_version_file
     elif choice_edit_information_os_version.startswith("kernel_arch_regex"):
         new_value_kernel_arch_regex = edit_menu_breed_version_kernel_arch_regex.ask()
         my_osversion.kernel_arch_regex = new_value_kernel_arch_regex
+    elif choice_edit_information_os_version.startswith("kernel_arch"):
+        new_value_kernel_arch = edit_menu_breed_version_kernel_arch.ask()
+        my_osversion.kernel_arch = new_value_kernel_arch
     elif choice_edit_information_os_version.startswith("supported_arches"):
         edit_menu_breed_version_info_supported_arches(my_osversion)
     elif choice_edit_information_os_version.startswith("supported_repo_breeds"):
@@ -757,7 +759,7 @@ def edit_menu_breed_version_info():
         my_osversion.kernel_file = new_value_kernel_file
     elif choice_edit_information_os_version.startswith("initrd_file"):
         new_value_initrd_file = edit_menu_breed_version_initrd_file.ask()
-        my_osversion.kernel_file = new_value_initrd_file
+        my_osversion.initrd_file = new_value_initrd_file
     elif choice_edit_information_os_version.startswith("isolinux_ok"):
         new_value_isolinux_ok = edit_menu_breed_version_isolinux_ok.ask()
         my_osversion.isolinux_ok = new_value_isolinux_ok
@@ -767,14 +769,14 @@ def edit_menu_breed_version_info():
             edit_menu_breed_version_default_autoinstall.ask()
         )
         my_osversion.default_autoinstall = new_value_default_autoinstall
-    elif choice_edit_information_os_version.startswith("kernel_options"):
-        new_value_kernel_options = edit_menu_breed_version_kernel_options.ask()
-        my_osversion.kernel_options = new_value_kernel_options
     elif choice_edit_information_os_version.startswith("kernel_options_post"):
         new_value_kernel_options_post = (
             edit_menu_breed_version_kernel_options_post.ask()
         )
         my_osversion.kernel_options_post = new_value_kernel_options_post
+    elif choice_edit_information_os_version.startswith("kernel_options"):
+        new_value_kernel_options = edit_menu_breed_version_kernel_options.ask()
+        my_osversion.kernel_options = new_value_kernel_options
     elif choice_edit_information_os_version.startswith("boot_files"):
         edit_menu_breed_version_info_boot_files(my_osversion)
     else:
@@ -792,13 +794,22 @@ def main():
         chosen_option = main_menu_questions.ask()
         if chosen_option == "Import":
             main_menu_option_selected = 0
-            import_menu()
+            try:
+                import_menu()
+            except SignaturesError as e:
+                print(f"Import failed: {e}", file=sys.stderr)
         elif chosen_option == "Export":
             main_menu_option_selected = 1
-            export_menu()
+            try:
+                export_menu()
+            except SignaturesError as e:
+                print(f"Export failed: {e}", file=sys.stderr)
         elif chosen_option == "Edit":
             main_menu_option_selected = 2
-            edit_menu()
+            try:
+                edit_menu()
+            except SignaturesError as e:
+                print(f"Edit failed: {e}", file=sys.stderr)
         elif chosen_option == "Exit":
             main_menu_option_selected = 3
             print("Any progress which is not exported will be lost. Bye.")

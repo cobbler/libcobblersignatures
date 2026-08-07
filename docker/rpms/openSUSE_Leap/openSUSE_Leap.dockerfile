@@ -19,6 +19,7 @@ RUN zypper install -y     \
     python3-setuptools_scm \
     python3-pip            \
     python3-wheel          \
+    python3-questionary    \
     python3-pytest         \
     python3-coverage       \
     python3-pytest-cov
