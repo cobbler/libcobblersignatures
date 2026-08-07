@@ -26,4 +26,20 @@ jobs:
         uses: isort/isort-action@24d8a7a51d33ca7f36c3f23598dafa33f7071326 # v1.1.1
         with:
           configuration: "--check-only --diff --profile black"
-
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Set up Python
+        # https://github.com/actions/setup-python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: pip install -U rstcheck doc8 sphinx
+      - name: Run rstcheck
+        run: rstcheck -r docs
+      - name: Run doc8
+        run: doc8 --ignore D001 docs
