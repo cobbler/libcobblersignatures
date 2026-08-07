@@ -20,6 +20,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
+rpm-build/
 downloads/
 eggs/
 .eggs/

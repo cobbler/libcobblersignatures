@@ -47,6 +47,9 @@ cobbler-manage-signatures = "libcobblersignatures.cli:main"
 [tool.setuptools]
 include-package-data = true
 
+[tool.setuptools.packages.find]
+include = ["libcobblersignatures*"]
+
 [tool.setuptools.package-data]
 libcobblersignatures = ["data/*.json"]
 
