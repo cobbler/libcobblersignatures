@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Website V2.x.x
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate JSON
-        uses: nhalstead/validate-json-action@0.1.3
+        uses: nhalstead/validate-json-action@c0708aeeffcbd850efc50b0c4597efdf6aaf0ee3 # v0.1.12
         with:
           schema: ./libcobblersignatures/data/v1/schema.json
           jsons: ./libcobblersignatures/data/v1/distro_signatures.json
@@ -24,9 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Website V3.0.x
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate JSON
-        uses: nhalstead/validate-json-action@0.1.3
+        uses: nhalstead/validate-json-action@c0708aeeffcbd850efc50b0c4597efdf6aaf0ee3 # v0.1.12
         with:
           schema: ./libcobblersignatures/data/v2/schema.json
           jsons: ./libcobblersignatures/data/v2/distro_signatures.json
@@ -34,9 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Website V3.0.x
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate JSON
-        uses: nhalstead/validate-json-action@0.1.3
+        uses: nhalstead/validate-json-action@c0708aeeffcbd850efc50b0c4597efdf6aaf0ee3 # v0.1.12
         with:
           schema: ./libcobblersignatures/data/v2/schema.json
           jsons: ./libcobblersignatures/data/v2/distro_signatures.json
