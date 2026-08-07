@@ -51,7 +51,7 @@ include-package-data = true
 include = ["libcobblersignatures*"]
 
 [tool.setuptools.package-data]
-libcobblersignatures = ["data/*.json", "data/v1/*.json", "data/v2/*.json"]
+libcobblersignatures = ["data/*.json", "data/v1/*.json", "data/v2/*.json", "data/v3/*.json"]
 
 [tool.setuptools_scm]
 version_file = "libcobblersignatures/_version.py"
