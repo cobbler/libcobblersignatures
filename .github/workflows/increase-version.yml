@@ -56,7 +56,7 @@ jobs:
     name: "Create Pull Request"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Build version
         run: echo "new_version=${{ inputs.nextVersionMajor }}.${{ inputs.nextVersionMinor }}.${{ inputs.nextVersionPatch }}" >> $GITHUB_ENV
       - name: Replace version in libcobblersignatures/__init__.py
@@ -70,7 +70,7 @@ jobs:
         run: sed -ri 's/^(Version:\s*)[^#]*/\1'${{ env.new_version }}'/' libcobblersignatures.spec
       - name: Create Pull Request
         # https://github.com/peter-evans/create-pull-request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           commit-message: "[Bot] Update version to ${{ env.new_version }}"
           delete-branch: true
