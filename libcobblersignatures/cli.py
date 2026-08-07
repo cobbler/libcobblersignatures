@@ -447,6 +447,8 @@ def import_menu():
             return
         os_signatures.importsignatures(import_type, input_import_source)
         os_signatures.jsontomodels()
+    elif choice_import_menu == "Go back":
+        return
     else:
         print("Unknown import option selected. Returning to main menu.")
 
