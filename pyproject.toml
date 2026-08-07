@@ -36,7 +36,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 "Bug Tracker" = "https://github.com/cobbler/libcobblersignatures/issues"
 
 [project.optional-dependencies]
-lint = ["pylint", "black"]
+lint = ["pylint", "black", "isort"]
 test = ["coverage", "pytest", "pytest-cov"]
 docs = ["sphinx_rtd_theme"]
 changelog = ["towncrier>=22.8.0"]
@@ -61,4 +61,7 @@ __gitstamp__ = "{scm_version.node}"
 __gitdate__ = "{scm_version.node_date}"
 __builddate__ = "{scm_version.time}"
 """
+
+[tool.isort]
+profile = "black"
 
