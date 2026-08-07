@@ -76,7 +76,7 @@ class ImportTypes(Enum):
     """
     BUILT_IN = 3
     """
-    This value shall be given when the content shall be imported from the built in file in data/v2/distro_signature.json
+    This value shall be given when the content shall be imported from the built in file in data/v2/distro_signatures.json
     """
 
 
