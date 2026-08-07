@@ -1,11 +1,11 @@
 from json.decoder import JSONDecodeError
+
 import pytest
 
+from libcobblersignatures import Signatures
+from libcobblersignatures.enums import ExportTypes, ImportTypes
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
-from libcobblersignatures.enums import ImportTypes, ExportTypes
-from libcobblersignatures import Signatures
-
 from tests.conftest import does_not_raise
 
 

@@ -16,3 +16,13 @@ jobs:
         with:
           options: "--check --safe --verbose"
           version: "22.3.0"
+  isort:
+    name: isort formatter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Run isort
+        uses: isort/isort-action@24d8a7a51d33ca7f36c3f23598dafa33f7071326 # v1.1.1
+        with:
+          configuration: "--check-only --diff --profile black"

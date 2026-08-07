@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+export PYBUILD_NAME=libcobblersignatures
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_test:
+	# Skipped: needs pytest (not a build-dep) and network access
+	# (test_importsignatures_url). See libcobblersignatures.spec's %check.

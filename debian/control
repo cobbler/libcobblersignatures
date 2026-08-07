@@ -1,0 +1,22 @@
+Source: libcobblersignatures
+Section: admin
+Priority: optional
+Maintainer: The Cobbler Authors <cobbler.project@gmail.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-setuptools,
+ python3-setuptools-scm
+Standards-Version: 4.6.2
+Homepage: https://github.com/cobbler/libcobblersignatures
+
+Package: libcobblersignatures
+Architecture: all
+Depends:
+ ${python3:Depends},
+ ${misc:Depends}
+Description: Cobbler Signatures Library
+ This library manages the operating system distribution signatures to
+ enable cobbler to detect it correctly.

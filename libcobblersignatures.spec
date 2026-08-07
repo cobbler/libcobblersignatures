@@ -17,7 +17,6 @@
 
 %{?sle15_python_module_pythons}
 %define pythons python3
-%define parent_tag 0.1.0
 Name:           libcobblersignatures
 Version:        0.1.0+git40
 Release:        0
@@ -27,6 +26,7 @@ URL:            https://github.com/cobbler/libcobblersignatures
 Source:         libcobblersignatures-%{version}.tar.gz
 BuildRequires:  python-rpm-macros
 BuildRequires:  %{python_module setuptools}
+BuildRequires:  %{python_module setuptools_scm}
 BuildRequires:  %{python_module pip}
 BuildRequires:  %{python_module wheel}
 # SECTION tests
@@ -68,6 +68,6 @@ Features are:
 %doc README.md
 %{_bindir}/cobbler-manage-signatures
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{parent_tag}.dist-info
+%{python3_sitelib}/%{name}-%{version}.dist-info
 
 %changelog

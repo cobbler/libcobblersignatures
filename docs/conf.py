@@ -15,6 +15,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
+import libcobblersignatures._version as version
 
 # -- Project information -----------------------------------------------------
 
@@ -23,7 +24,8 @@ copyright = "2020, The Cobbler Project Authors"
 author = "The Cobbler Project Authors"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.0"
+release = version.__version__
+version = ".".join(release.split(".")[:2])
 
 
 # -- General configuration ---------------------------------------------------
