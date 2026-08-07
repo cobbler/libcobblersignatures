@@ -108,7 +108,7 @@ class Signatures:
         elif import_type == ImportTypes.BUILT_IN:
             self.signaturesjson = (
                 files("libcobblersignatures.data")
-                .joinpath("v2")
+                .joinpath("v3")
                 .joinpath("distro_signatures.json")
                 .open("r", encoding="utf-8")
                 .read()

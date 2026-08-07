@@ -26,15 +26,16 @@ Can be found in our Docs: <https://libcobblersignatures.readthedocs.io>
 The JSON Schema and an example can be found at
 
 * https<nolink>://cobbler.github.io/libcobblersignatures/data/\<version>/schema.json (
-[latest schema](https://cobbler.github.io/libcobblersignatures/data/v2/schema.json) )
+[latest schema](https://cobbler.github.io/libcobblersignatures/data/v3/schema.json) )
 
 * https<nolink>://cobbler.github.io/libcobblersignatures/data/\<version>/distro_signatures.json (
-[latest signatures](https://cobbler.github.io/libcobblersignatures/data/v2/distro_signatures.json) )
+[latest signatures](https://cobbler.github.io/libcobblersignatures/data/v3/distro_signatures.json) )
 
 
-| version | cobbler_version |
-|---------|-----------------|
-| v1      | v2.x.x          |
-| v2      | v3.0.0 - latest |
+| version | cobbler_version                                                   |
+|---------|-------------------------------------------------------------------|
+| v1      | v2.x.x                                                            |
+| v2      | v3.0.0 - v3.x.x (unprefixed template names)                       |
+| v3      | v4.0.0 - latest (bundled templates use a `built-in-` name prefix) |
 
 
