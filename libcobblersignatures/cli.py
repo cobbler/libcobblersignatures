@@ -760,7 +760,7 @@ def edit_menu_breed_version_info():
         my_osversion.kernel_file = new_value_kernel_file
     elif choice_edit_information_os_version.startswith("initrd_file"):
         new_value_initrd_file = edit_menu_breed_version_initrd_file.ask()
-        my_osversion.kernel_file = new_value_initrd_file
+        my_osversion.initrd_file = new_value_initrd_file
     elif choice_edit_information_os_version.startswith("isolinux_ok"):
         new_value_isolinux_ok = edit_menu_breed_version_isolinux_ok.ask()
         my_osversion.isolinux_ok = new_value_isolinux_ok
