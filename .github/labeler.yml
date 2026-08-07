@@ -1,0 +1,10 @@
+CI:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - ".readthedocs.yml"
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"

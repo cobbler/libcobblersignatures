@@ -1,6 +1,10 @@
 name: Create changelog
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   create_changelog:
@@ -14,17 +18,22 @@ jobs:
           tar
           git
           python3-pip
+          python3-setuptools
+          python3-setuptools_scm
           python3-wheel
-          python3-libvirt-python
-          python3-netifaces
+          python3-questionary
+          python3-towncrier
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Mark directory as safe for Git
         run: git config --global --add safe.directory /__w/libcobblersignatures/libcobblersignatures
       - name: Install towncrier
-        run: pip install .[changelog]
+        run: pip install --break-system-packages --no-build-isolation .[changelog]
       - name: Build changelog
         run: towncrier --yes
       - name: Create Pull Request
+        # Only open a PR for manual, on-demand runs. On pull_request events this
+        # step only serves as a check that the changelog still builds cleanly.
+        if: github.event_name == 'workflow_dispatch'
         # https://github.com/peter-evans/create-pull-request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
