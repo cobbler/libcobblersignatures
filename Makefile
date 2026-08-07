@@ -1,4 +1,4 @@
-.PHONY: sdist pin-spec-version rpms
+.PHONY: sdist pin-spec-version rpms debs
 
 sdist:
 	python3 -m build --sdist
@@ -20,3 +20,11 @@ rpms: pin-spec-version
 	--define '_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm' \
 	--define "_sourcedir  %{_topdir}" \
 	-ba libcobblersignatures.spec
+
+debs: ## Creates a native Debian package into deb-build/.
+	@VERSION="$${SETUPTOOLS_SCM_PRETEND_VERSION:-$$(python3 -m setuptools_scm)}"; \
+	DEBFULLNAME="The Cobbler Authors" DEBEMAIL="cobbler.project@gmail.com" \
+	dch --newversion "$$VERSION" --distribution unstable --nomultimaint "Automated build."
+	@debuild -us -uc
+	@mkdir -p deb-build
+	@cp ../libcobblersignatures_* deb-build/

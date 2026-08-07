@@ -1,0 +1,5 @@
+libcobblersignatures (0.0.0) unstable; urgency=low
+
+  * Initial native Debian packaging.
+
+ -- The Cobbler Authors <cobbler.project@gmail.com>  Fri, 07 Aug 2026 12:28:02 +0200

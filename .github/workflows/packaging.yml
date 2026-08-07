@@ -56,3 +56,26 @@ jobs:
           name: rpms-opensuse-tumbleweed
           path: |
             rpm-build/*.rpm
+
+  build-debian-debs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Build a Debian 13 Package
+        shell: 'script -q -e -c "bash {0}"'
+        run: |
+          ./docker/debs/build-and-install-debs.sh deb13 docker/debs/debian/Debian13.dockerfile
+      - name: Archive DEBs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: debs-debian
+          path: |
+            deb-build/*.deb
+      - name: Attach .deb to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@fe965f7af51af5f2602596916f38a38df2e33de0 # v3.0.2
+        with:
+          files: deb-build/*.deb

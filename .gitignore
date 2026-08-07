@@ -21,6 +21,7 @@ build/
 develop-eggs/
 dist/
 rpm-build/
+deb-build/
 downloads/
 eggs/
 .eggs/
