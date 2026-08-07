@@ -521,10 +521,7 @@ def edit_menu():
         result_edit_remove_os_breed = questionary.prompt(edit_remove_os_breed)
         name_to_find = result_edit_remove_os_breed["edit_remove_os_breed"]
         index = os_signatures.get_breed_index_by_name(name_to_find)
-        if (
-            index != -1
-            and result_edit_remove_os_breed == os_signatures.osbreeds[index].name
-        ):
+        if index != -1 and name_to_find == os_signatures.osbreeds[index].name:
             os_signatures.removeosbreed(index)
         else:
             print("Operating System Breed not found. Doing nothing.")
