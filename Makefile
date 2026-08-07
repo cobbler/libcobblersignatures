@@ -1,4 +1,4 @@
-.PHONY: sdist pin-spec-version rpms debs
+.PHONY: sdist pin-spec-version rpms debs check-json-spec-docs sync-json-spec-docs lint-docs
 
 sdist:
 	python3 -m build --sdist
@@ -28,3 +28,13 @@ debs: ## Creates a native Debian package into deb-build/.
 	@debuild -us -uc
 	@mkdir -p deb-build
 	@cp ../libcobblersignatures_* deb-build/
+
+check-json-spec-docs: ## Verifies the JSON-spec schema and docs table match the Osversion docstrings.
+	python3 -m scripts.sync_json_spec_docs --check
+
+sync-json-spec-docs: ## Regenerates the JSON-spec schema descriptions and docs table from the Osversion docstrings.
+	python3 -m scripts.sync_json_spec_docs
+
+lint-docs: ## Runs the same rstcheck/doc8 linters as the "docs" CI job against docs/.
+	rstcheck -r docs
+	doc8 --ignore D001 docs

@@ -1,0 +1,1 @@
+Documented the purpose of every key in the JSON spec, generated from the Osversion model docstrings, plus a script (scripts/sync_json_spec_docs.py) that keeps the schema and docs in sync with those docstrings.
