@@ -1,9 +1,13 @@
-from json.decoder import JSONDecodeError
-
 import pytest
 
 from libcobblersignatures import Signatures
 from libcobblersignatures.enums import ExportTypes, ImportTypes
+from libcobblersignatures.exceptions import (
+    SignaturesExportError,
+    SignaturesImportError,
+    SignaturesParseError,
+    SignaturesValidationError,
+)
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 from tests.conftest import does_not_raise
@@ -70,13 +74,31 @@ def test_importsignatures_unkown():
         os_signatures.importsignatures(100, "")
 
 
+def test_importsignatures_file_not_found():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act & Assert
+    with pytest.raises(SignaturesImportError):
+        os_signatures.importsignatures(ImportTypes.FILE, "/no/such/file.json")
+
+
+def test_importsignatures_url_bad_scheme():
+    # Arrange
+    os_signatures = Signatures()
+
+    # Act & Assert
+    with pytest.raises(SignaturesImportError):
+        os_signatures.importsignatures(ImportTypes.URL, "not-a-url")
+
+
 def test_export_missing_rootkey():
     # Arrange
     os_signatures = Signatures()
     os_signatures.importsignatures(ImportTypes.STRING, "{}")
 
     # Act & Assert
-    with pytest.raises(AttributeError):
+    with pytest.raises(SignaturesValidationError):
         os_signatures.jsontomodels()
 
 
@@ -119,6 +141,16 @@ def test_exportsignatures_string():
     assert expected == result
 
 
+def test_exportsignatures_file_invalid_target(testfolder):
+    # Arrange
+    os_signatures = Signatures()
+    os_signatures.addosbreed("suse")
+
+    # Act & Assert
+    with pytest.raises(SignaturesExportError):
+        os_signatures.exportsignatures(ExportTypes.FILE, testfolder)
+
+
 def test_exportsignatures_unkown():
     # Arrange
     os_signatures = Signatures()
@@ -132,7 +164,7 @@ def test_exportsignatures_unkown():
 @pytest.mark.parametrize(
     "input_data,result,raises",
     [
-        ('{"breeds; {}}', {}, pytest.raises(JSONDecodeError)),
+        ('{"breeds; {}}', {}, pytest.raises(SignaturesParseError)),
         ('{"breeds": {}}', {"breeds": {}}, does_not_raise()),
     ],
 )
@@ -163,6 +195,19 @@ def test_jsontomodels(input_data, expected_data):
 
     # Assert
     assert expected_data == os_signatures.osbreeds
+
+
+def test_jsontomodels_invalid_field_type():
+    # Arrange
+    os_signatures = Signatures()
+    os_signatures.importsignatures(
+        ImportTypes.STRING,
+        '{"breeds": {"suse": {"sles15": {"signatures": "not-a-set"}}}}',
+    )
+
+    # Act & Assert
+    with pytest.raises(SignaturesValidationError):
+        os_signatures.jsontomodels()
 
 
 def test_addosbreed():

@@ -4,10 +4,13 @@ This module contains no logic related to the library, it just contains logic for
 managed by it.
 """
 
+import sys
+
 import questionary
 
 from libcobblersignatures import Signatures
 from libcobblersignatures.enums import ExportTypes, ImportTypes
+from libcobblersignatures.exceptions import SignaturesError
 
 os_signatures = Signatures()
 
@@ -792,13 +795,22 @@ def main():
         chosen_option = main_menu_questions.ask()
         if chosen_option == "Import":
             main_menu_option_selected = 0
-            import_menu()
+            try:
+                import_menu()
+            except SignaturesError as e:
+                print(f"Import failed: {e}", file=sys.stderr)
         elif chosen_option == "Export":
             main_menu_option_selected = 1
-            export_menu()
+            try:
+                export_menu()
+            except SignaturesError as e:
+                print(f"Export failed: {e}", file=sys.stderr)
         elif chosen_option == "Edit":
             main_menu_option_selected = 2
-            edit_menu()
+            try:
+                edit_menu()
+            except SignaturesError as e:
+                print(f"Edit failed: {e}", file=sys.stderr)
         elif chosen_option == "Exit":
             main_menu_option_selected = 3
             print("Any progress which is not exported will be lost. Bye.")
