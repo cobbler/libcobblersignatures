@@ -1,1 +1,0 @@
-Added a `v3` schema/data set (`data/v3/`), identical to `v2` except every non-empty `default_autoinstall` value is prefixed `built-in-`, matching how Cobbler registers its bundled autoinstall templates. `ImportTypes.BUILT_IN` now loads this `v3` data instead of `v2`.
