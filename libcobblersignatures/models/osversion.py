@@ -295,7 +295,7 @@ class Osversion:
         """
         Resets the supported_repo_breeds to an empty list instead of deleting the attribute.
         """
-        self._supported_repo_breeds = []
+        self._supported_repo_breeds = set()
 
     @property
     def kernel_file(self) -> str:

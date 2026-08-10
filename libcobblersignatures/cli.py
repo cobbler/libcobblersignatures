@@ -5,6 +5,7 @@ managed by it.
 """
 
 import sys
+from typing import cast
 
 import questionary
 
@@ -459,7 +460,9 @@ def export_menu():
     """
     export_menu_answers = questionary.prompt(export_menu_questions)
     choice_export_menu = export_menu_answers.get("export_menu_target")
-    choice_pretty_print_sort = export_menu_answers.get("export_menu_prettyprint_1")
+    choice_pretty_print_sort = cast(
+        bool, export_menu_answers.get("export_menu_prettyprint_1")
+    )
     choice_pretty_print_indent = export_menu_answers.get("export_menu_prettyprint_2")
     if not choice_pretty_print_indent:
         choice_pretty_print_indent = None
@@ -726,6 +729,7 @@ def edit_menu_breed_version_info():
     my_osversion = os_signatures.osbreeds[breed_index].osversions.get(
         my_os_version_name
     )
+    assert my_osversion is not None
 
     # Prepare the values for the attribute editing
     prepare_version_edit_information_os_version(my_osversion)

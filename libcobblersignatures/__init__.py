@@ -4,6 +4,7 @@ well as to im- and export them.
 """
 
 import json
+import sys
 import urllib.error
 import urllib.request
 from typing import List, Union
@@ -18,9 +19,9 @@ from libcobblersignatures.exceptions import (
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
 
-try:
+if sys.version_info >= (3, 9):
     from importlib.resources import files
-except ImportError:
+else:
     from importlib_resources import files
 
 try:

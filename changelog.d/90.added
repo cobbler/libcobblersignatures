@@ -1,0 +1,1 @@
+Mark the package as typed (PEP 561) via a `py.typed` marker and add a pyright CI job

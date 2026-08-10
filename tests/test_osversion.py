@@ -187,7 +187,7 @@ def test_supported_repo_breeds_del():
     del version.supported_repo_breeds
 
     # Assert
-    assert version.supported_repo_breeds == []
+    assert version.supported_repo_breeds == set()
 
 
 @pytest.mark.parametrize(
