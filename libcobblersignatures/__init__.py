@@ -7,7 +7,7 @@ import json
 import sys
 import urllib.error
 import urllib.request
-from typing import List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from libcobblersignatures.enums import ExportTypes, ImportTypes
 from libcobblersignatures.exceptions import (
@@ -38,10 +38,10 @@ class Signatures:
     """
 
     _rootkey: str
-    _signaturesjson: dict
+    _signaturesjson: Dict[str, Any]
     _osbreeds: List[OsBreed]
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         If you want to create an empty file just use this constructor. If you want to import one use this and then run
         an import function.
@@ -51,7 +51,7 @@ class Signatures:
         self._osbreeds = []
 
     @property
-    def signaturesjson(self) -> dict:
+    def signaturesjson(self) -> Dict[str, Any]:
         """
         This property represents the json which was im- or exported.
 
@@ -61,7 +61,7 @@ class Signatures:
         return self._signaturesjson
 
     @signaturesjson.setter
-    def signaturesjson(self, value: str):
+    def signaturesjson(self, value: Optional[str]):
         """
         The setter for the exported data structure.
 
@@ -92,7 +92,7 @@ class Signatures:
         """
         self._osbreeds = value
 
-    def importsignatures(self, import_type: ImportTypes, source: str):
+    def importsignatures(self, import_type: ImportTypes, source: str) -> None:
         """
         This is the main import function.
 
@@ -117,7 +117,7 @@ class Signatures:
         else:
             raise ValueError("Please use on of the four given options for the source!")
 
-    def _importsignaturesfile(self, filepath: str):
+    def _importsignaturesfile(self, filepath: str) -> None:
         """
         Internal function to handle the import of a file based import.
 
@@ -133,7 +133,7 @@ class Signatures:
             ) from e
         self.signaturesjson = content
 
-    def _importsignaturesurl(self, url: str):
+    def _importsignaturesurl(self, url: str) -> None:
         """
         Internal function to handle the import of a URL based import. The data behind it should be a well formed JSON.
 
@@ -166,7 +166,7 @@ class Signatures:
         target: str = "",
         sort_keys: bool = False,
         indent: Union[None, int] = None,
-    ):
+    ) -> Optional[str]:
         """
         This is the main export function.
 
@@ -203,7 +203,7 @@ class Signatures:
                 "Please use on of the two given options for the export type!"
             )
 
-    def jsontomodels(self):
+    def jsontomodels(self) -> None:
         """
         Convert the loaded JSON to the internal modules. Without calling this the loaded data will not be available for
         manipulation.
@@ -222,7 +222,7 @@ class Signatures:
                 ) from e
             self.osbreeds.append(breed)
 
-    def addosbreed(self, name: str):
+    def addosbreed(self, name: str) -> None:
         """
         Add a new :class:`OsBreed`.
 
@@ -232,7 +232,9 @@ class Signatures:
             raise ValueError('Breed "%s" already in the list of breeds!' % name)
         self.osbreeds.append(OsBreed(name))
 
-    def addosversion(self, breedindex: int, versionname: str, versiondata):
+    def addosversion(
+        self, breedindex: int, versionname: str, versiondata: Optional[Osversion]
+    ) -> None:
         """
         Add a new :class:`Osversion`.
 
@@ -246,7 +248,7 @@ class Signatures:
             versiondata = Osversion()
         self.osbreeds[breedindex].osversion_add(versionname, versiondata)
 
-    def removeosbreed(self, index: int):
+    def removeosbreed(self, index: int) -> None:
         """
         Remove an operating system breed via its index. All nested content will be removed.
 
@@ -256,7 +258,7 @@ class Signatures:
             raise ValueError("Index out of Range")
         del self.osbreeds[index]
 
-    def removeosversion(self, breedindex: int, versionname: str):
+    def removeosversion(self, breedindex: int, versionname: str) -> None:
         """
         Remove a single operating system version.
 
