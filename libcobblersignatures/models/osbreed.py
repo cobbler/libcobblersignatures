@@ -102,7 +102,7 @@ class OsBreed:
         """
         for key in data.keys():
             version = Osversion()
-            version.decode(data.get(key))
+            version.decode(data[key])
             self.osversion_add(key, version)
 
     def osversion_add(self, name: str, version: Osversion):

@@ -71,7 +71,7 @@ def test_importsignatures_unkown():
 
     # Act & Assert
     with pytest.raises(ValueError):
-        os_signatures.importsignatures(100, "")
+        os_signatures.importsignatures(100, "")  # type: ignore
 
 
 def test_importsignatures_file_not_found():
@@ -158,7 +158,7 @@ def test_exportsignatures_unkown():
 
     # Act & Assert
     with pytest.raises(ValueError):
-        os_signatures.exportsignatures(100)
+        os_signatures.exportsignatures(100)  # type: ignore
 
 
 @pytest.mark.parametrize(

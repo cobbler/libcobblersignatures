@@ -2,12 +2,12 @@
 Helper methods which are not directly related to any class or module in this library.
 """
 
-from typing import Union
+from typing import Optional, Type, TypeVar, cast
+
+T = TypeVar("T", str, int, bool, list, dict, set)
 
 
-def convert_none_to_default(
-    value: Union[str, int, bool, list, dict, set, None], value_type
-) -> Union[str, int, bool, list, dict, set, None]:
+def convert_none_to_default(value: Optional[T], value_type: Type[T]) -> T:
     """
     This method checks if the value handed to it is ``None``, otherwise the default value for the type will be returned.
 
@@ -18,17 +18,17 @@ def convert_none_to_default(
     """
     if value is not None:
         return value
-    if value_type == str:
-        return ""
-    elif value_type == int:
-        return 0
-    elif value_type == bool:
-        return False
-    elif value_type == list:
-        return []
-    elif value_type == dict:
-        return {}
-    elif value_type == set:
-        return set()
+    if value_type is str:
+        return cast(T, "")
+    elif value_type is int:
+        return cast(T, 0)
+    elif value_type is bool:
+        return cast(T, False)
+    elif value_type is list:
+        return cast(T, [])
+    elif value_type is dict:
+        return cast(T, {})
+    elif value_type is set:
+        return cast(T, set())
     else:
         raise TypeError("The type you supplied for value_type was not known.")

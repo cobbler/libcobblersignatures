@@ -19,7 +19,7 @@ def test_osbreed_non_equality():
 def test_breed_no_name():
     # Arrange, Act & Assert
     with pytest.raises(TypeError) as e_info:
-        OsBreed()
+        OsBreed()  # type: ignore
 
 
 def test_name():
@@ -59,7 +59,7 @@ def test_osversions():
 
     # Act & Assert
     with pytest.raises(TypeError):
-        osbreed.osversions = new_value
+        osbreed.osversions = new_value  # type: ignore
     assert isinstance(osbreed._osversions, collections.OrderedDict)
 
 
@@ -93,7 +93,7 @@ def test_breed_add_type_error():
 
     # Act & Arrange
     with pytest.raises(ValueError):
-        osbreed.osversion_add(0, "")
+        osbreed.osversion_add(0, "")  # type: ignore
 
 
 def test_breed_remove():

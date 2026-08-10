@@ -36,7 +36,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 "Bug Tracker" = "https://github.com/cobbler/libcobblersignatures/issues"
 
 [project.optional-dependencies]
-lint = ["pylint", "black", "isort"]
+lint = ["pylint", "black", "isort", "pyright"]
 test = ["coverage", "pytest", "pytest-cov"]
 docs = ["sphinx_rtd_theme"]
 changelog = ["towncrier>=22.8.0"]
@@ -51,7 +51,7 @@ include-package-data = true
 include = ["libcobblersignatures*"]
 
 [tool.setuptools.package-data]
-libcobblersignatures = ["data/*.json", "data/v1/*.json", "data/v2/*.json", "data/v3/*.json"]
+libcobblersignatures = ["data/*.json", "data/v1/*.json", "data/v2/*.json", "data/v3/*.json", "py.typed"]
 
 [tool.setuptools_scm]
 version_file = "libcobblersignatures/_version.py"
