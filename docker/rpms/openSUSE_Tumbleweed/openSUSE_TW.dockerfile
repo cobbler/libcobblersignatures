@@ -11,7 +11,7 @@ RUN zypper install -y     \
     rpm-build             \
     fdupes                \
     python3                \
-    python3-base           \
+    python3-devel          \
     python3-build          \
     python3-setuptools     \
     python3-setuptools_scm \

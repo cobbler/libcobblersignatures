@@ -24,6 +24,7 @@ Summary:        Cobbler Signatures Library
 License:        GPL-2.0-or-later
 URL:            https://github.com/cobbler/libcobblersignatures
 Source:         libcobblersignatures-%{version}.tar.gz
+BuildRequires:  git
 BuildRequires:  python-rpm-macros
 BuildRequires:  %{python_module setuptools}
 BuildRequires:  %{python_module setuptools_scm}
@@ -51,6 +52,9 @@ Features are:
 %autosetup -p1
 
 %build
+if [ -d "%{_sourcedir}/%{name}-%{version}/.git" ]; then
+    cp -r %{_sourcedir}/%{name}-%{version}/.git %{_builddir}/%{name}-%{version}
+fi
 %pyproject_wheel
 
 %install
@@ -67,6 +71,6 @@ Features are:
 %doc README.md
 %{_bindir}/cobbler-manage-signatures
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}.dist-info
+%{python3_sitelib}/%{name}-*.dist-info
 
 %changelog
