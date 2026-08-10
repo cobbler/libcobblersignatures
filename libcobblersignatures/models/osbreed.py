@@ -1,4 +1,5 @@
 import collections
+from typing import Any, Dict, OrderedDict
 
 from libcobblersignatures.models.osversion import Osversion
 
@@ -9,19 +10,19 @@ class OsBreed:
     described in the JSON specification.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         if not isinstance(name, str):
             raise TypeError("The name of an OsBreed must be of type str!")
         self._name = name
-        self._osversions = collections.OrderedDict()
+        self._osversions: "OrderedDict[str, Osversion]" = collections.OrderedDict()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, OsBreed):
             return NotImplemented
         return self.name == other.name and self.osversions == other.osversions
 
     @property
-    def osversions(self) -> collections.OrderedDict:
+    def osversions(self) -> "OrderedDict[str, Osversion]":
         """
         An ordered dictionary which contains all versions of the operating system breed.
 
@@ -32,7 +33,7 @@ class OsBreed:
         return self._osversions
 
     @osversions.setter
-    def osversions(self, value: collections.OrderedDict):
+    def osversions(self, value: "OrderedDict[str, Osversion]"):
         """
         The setter of the osversions dictionary.
 
@@ -43,14 +44,14 @@ class OsBreed:
         self._osversions = value
 
     @osversions.deleter
-    def osversions(self):
+    def osversions(self) -> None:
         """
         Resets the os versions to an empty ordered dict.
         """
         self._osversions = collections.OrderedDict()
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         This property represents the name of the operating system breed.
 
@@ -81,19 +82,19 @@ class OsBreed:
         """
         raise TypeError("The name of this error cannot be deleted.")
 
-    def encode(self) -> dict:
+    def encode(self) -> Dict[str, Any]:
         """
         Encodes the current OsBreed and nested Osversions.
 
         :return: The dictionary with all its versions. The name of the OsBreed is not included as this is normally the
                  name of the returned key.
         """
-        versionsdict = {}
+        versionsdict: Dict[str, Any] = {}
         for name in self.osversions:
             versionsdict.update({name: self.osversions[name].encode()})
         return versionsdict
 
-    def decode(self, data: dict):
+    def decode(self, data: Dict[str, Any]) -> None:
         """
         Decodes the received data. Decoding of each single version is done by the corresponding decode method in
         :class:`Osversion`.
@@ -105,7 +106,7 @@ class OsBreed:
             version.decode(data[key])
             self.osversion_add(key, version)
 
-    def osversion_add(self, name: str, version: Osversion):
+    def osversion_add(self, name: str, version: Osversion) -> None:
         """
         Add an Osversion to this OsBreed.
 
@@ -123,7 +124,7 @@ class OsBreed:
         else:
             raise ValueError("Name must be str and Version must be Osversion.")
 
-    def osversion_remove(self, key: str):
+    def osversion_remove(self, key: str) -> None:
         """
         Remove an Osversion with its key.
 

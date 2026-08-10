@@ -3,6 +3,8 @@ Module for the datastructure of an operating system version. An operating system
 operating system breed.
 """
 
+from typing import Any, Dict, List, Set, Union
+
 from libcobblersignatures import utils
 
 
@@ -12,17 +14,17 @@ class Osversion:
     values are valid are described in the JSON specification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Creates default values for all values.
         """
-        self._signatures = set()
+        self._signatures: Set[str] = set()
         self._version_file = ""
         self._version_file_regex = ""
         self._kernel_arch = ""
         self._kernel_arch_regex = ""
-        self._supported_arches = set()
-        self._supported_repo_breeds = set()
+        self._supported_arches: Set[str] = set()
+        self._supported_repo_breeds: Set[str] = set()
         self._kernel_file = ""
         self._initrd_file = ""
         self._isolinux_ok = False
@@ -30,10 +32,10 @@ class Osversion:
         self._kernel_options = ""
         self._kernel_options_post = ""
         self._template_files = ""
-        self._boot_files = set()
-        self._boot_loaders = {}
+        self._boot_files: Set[str] = set()
+        self._boot_loaders: Dict[str, List[str]] = {}
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Checks for equality. Equality is given if all attributes are identical.
 
@@ -63,7 +65,7 @@ class Osversion:
         )
 
     @property
-    def signatures(self) -> set:
+    def signatures(self) -> Set[str]:
         """
         One or more paths, relative to the root of the ISO, whose existence identifies this OS version.
 
@@ -75,7 +77,7 @@ class Osversion:
         return self._signatures
 
     @signatures.setter
-    def signatures(self, value: set):
+    def signatures(self, value: Union[Set[str], List[str]]):
         """
         Setter for the signatures.
 
@@ -230,7 +232,7 @@ class Osversion:
         self._kernel_arch_regex = ""
 
     @property
-    def supported_arches(self) -> set:
+    def supported_arches(self) -> Set[str]:
         """
         The architectures Cobbler considers valid when detecting the architecture of an imported distro.
 
@@ -242,7 +244,7 @@ class Osversion:
         return self._supported_arches
 
     @supported_arches.setter
-    def supported_arches(self, value: set):
+    def supported_arches(self, value: Union[Set[str], List[str]]):
         """
         Setter for the supported_arches.
 
@@ -264,7 +266,7 @@ class Osversion:
         self._supported_arches = set()
 
     @property
-    def supported_repo_breeds(self) -> set:
+    def supported_repo_breeds(self) -> Set[str]:
         """
         The repository breeds Cobbler may auto-create when it finds a matching repo in the install tree.
 
@@ -276,7 +278,7 @@ class Osversion:
         return self._supported_repo_breeds
 
     @supported_repo_breeds.setter
-    def supported_repo_breeds(self, value: set):
+    def supported_repo_breeds(self, value: Union[Set[str], List[str]]):
         """
         Setter for supported_repo_breeds.
 
@@ -525,7 +527,7 @@ class Osversion:
         self._template_files = ""
 
     @property
-    def boot_files(self) -> set:
+    def boot_files(self) -> Set[str]:
         """
         Extra files, beyond the kernel and initrd, that must be copied out of the source tree and templated for the
         distro.
@@ -538,7 +540,7 @@ class Osversion:
         return self._boot_files
 
     @boot_files.setter
-    def boot_files(self, value: set):
+    def boot_files(self, value: Union[Set[str], List[str]]):
         """
         Setter for the ``boot_files``.
 
@@ -560,7 +562,7 @@ class Osversion:
         self._boot_files = set()
 
     @property
-    def boot_loaders(self) -> dict:
+    def boot_loaders(self) -> Dict[str, List[str]]:
         """
         The boot loaders Cobbler considers valid for this OS version, keyed by architecture.
 
@@ -572,7 +574,7 @@ class Osversion:
         return self._boot_loaders
 
     @boot_loaders.setter
-    def boot_loaders(self, value: dict):
+    def boot_loaders(self, value: Dict[str, List[str]]):
         """
         Setter for the ``boot_loaders``.
 
@@ -592,15 +594,15 @@ class Osversion:
         """
         self._boot_loaders = {}
 
-    def encode(self) -> dict:
+    def encode(self) -> Dict[str, Any]:
         """
         Encodes a single :class:`Osversion`. This means that the properties of an object is transferred into a JSON.
 
         :return: The dictionary with the data.
         """
-        keys_with_defaults = []
-        result = {}
-        interim_result = {
+        keys_with_defaults: List[str] = []
+        result: Dict[str, Any] = {}
+        interim_result: Dict[str, Any] = {
             "signatures": self.signatures,
             "version_file": self.version_file,
             "version_file_regex": self.version_file_regex,
@@ -643,7 +645,7 @@ class Osversion:
                 result[key] = interim_result[key]
         return result
 
-    def decode(self, data: dict):
+    def decode(self, data: Dict[str, Any]) -> None:
         """
         Decodes the received data. This means parsing each attribute from the JSON into the property of an object.
 
