@@ -73,9 +73,7 @@ Features are:
 %autosetup -p1
 
 %build
-if [ -d "%{_sourcedir}/%{name}-%{version}/.git" ]; then
-    cp -r %{_sourcedir}/%{name}-%{version}/.git %{_builddir}/%{name}-%{version}
-fi
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %pyproject_wheel
 
 %install
