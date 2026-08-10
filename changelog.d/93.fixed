@@ -1,1 +1,0 @@
-Annotate `Osversion`, `OsBreed`, and `Signatures` with precise generic types instead of bare `set`/`dict`, so consumers running pyright in strict mode no longer see cascading `Unknown` types.
