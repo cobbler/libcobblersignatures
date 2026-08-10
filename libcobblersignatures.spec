@@ -15,30 +15,51 @@
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
-%{?sle15_python_module_pythons}
-%define pythons python3
+%if 0%{?suse_version}
+%{?single_pythons_311plus}
+%endif
+
 Name:           libcobblersignatures
-Version:        0.1.0+git40
+Version:        0.3.1
 Release:        0
 Summary:        Cobbler Signatures Library
 License:        GPL-2.0-or-later
 URL:            https://github.com/cobbler/libcobblersignatures
 Source:         libcobblersignatures-%{version}.tar.gz
-BuildRequires:  git
+BuildRequires:  git-core
+BuildRequires:  python3-devel
+%if 0%{?suse_version}
 BuildRequires:  python-rpm-macros
-BuildRequires:  %{python_module setuptools}
-BuildRequires:  %{python_module setuptools_scm}
-BuildRequires:  %{python_module pip}
-BuildRequires:  %{python_module wheel}
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+# Provides %%pyproject_wheel / %%pyproject_install, the Fedora/RHEL equivalent
+# of SUSE's python-rpm-macros pyproject buildsystem macros
+BuildRequires:  pyproject-rpm-macros
+%endif
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools_scm
+BuildRequires:  python3-pip
+BuildRequires:  python3-wheel
 # SECTION tests
-BuildRequires:  %{python_module pytest}
-BuildRequires:  %{python_module coverage}
-BuildRequires:  %{python_module pytest-cov}
-BuildRequires:  %{python_module questionary}
+BuildRequires:  python3-pytest
+BuildRequires:  python3-coverage
+BuildRequires:  python3-pytest-cov
+BuildRequires:  python3-questionary
 #
+%if 0%{?suse_version}
 BuildRequires:  fdupes
+%endif
+%if 0%{?rhel}
+# We need these to build this properly, and OBS doesn't pull them in by default for EPEL
+BuildRequires:  epel-rpm-macros
+%endif
 Requires:       python3-questionary
 BuildArch:      noarch
+%if 0%{?fedora} || 0%{?rhel}
+# https://docs.fedoraproject.org/en-US/packaging-guidelines/Python/#Automatically-generated-dependencies
+# Disable it because it trips over python3-cheetah
+%{?python_disable_dependency_generator}
+%endif
 
 %description
 This library should be the interface for all applications using cobbler signatures.
@@ -59,8 +80,10 @@ fi
 
 %install
 %pyproject_install
-%python_expand %fdupes %{buildroot}%{python_sitelib}/%{name}
-%python_expand rm -rf %{buildroot}%{python_sitelib}/tests
+%if 0%{?suse_version}
+%fdupes %{buildroot}%{python3_sitelib}/%{name}
+%endif
+rm -rf %{buildroot}%{python3_sitelib}/tests
 
 %check
 # disable test that requires network for OBS build
