@@ -20,6 +20,7 @@ Quickstart document from the TOC below.
    cli
    json-specification
    Code-Autodoc <source/modules>
+   how-to-signature-docu
 
 Indices and tables
 ##################
