@@ -7,7 +7,7 @@ How to figure out the distro_signatures.json fields.
     the same folder:
 
     - ``/isolinux/vmlinuz`` + ``initrd.img`` on most RPM
-    - ``/images/pxeboot/``
+    - ``/images/pxeboot/`` on Debian
     - ``casper/vmlinuz`` on Ubuntu
     - ``boot/<arch>/loader/`` on SUSE
 
