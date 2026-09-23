@@ -1,0 +1,25 @@
+The commands listed below are used in cobbler (import_signatues.py)
+
+scan_signature searches for:
+    signature_dir
+    "version_file"
+ if "version_file_regex" -> use it to double check the integrity
+    "default_autoinstall"
+
+get_valid_arches searches for:
+    all valid architectures and gives out all valid types (or empty list)
+    "supported_arches"
+
+get_valid_repo_breeds searches for:
+    all valid repository breeds and gives out all valid types (or empty list)
+    "supported_repo_breeds"
+
+distro_adder searches for:
+    matching kernel and initrd, and adds them to the list
+    "kernel_file"
+    "initrd_file"
+    mostly ignores "isolinux"
+
+add_entry creates distro objects based on:
+    "kernel_options"
+    "kernel_options_post"
