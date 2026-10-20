@@ -20,7 +20,7 @@
 %endif
 
 Name:           libcobblersignatures
-Version:        0.3.2
+Version:        0.5.0
 Release:        0
 Summary:        Cobbler Signatures Library
 License:        GPL-2.0-or-later
