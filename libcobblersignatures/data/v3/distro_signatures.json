@@ -2272,7 +2272,7 @@
         "kernel_file": "(linux|vmlinuz(.*))",
         "initrd_file": "initrd($|.gz$|.lz$)",
         "isolinux_ok": false,
-        "default_autoinstall": "",
+        "default_autoinstall": "built-in-user-data",
         "kernel_options": "",
         "kernel_options_post": "",
         "template_files": "",
@@ -2298,7 +2298,7 @@
         "kernel_file": "(linux|vmlinuz(.*))",
         "initrd_file": "initrd($|.gz$|.lz$)",
         "isolinux_ok": false,
-        "default_autoinstall": "",
+        "default_autoinstall": "built-in-user-data",
         "kernel_options": "",
         "kernel_options_post": "",
         "template_files": "",
@@ -2672,30 +2672,6 @@
           ""
         ],
         "version_file": "openSUSE-release-15.6-(.*).rpm",
-        "version_file_regex": null,
-        "kernel_arch": "kernel-(.*)\\.rpm",
-        "kernel_arch_regex": null,
-        "supported_arches": [
-          "aarch64",
-          "x86_64",
-          "ppc64le"
-        ],
-        "supported_repo_breeds": [
-          "yum"
-        ],
-        "kernel_file": "(linux|vmlinuz(.*))",
-        "initrd_file": "initrd(.*)",
-        "isolinux_ok": false,
-        "default_autoinstall": "built-in-sample_autoyast.xml",
-        "kernel_options": "",
-        "kernel_options_post": "",
-        "boot_files": []
-      },
-      "opensuse16.1": {
-        "signatures": [
-          ""
-        ],
-        "version_file": "Leap-release-16.1-(.*).rpm",
         "version_file_regex": null,
         "kernel_arch": "kernel-(.*)\\.rpm",
         "kernel_arch_regex": null,
@@ -3506,6 +3482,30 @@
           ""
         ],
         "version_file": "Leap-release-16.0-(.*).rpm",
+        "version_file_regex": null,
+        "kernel_arch": "kernel-(.*)\\.rpm",
+        "kernel_arch_regex": null,
+        "supported_arches": [
+          "aarch64",
+          "x86_64",
+          "ppc64le"
+        ],
+        "supported_repo_breeds": [
+          "yum"
+        ],
+        "kernel_file": "(linux|vmlinuz(.*))",
+        "initrd_file": "initrd(.*)",
+        "isolinux_ok": false,
+        "default_autoinstall": "built-in-autoinst.json",
+        "kernel_options": "",
+        "kernel_options_post": "",
+        "boot_files": []
+      },
+      "opensuse16.1": {
+        "signatures": [
+          ""
+        ],
+        "version_file": "Leap-release-16.1-(.*).rpm",
         "version_file_regex": null,
         "kernel_arch": "kernel-(.*)\\.rpm",
         "kernel_arch_regex": null,
@@ -5591,7 +5591,7 @@
         "supported_repo_breeds": [],
         "kernel_file": "pxeboot\\.n12",
         "initrd_file": "boot\\.sdi",
-        "default_autoinstall": "built-in-win.ks",
+        "default_autoinstall": "built-in-win.xml",
         "kernel_options": "",
         "kernel_options_post": "",
         "boot_files": []
@@ -5620,7 +5620,7 @@
         "supported_repo_breeds": [],
         "kernel_file": "wimboot",
         "initrd_file": "boot\\.sdi",
-        "default_autoinstall": "built-in-win.ks",
+        "default_autoinstall": "built-in-win.xml",
         "kernel_options": "",
         "kernel_options_post": "",
         "boot_files": []
