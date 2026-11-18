@@ -5,11 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "libcobblersignatures"
 dynamic = ["version"]
-requires-python = ">=3"
-dependencies = [
-	"questionary",
-	"importlib_resources;python_version=='3.6'",
-]
+requires-python = ">=3.11"
+dependencies = ["questionary"]
 license = { file = "LICENSE" }
 authors = [
 	{ name = "Cobbler", email = "cobbler.project@gmail.com" }
