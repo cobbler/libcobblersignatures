@@ -4,9 +4,9 @@ well as to im- and export them.
 """
 
 import json
-import sys
 import urllib.error
 import urllib.request
+from importlib.resources import files
 from typing import Any, Dict, List, Optional, Union
 
 from libcobblersignatures.enums import ExportTypes, ImportTypes
@@ -18,11 +18,6 @@ from libcobblersignatures.exceptions import (
 )
 from libcobblersignatures.models.osbreed import OsBreed
 from libcobblersignatures.models.osversion import Osversion
-
-if sys.version_info >= (3, 9):
-    from importlib.resources import files
-else:
-    from importlib_resources import files
 
 try:
     from libcobblersignatures._version import __version__
