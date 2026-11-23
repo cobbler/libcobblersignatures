@@ -15,7 +15,7 @@ jobs:
       - uses: psf/black@258e7dbf348bc23cb70b8cdf693481c04634ebcc # 26.10.1
         with:
           options: "--check --safe --verbose"
-          version: "22.3.0"
+          version: "25.1.0"
   isort:
     name: isort formatter
     runs-on: ubuntu-latest
